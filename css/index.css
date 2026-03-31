@@ -409,10 +409,40 @@ img {
   opacity: 0.6;
 }
 
+.project__previews {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.project__previews img {
+  width: 64px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  background: #111;
+}
+
 .project:hover .project__thumb,
 .project:focus-within .project__thumb {
   transform: scale(1.03);
 }
+
+.project:hover .project__previews,
+.project:focus-within .project__previews {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 .project__body {
   padding: 24px;
@@ -575,6 +605,7 @@ img {
     padding: 60px 32px 72px;
   }
 }
+
 
 
 
