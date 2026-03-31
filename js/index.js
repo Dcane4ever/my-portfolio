@@ -39,6 +39,16 @@ const updateAboutScroll = () => {
 window.addEventListener("scroll", updateAboutScroll, { passive: true });
 window.addEventListener("resize", updateAboutScroll);
 
+const carousel = document.querySelector("[data-carousel]");
+if (carousel) {
+  const track = carousel.querySelector(".carousel__track");
+  if (track && !track.dataset.cloned) {
+    const items = Array.from(track.children);
+    items.forEach((item) => track.appendChild(item.cloneNode(true)));
+    track.dataset.cloned = "true";
+  }
+}
+
 const nav = document.querySelector(".nav");
 const cinematicSections = Array.from(document.querySelectorAll(".section--cinematic, .hero"));
 

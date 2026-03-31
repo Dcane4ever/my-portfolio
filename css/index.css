@@ -1049,6 +1049,118 @@ img {
 .section--cinematic .project__more-title {
   text-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
 }
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 0 32px;
+  --carousel-gap: 24px;
+  --carousel-speed: 32s;
+  --card-width: clamp(260px, 30vw, 360px);
+}
+
+.carousel__track {
+  display: flex;
+  gap: var(--carousel-gap);
+  align-items: flex-start;
+  width: max-content;
+  animation: carousel-scroll var(--carousel-speed) linear infinite;
+  will-change: transform;
+}
+
+.carousel:hover .carousel__track,
+.carousel:focus-within .carousel__track {
+  animation-play-state: paused;
+}
+
+.carousel .project {
+  flex: 0 0 var(--card-width);
+  min-width: var(--card-width);
+  align-self: flex-start;
+}
+
+.carousel .project__body {
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 10px;
+  flex: 0;
+}
+
+.carousel .project__title {
+  font-size: 1.1rem;
+}
+
+.carousel .project__details {
+  background: rgba(12, 12, 12, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 14px 16px;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.3s ease;
+  pointer-events: none;
+}
+
+.carousel .project:hover .project__details,
+.carousel .project:focus-within .project__details {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  max-height: 320px;
+  pointer-events: auto;
+}
+
+.carousel .project__details p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.carousel .project__actions {
+  opacity: 1;
+  transform: none;
+  margin-top: 10px;
+}
+
+.carousel .project__actions .button--ghost {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.carousel .project__actions .button--ghost:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.carousel .project__previews {
+  bottom: 12px;
+}
+
+
+.carousel .project--more {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.carousel .project--more:hover,
+.carousel .project--more:focus-within {
+  transform: none;
+}
+
+.carousel .project--more .project__more {
+  padding: 8px 0;
+}
+
+.carousel .project--more .project__more::before {
+  display: none;
+}
+@keyframes carousel-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 @keyframes wipe {
   0% {
     clip-path: circle(140% at 50% 120%);
@@ -1179,6 +1291,11 @@ img {
 
   .about-scroll__frame {
     padding: 32px;
+  }
+
+  .carousel {
+    --card-width: min(80vw, 360px);
+    --carousel-speed: 38s;
   }
 }
 
