@@ -17,6 +17,52 @@ if (typedTarget) {
   });
 }
 
+const aboutSection = document.querySelector(".about-scroll");
+const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const updateAboutScroll = () => {
+  if (!aboutSection || prefersReduced) {
+    return;
+  }
+  const rect = aboutSection.getBoundingClientRect();
+  const viewport = window.innerHeight;
+  const total = rect.height - viewport;
+  const scrolled = Math.min(Math.max(-rect.top, 0), total);
+  const startOffset = total * 0.01;
+  const endOffset = total * 0.05;
+  const range = Math.max(total - startOffset - endOffset, 1);
+  const progress = total > 0 ? (scrolled - startOffset) / range : 0;
+  const clamped = Math.min(Math.max(progress, 0), 1);
+  aboutSection.style.setProperty("--progress", clamped.toFixed(3));
+};
+
+window.addEventListener("scroll", updateAboutScroll, { passive: true });
+window.addEventListener("resize", updateAboutScroll);
+
+const nav = document.querySelector(".nav");
+const cinematicSections = Array.from(document.querySelectorAll(".section--cinematic, .hero"));
+
+const updateNavTheme = () => {
+  if (!nav || cinematicSections.length === 0) {
+    return;
+  }
+  const navHeight = nav.offsetHeight || 0;
+  const probe = window.scrollY + navHeight + 4;
+  let isDark = false;
+  for (const section of cinematicSections) {
+    const top = section.offsetTop;
+    const bottom = top + section.offsetHeight;
+    if (probe >= top && probe < bottom) {
+      isDark = true;
+      break;
+    }
+  }
+  nav.classList.toggle("nav--dark", isDark);
+  nav.classList.toggle("nav--light", !isDark);
+};
+
+window.addEventListener("scroll", updateNavTheme, { passive: true });
+window.addEventListener("resize", updateNavTheme);
 const root = document.documentElement;
 const body = document.body;
 const unlockLink = document.querySelector("[data-unlock]");
@@ -29,6 +75,8 @@ if (isLocked) {
 const unlockPage = () => {
   root.classList.remove("is-locked");
   body.classList.remove("is-locked");
+  body.classList.add("is-unlocked");
+  window.requestAnimationFrame(updateNavTheme);
 };
 
 if (unlockLink) {
@@ -39,6 +87,7 @@ if (unlockLink) {
     const aboutSection = document.querySelector("#about");
     window.setTimeout(() => {
       unlockPage();
+      updateAboutScroll();
       if (aboutSection) {
         aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -66,3 +115,7 @@ if (window.matchMedia("(hover: hover)").matches) {
     });
   });
 }
+
+updateNavTheme();
+
+updateAboutScroll();
