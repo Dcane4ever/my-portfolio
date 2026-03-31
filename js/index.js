@@ -8,7 +8,7 @@
 const typedTarget = document.querySelector("#typed");
 if (typedTarget) {
   new Typed("#typed", {
-    strings: ["DESIGNER", "DEVELOPER", "CREATOR"],
+    strings: ["DESIGNER", "DEVELOPER", "PROGRAMMER", "TECH ENTHUSIAST"],
     typeSpeed: 70,
     backSpeed: 30,
     backDelay: 1600,
@@ -49,4 +49,20 @@ if (unlockLink) {
 
 if (window.location.hash && window.location.hash !== "#top") {
   unlockPage();
+}
+const aboutTiles = document.querySelectorAll(".about__tile");
+if (window.matchMedia("(hover: hover)").matches) {
+  aboutTiles.forEach((tile) => {
+    tile.addEventListener("mousemove", (event) => {
+      const rect = tile.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 10;
+      tile.style.setProperty("--tx", `${x}px`);
+      tile.style.setProperty("--ty", `${y}px`);
+    });
+    tile.addEventListener("mouseleave", () => {
+      tile.style.setProperty("--tx", "0px");
+      tile.style.setProperty("--ty", "0px");
+    });
+  });
 }
