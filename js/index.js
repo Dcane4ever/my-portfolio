@@ -17,38 +17,6 @@ if (typedTarget) {
   });
 }
 
-const aboutSection = document.querySelector(".about-scroll");
-const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const updateAboutScroll = () => {
-  if (!aboutSection || prefersReduced) {
-    return;
-  }
-  const rect = aboutSection.getBoundingClientRect();
-  const viewport = window.innerHeight;
-  const total = rect.height - viewport;
-  const scrolled = Math.min(Math.max(-rect.top, 0), total);
-  const startOffset = total * 0.01;
-  const endOffset = total * 0.05;
-  const range = Math.max(total - startOffset - endOffset, 1);
-  const progress = total > 0 ? (scrolled - startOffset) / range : 0;
-  const clamped = Math.min(Math.max(progress, 0), 1);
-  aboutSection.style.setProperty("--progress", clamped.toFixed(3));
-};
-
-window.addEventListener("scroll", updateAboutScroll, { passive: true });
-window.addEventListener("resize", updateAboutScroll);
-
-const carousel = document.querySelector("[data-carousel]");
-if (carousel) {
-  const track = carousel.querySelector(".carousel__track");
-  if (track && !track.dataset.cloned) {
-    const items = Array.from(track.children);
-    items.forEach((item) => track.appendChild(item.cloneNode(true)));
-    track.dataset.cloned = "true";
-  }
-}
-
 const nav = document.querySelector(".nav");
 const cinematicSections = Array.from(document.querySelectorAll(".section--cinematic, .hero"));
 
@@ -97,7 +65,6 @@ if (unlockLink) {
     const aboutSection = document.querySelector("#about");
     window.setTimeout(() => {
       unlockPage();
-      updateAboutScroll();
       if (aboutSection) {
         aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }

@@ -73,7 +73,7 @@ body {
 }
 
 body.is-unlocked {
-  background: radial-gradient(circle at 15% 15%, #2b2b2b 0%, #171717 45%, #0f0f10 100%);
+  background: #111;
   color: #f5f5f5;
 }
 
@@ -416,7 +416,7 @@ img {
 
 .about-scroll {
   position: relative;
-  min-height: 140vh;
+  min-height: auto;
   --progress: 0;
 }
 
@@ -437,7 +437,7 @@ img {
 }
 
 .about-scroll__panel {
-  position: sticky;
+  position: static;
   top: 120px;
 }
 
@@ -465,13 +465,14 @@ img {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 30%, rgba(122, 92, 255, 0.18), transparent 45%),
-    radial-gradient(circle at 80% 25%, rgba(103, 210, 255, 0.2), transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(245, 158, 106, 0.12), transparent 50%);
-  opacity: 0.9;
+  background: radial-gradient(circle at 30% 25%, rgba(245, 158, 106, 0.16), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05), transparent 60%);
+  opacity: 0.6;
 }
 
 .about-scroll__comet {
+  display: none;
+
   position: absolute;
   left: 50%;
   top: 60%;
@@ -480,27 +481,21 @@ img {
   border-radius: 999px;
   background: #fff;
   transform: translate3d(calc(-50% + (var(--progress) * -160px)), calc(-50% + (var(--progress) * -240px)), 0) scale(calc(1 + var(--progress) * 0.25));
-  box-shadow: 0 0 28px rgba(255, 255, 255, 0.8), 0 0 80px rgba(122, 92, 255, 0.65);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.75), 0 0 70px rgba(245, 158, 106, 0.45);
 }
 
 .about-scroll__comet::after {
   content: "";
   position: absolute;
   inset: -22px -6px -60px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(122, 92, 255, 0));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(245, 158, 106, 0));
   border-radius: 999px;
   filter: blur(6px);
   opacity: 0.7;
 }
 
 .about-scroll__blob {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: rgba(100, 120, 255, 0.2);
-  filter: blur(12px);
-  opacity: 0.5;
+  display: none;
 }
 
 .about-scroll__blob--a {
@@ -539,14 +534,14 @@ img {
 }
 
 .about-scroll__intro {
-  opacity: calc(1 - (var(--progress) * 1.05));
-  transform: translateY(calc(var(--progress) * -12px));
+  opacity: 1;
+  transform: none;
   transition: opacity 0.2s linear, transform 0.2s linear;
 }
 
 .about-scroll__mission {
-  opacity: clamp(0, calc((var(--progress) - 0.18) * 1.6), 1);
-  transform: translateY(calc((1 - var(--progress)) * 10px));
+  opacity: 1;
+  transform: none;
   max-width: 560px;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -563,9 +558,36 @@ img {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  opacity: clamp(0, calc((var(--progress) - 0.5) * 2.0), 1);
-  transform: translateY(calc((1 - var(--progress)) * 12px));
+  opacity: 1;
+  transform: none;
   transition: opacity 0.2s linear, transform 0.2s linear;
+}
+
+.about-scroll.section--cinematic {
+  background: #111;
+}
+
+.about-scroll.section--cinematic::before {
+  display: none;
+}
+
+.about-scroll__ambient {
+  display: none;
+}
+
+.about-scroll__frame {
+  background: #161616;
+  border: 1px solid #2c2c2c;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
+}
+
+.about-scroll__lead,
+.about-scroll__mission p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.about-scroll__mission h3 {
+  color: #f0f0f0;
 }
 .section__header h2 {
   font-size: clamp(1.8rem, 2.5vw + 1rem, 2.8rem);
@@ -911,6 +933,11 @@ img {
     radial-gradient(circle at 80% 10%, rgba(103, 210, 255, 0.18), transparent 40%);
   opacity: 0.85;
   pointer-events: none;
+}
+
+.about-scroll.section--cinematic::before {
+  background: radial-gradient(circle at 25% 20%, rgba(245, 158, 106, 0.18), transparent 55%);
+  opacity: 0.6;
 }
 
 .section--contact .container,
@@ -1328,11 +1355,11 @@ img {
   }
 
   .about-scroll {
-    min-height: 180vh;
+    min-height: auto;
   }
 
   .about-scroll__panel {
-    top: 96px;
+    top: 0;
   }
 
   .about-scroll__frame {
