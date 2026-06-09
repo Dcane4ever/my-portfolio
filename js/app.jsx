@@ -850,7 +850,7 @@ function App() {
               onMouseEnter={() => playSynthSound('hover', volumeOn)}
               className={`px-5 py-3 bg-gradient-to-r ${activeTheme.accent} text-white text-[10px] font-mono rounded-full cursor-pointer hover:shadow-[0_4px_20px_rgba(239,68,68,0.25)] transition-all duration-300 active:scale-95`}
             >
-              See Services ->
+              See Services -{">"}
             </button>
             <button 
               onClick={() => scrollToSection("projects")}
