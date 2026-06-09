@@ -1,322 +1,59 @@
-﻿<!doctype html>
-<html lang="en" class="is-locked">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Vincent Gabrielle Pimentel | Portfolio</title>
-    <meta name="description" content="Portfolio landing page for Vincent Gabrielle Pimentel." />
+    <title>Vincent Gabrielle Pimentel | Full-Stack Developer</title>
+    <meta
+      name="description"
+      content="Portfolio template for Vincent Gabrielle Pimentel, a full-stack developer focused on Java, Spring Boot, Laravel, and practical web systems."
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
-    <link rel="stylesheet" href="css/index.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            animation: {
+              "spin-slow": "spin 7s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: #050505;
+      }
+
+      ::selection {
+        background: rgba(220, 38, 38, 0.32);
+        color: #fff;
+      }
+    </style>
   </head>
-  <body class="is-locked">
-    <header class="nav" data-aos="fade-down" data-aos-duration="800">
-      <div class="container nav__inner">
-        <a class="brand" href="#top">VG</a>
-        <nav class="nav__links">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a class="button button--ghost" href="#contact">Let us talk</a>
-      </div>
-    </header>
+  <body>
+    <div id="root"></div>
 
-    <main id="top">
-      <section class="hero hero--cinematic">
-        <div class="container">
-          <div class="hero__stage">
-            <div class="hero__wipe" aria-hidden="true"></div>
-            <div class="hero__chrome">
-              <span class="hero__logo">VG</span>
-              <span class="hero__menu" aria-hidden="true"></span>
-            </div>
-            <div class="hero__headline">
-              <span class="hero__line hero__line--top">HI! I'M VINCENT</span>
-              <span class="hero__line hero__line--bottom">
-                PIMENTEL, <span id="typed" class="hero__typed"></span>
-              </span>
-            </div>
-            <div class="hero__notes-wrap">
-              <p class="hero__notes hero__notes--left">
-                I build responsive, animated web experiences and practical systems, 
-                with hands‑on OJT experience at The Pearl Manila Hotel and NDA‑covered work.
-              </p>
-              <p class="hero__notes hero__notes--right">
-                Full-stack developer focused on Web Applications, Static Websites, and
-                Java based Programs such as basic Automation and Desktop Applications.
-              </p>
-            </div>
-            <a class="hero__cta" href="#about" data-unlock>
-              Click to See my work
-              <span class="hero__cta-line" aria-hidden="true"></span>
-            </a>
-          </div>
-</div>  
-      </section>
-
-                        <section id="about" class="section section--cinematic about-scroll">
-        <div class="container about-scroll__container">
-          <div class="about-scroll__panel">
-            <div class="about-scroll__frame">
-              <div class="about-scroll__ambient" aria-hidden="true">
-                <span class="about-scroll__comet"></span>
-                <span class="about-scroll__blob about-scroll__blob--a"></span>
-                <span class="about-scroll__blob about-scroll__blob--b"></span>
-                <span class="about-scroll__blob about-scroll__blob--c"></span>
-              </div>
-              <div class="about-scroll__content">
-                <div class="about-scroll__intro">
-                  <p class="eyebrow">About</p>
-                  <h2>IT graduate who builds, fixes, and supports.</h2>
-                  <p class="about-scroll__lead">
-                    I am a BSIT graduate who loves everything computers. Building apps and troubleshooting
-                    hardware or software feels like second nature, like breathing. I'm a programmer and
-                    prompt engineer with a Java + HTML stack, comfortable with MySQL and SQLite.
-                  </p>
-                  <div class="about-scroll__tags">
-                    <span class="chip">BSIT</span>
-                    <span class="chip">Java</span>
-                    <span class="chip">Prompt Eng</span>
-                    <span class="chip">MySQL</span>
-                    <span class="chip">SQLite</span>
-                  </div>
-                </div>
-                <div class="about-scroll__mission">
-                  <p class="eyebrow">Highlight</p>
-                  <h3>School Support System (text + voice chat)</h3>
-                  <p>
-                    My standout build is a School Support System that helps students and staff get help fast.
-                    I bring a customer-support mindset, so reliability, speed, and clarity are always the goal.
-                  </p>
-                </div>
-              </div>
-              <div class="about-scroll__tiles about__tiles">
-                <div class="about__tile about__tile--featured">
-                  <span class="tile__icon">SS</span>
-                  <div>
-                    <h3>School Support System</h3>
-                    <p>Text + voice chat support web app for students and staff.</p>
-                  </div>
-                </div>
-                <div class="about__tile">
-                  <span class="tile__icon">WEB</span>
-                  <div>
-                    <h3>Web Development</h3>
-                    <p>PHP, Spring Boot, Laravel, HTML/CSS/JS.</p>
-                  </div>
-                </div>
-                <div class="about__tile">
-                  <span class="tile__icon">HW</span>
-                  <div>
-                    <h3>Troubleshooting</h3>
-                    <p>Hardware and software fixes, remote or on-site.</p>
-                  </div>
-                </div>
-                <div class="about__tile">
-                  <span class="tile__icon">DB</span>
-                  <div>
-                    <h3>Database Systems</h3>
-                    <p>MySQL and SQLite, clean schemas and queries.</p>
-                  </div>
-                </div>
-                <div class="about__tile">
-                  <span class="tile__icon">CS</span>
-                  <div>
-                    <h3>Customer Support</h3>
-                    <p>Call center background with reliable online support.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-                  <section id="projects" class="section section--cinematic section--projects">
-        <div class="container">
-          <div class="section__header section__header--row" data-aos="fade-up">
-            <div>
-              <p class="eyebrow">Projects</p>
-              <h2>Featured builds + GitHub.</h2>
-              <p class="section__sub">A few highlights. Full list on GitHub.</p>
-            </div>
-            <a class="button button--ghost" href="https://github.com/Dcane4ever" target="_blank" rel="noreferrer">Visit GitHub</a>
-          </div>
-          <div class="projects">
-            <article class="project" data-aos="fade-up" data-aos-delay="100">
-              <div class="project__thumb" style="--thumb: url('images/EAC3.png');">
-                <div class="project__previews" aria-hidden="true">
-                  <img src="css/images/EAC1.png" alt="School Support preview" />
-                </div>
-              </div>
-              <div class="project__body">
-                <h3>School Support System</h3>
-                <p>
-                  Customer service web app for school support with text chat and
-                  voice chat for real-time help.
-                </p>
-                <div class="project__meta">
-                  <div class="project__chips">
-                    <span class="chip">Chat</span>
-                    <span class="chip">Voice</span>
-                    <span class="chip">Spring Boot</span>
-                    <span class="chip">Java</span>
-                    <span class="chip">HTML</span>
-                    <span class="chip">CSS</span>
-                  </div>
-                  <span class="tag">Featured</span>
-                </div>
-                <div class="project__actions">
-                  <a class="button button--ghost" href="https://github.com/Dcane4ever" target="_blank" rel="noreferrer">View repo</a>
-                </div>
-              </div>
-            </article>
-            <article class="project" data-aos="fade-up" data-aos-delay="200">
-              <div class="project__thumb" style="--thumb: url('images/DTR3.png');">
-                <div class="project__previews" aria-hidden="true">
-                  <img src="css/images/DTR1.png" alt="DTR preview 1" />
-                  <img src="css/images/DTR2.png" alt="DTR preview 2" />
-                </div>
-              </div>
-              <div class="project__body">
-                <h3>DTR Management System</h3>
-                <p>
-                  Spring Boot DTR system with an HTML/CSS/JS front end, built to help my father manage supervisor
-                  workflows and time records efficiently.
-                </p>
-                <div class="project__meta">
-                  <div class="project__chips">
-                    <span class="chip">Spring Boot</span>
-                    <span class="chip">HTML/CSS/JS</span>
-                    <span class="chip">DTR</span>
-                  </div>
-                  <span class="tag">Spring Boot</span>
-                </div>
-                <div class="project__actions">
-                  <a class="button button--ghost" href="https://github.com/Dcane4ever" target="_blank" rel="noreferrer">View repo</a>
-                </div>
-              </div>
-            </article>
-            <article class="project" data-aos="fade-up" data-aos-delay="300">
-              <div class="project__thumb" style="--thumb: url('images/CAR3.png');">
-                <div class="project__previews" aria-hidden="true">
-                  <img src="css/images/CAR1.png" alt="Car Wash preview" />
-                </div>
-              </div>
-              <div class="project__body">
-                <h3>Car Wash Management</h3>
-                <p>
-                  Spring Boot application for service tracking, scheduling, and
-                  smoother day-to-day operations.
-                </p>
-                <div class="project__meta">
-                  <div class="project__chips">
-                    <span class="chip">Spring Boot</span>
-                    <span class="chip">Java</span>
-                    <span class="chip">Scheduling</span>
-                  </div>
-                  <span class="tag">Spring Boot</span>
-                </div>
-                <div class="project__actions">
-                  <a class="button button--ghost" href="https://github.com/Dcane4ever" target="_blank" rel="noreferrer">View repo</a>
-                </div>
-              </div>
-            </article>
-            <article class="project" data-aos="fade-up" data-aos-delay="400">
-              <div class="project__thumb" style="--thumb: url('images/PRL1.png');"></div>
-              <div class="project__body">
-                <h3>Hotel Booking System</h3>
-                <p>
-                  Booking flow prototype for The Pearl Manila with room selection
-                  and reservation handling.
-                </p>
-                <div class="project__meta">
-                  <div class="project__chips">
-                    <span class="chip">Booking</span>
-                    <span class="chip">UI</span>
-                    <span class="chip">Prototype</span>
-                  </div>
-                  <span class="tag">Booking</span>
-                </div>
-                <div class="project__actions">
-                  <a class="button button--ghost" href="https://github.com/Dcane4ever" target="_blank" rel="noreferrer">View repo</a>
-                </div>
-              </div>
-            </article>
-          </div>
-          <div class="projects__footer" data-aos="fade-up" data-aos-delay="450">
-            <article class="project project--more">
-              <div class="project__more">
-                <img
-                  class="project__more-gif"
-                  src="css/images/deadpool-waving.gif"
-                  alt="Deadpool waving"
-                />
-                <div class="project__more-copy">
-                  <h3 class="project__more-title">And more to come!</h3>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" class="section section--contact">
-        <div class="container contact contact--cinematic" data-aos="fade-up">
-          <div class="contact__content">
-            <p class="eyebrow">Contact</p>
-            <h2>Let's build your next launch.</h2>
-            <p>
-              Tell me about your project and I will follow up within 48 hours.
-            </p>
-            <div class="contact__actions">
-              <a class="button button--accent" href="mailto:vincentgabriellepimentel@gmail.com">Email me</a>
-              <span class="contact__hint">Replies within 48 hours.</span>
-            </div>
-          </div>
-          <div class="contact__card contact__card--glow">
-            <div class="contact__item">
-              <p>Email</p>
-              <a href="mailto:vincentgabriellepimentel@gmail.com">vincentgabriellepimentel@gmail.com</a>
-            </div>
-            <div class="contact__item">
-              <p>Based in</p>
-              <span>Philippines / Asia-Pacific</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="container">
-        <span>© 2026 Vincent Gabrielle Pimentel. All rights reserved.</span>
-      </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
-    <script src="js/index.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" src="js/app.jsx"></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
