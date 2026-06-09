@@ -309,10 +309,10 @@ function App() {
           <button className="flex items-center space-x-3 cursor-pointer" onClick={() => scrollToSection("home")}>
             <span className={`w-7 h-7 rounded bg-gradient-to-tr ${activeTheme.accent} p-[1px]`}>
               <span className="w-full h-full bg-black rounded-[3px] flex items-center justify-center font-bold text-xs text-white">
-                VG
+                VGP
               </span>
             </span>
-            <span className="text-xs font-mono font-medium tracking-tight text-neutral-300">vincent.dev</span>
+            <span className="text-xs font-mono font-medium tracking-tight text-neutral-300">Vincent Gabrielle Pimentel</span>
           </button>
 
           <nav className="hidden md:flex items-center space-x-8 text-xs font-mono text-neutral-400">
