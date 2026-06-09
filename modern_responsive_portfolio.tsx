@@ -1,4 +1,4 @@
-﻿const { useState, useEffect, useRef, useMemo } = React;
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 const Icons = {
   java: (props) => (
@@ -104,49 +104,6 @@ const PRESET_THEMES = {
     glowColorRaw: "59, 130, 246"
   }
 };
-
-const PROJECTS = [
-  {
-    id: 1,
-    title: "School Support System",
-    category: "java",
-    desc: "A support platform for schools where students and staff can send inquiries, get routed to the right team, and keep conversations organized.",
-    tech: ["Spring Boot", "Java 17", "WebSockets", "HTML/CSS/JS"],
-    stats: "Faster inquiry handling",
-    filePath: "School support and inquiry management",
-    image: "css/images/EAC3.png"
-  },
-  {
-    id: 2,
-    title: "DTR Supervisor & Workflow System",
-    category: "java",
-    desc: "A daily time record system that helps supervisors manage attendance, review logs, and keep employee records easier to track.",
-    tech: ["Spring Boot", "MySQL", "Thymeleaf", "Bootstrap"],
-    stats: "Cleaner staff records",
-    filePath: "Employee attendance and supervisor workflow",
-    image: "css/images/DTR3.png"
-  },
-  {
-    id: 3,
-    title: "Car Wash Management System",
-    category: "java",
-    desc: "A scheduling and service tracking tool for managing appointments, customer requests, and daily car wash operations.",
-    tech: ["Java SE", "Spring Framework", "SQLite", "Tailwind CSS"],
-    stats: "Organized daily workflow",
-    filePath: "Service scheduling and daily operations",
-    image: "css/images/CAR3.png"
-  },
-  {
-    id: 4,
-    title: "Pearl Manila Hotel Booking UX Mockup",
-    category: "design",
-    desc: "A booking prototype for hotel reservations, room selection, availability checks, and a smoother customer booking flow.",
-    tech: ["HTML5", "CSS3 Animation", "JS Engine", "Bootstrap UX"],
-    stats: "Clearer booking flow",
-    filePath: "Hotel booking and reservation prototype",
-    image: "css/images/PRL1.png"
-  }
-];
 
 const playSynthSound = (type, volumeOn) => {
   if (!volumeOn) return;
@@ -293,9 +250,8 @@ function HyperSpaceBackground({ theme, density = 45 }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !canvas.parentElement) return;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
     let animationId;
     let width = (canvas.width = canvas.parentElement.clientWidth);
     let height = (canvas.height = canvas.parentElement.clientHeight);
@@ -480,11 +436,6 @@ function useIntersectionObserver() {
   const observer = useRef(null);
 
   useEffect(() => {
-    if (!window.IntersectionObserver) {
-      setEntries(elements.map((element) => ({ target: element, isIntersecting: true })));
-      return undefined;
-    }
-
     observer.current = new IntersectionObserver((observedEntries) => {
       setEntries(observedEntries);
     }, {
@@ -495,7 +446,7 @@ function useIntersectionObserver() {
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [elements]);
+  }, []);
 
   useEffect(() => {
     const currentObserver = observer.current;
@@ -510,7 +461,7 @@ function useIntersectionObserver() {
   return [setElements, entries];
 }
 
-function App() {
+export default function App() {
   const [activeTheme, setActiveTheme] = useState(PRESET_THEMES.crimsonCyber);
   const [particleDensity, setParticleDensity] = useState(45);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -598,23 +549,54 @@ function App() {
     }
   };
 
-  const handleContactSubmit = (event) => {
-    event.preventDefault();
-    setIsSubmitted(true);
-    playSynthSound('api', volumeOn);
-
-    const subject = encodeURIComponent(`Portfolio inquiry from ${formState.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formState.name}\nEmail: ${formState.email}\n\nProject scope:\n${formState.message}`
-    );
-
-    window.location.href = `mailto:${devConfig.email}?subject=${subject}&body=${body}`;
-  };
+  // Vincent's Real Projects from Resume
+  const projects = [
+    {
+      id: 1,
+      title: "Real-Time Student Support Routing Engine",
+      category: "java",
+      desc: "Robust customer service messaging application for academic campuses, integrating interactive dual text/voice channels with Spring WebSockets.",
+      tech: ["Spring Boot", "Java 17", "WebSockets", "HTML/CSS/JS"],
+      stats: "WebSocket Handshake < 12ms",
+      filePath: "src/main/java/com/eac/support/chat/ChatWebSocketHandler.java",
+      image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 2,
+      title: "DTR Supervisor & Workflow System",
+      category: "java",
+      desc: "Comprehensive Daily Time Record workspace tracker engineered to automate clock compliance auditing and real-time supervisor logging pipelines.",
+      tech: ["Spring Boot", "MySQL", "Thymeleaf", "Bootstrap"],
+      stats: "0 Database Write Latency",
+      filePath: "src/main/java/com/dtr/manager/controller/DTRController.java",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 3,
+      title: "Streamlined Service Scheduler & Tracking Hub",
+      category: "java",
+      desc: "Automated business scheduling application managing day-to-day work tasks, technician allocations, and dynamic appointment updates.",
+      tech: ["Java SE", "Spring Framework", "SQLite", "Tailwind CSS"],
+      stats: "99% Job Completion Accuracy",
+      filePath: "src/main/java/com/carwash/scheduler/SchedulerService.java",
+      image: "https://images.unsplash.com/photo-1520340356584-f9917d1ecc6f?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 4,
+      title: "Pearl Manila Hotel Booking UX Mockup",
+      category: "design",
+      desc: "Comprehensive interactive booking prototype highlighting high-fidelity room reservation funnels built during OJT immersion.",
+      tech: ["HTML5", "CSS3 Animation", "JS Engine", "Bootstrap UX"],
+      stats: "Optimized conversion paths",
+      filePath: "pearl-manila/OJT/booking-system/index.html",
+      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+    }
+  ];
 
   const filteredProjects = useMemo(() => {
-    if (projectFilter === "all") return PROJECTS;
-    return PROJECTS.filter(p => p.category === projectFilter);
-  }, [projectFilter]);
+    if (projectFilter === "all") return projects;
+    return projects.filter(p => p.category === projectFilter);
+  }, [projectFilter, projects]);
 
   const [carouselIndex, setCarouselIndex] = useState(0);
 
@@ -778,43 +760,57 @@ function App() {
         />
       </div>
 
-      {/* Persistent Header */}
-      <header className="fixed top-0 left-0 w-full z-40 bg-[#111111]/95 backdrop-blur-md border-b border-white/[0.06] px-4 sm:px-6 py-3">
-        <div className="max-w-7xl mx-auto grid grid-cols-[auto_1fr_auto] items-center gap-4">
-          <button
-            onClick={() => scrollToSection("home")}
-            className="flex items-center gap-3 cursor-pointer group"
-            aria-label="Go to home"
-          >
-            <span className="w-9 h-9 rounded-full border border-red-500 flex items-center justify-center text-red-500 font-black text-[11px] font-mono group-hover:bg-red-500 group-hover:text-white transition-colors">
-              VP
+      {/* Persistent Animated Header */}
+      <header className="fixed top-0 left-0 w-full z-40 bg-neutral-950/40 backdrop-blur-md border-b border-neutral-900/40 px-6 py-3.5">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => scrollToSection("home")}>
+            <div className={`w-7 h-7 rounded-full bg-gradient-to-tr ${activeTheme.accent} p-[1px] transition-transform duration-500 hover:rotate-180`}>
+              <div className="w-full h-full bg-neutral-950 rounded-full flex items-center justify-center font-black text-[10px] text-white">
+                V
+              </div>
+            </div>
+            <span className="text-[10px] font-mono tracking-tight text-neutral-300">
+              <GlitchText text="vpimentel.dev" speed={50} />
             </span>
-            <span className="text-[11px] font-mono font-black tracking-tight text-white">
-              vpimentel.dev
-            </span>
-          </button>
+          </div>
 
-          <nav className="hidden md:flex items-center justify-center gap-8 lg:gap-12 text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-neutral-500">
-            <button onClick={() => scrollToSection("architecture")} className="hover:text-white transition-colors cursor-pointer">
-              Solutions
-            </button>
-            <button onClick={() => scrollToSection("projects")} className="hover:text-white transition-colors cursor-pointer">
-              Portfolio
-            </button>
-            <button onClick={() => scrollToSection("experience")} className="hover:text-white transition-colors cursor-pointer">
-              Experience
-            </button>
-            <button onClick={() => scrollToSection("contact")} className="hover:text-white transition-colors cursor-pointer">
-              Contact
-            </button>
-          </nav>
+          <div className="hidden lg:flex items-center space-x-6 text-[9px] font-mono text-neutral-500 border-l border-neutral-900 pl-6">
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              <span>BSIT ENGINEER</span>
+            </div>
+            <div>
+              <span>PING: </span>
+              <span className="text-neutral-300">{simMetrics.ping}</span>
+            </div>
+            <div>
+              <span>FPS: </span>
+              <span className="text-neutral-300">{simMetrics.fps}</span>
+            </div>
+          </div>
 
-          <button
-            onClick={() => scrollToSection("contact")}
-            className="rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.1] hover:border-red-500/40 px-4 sm:px-6 py-3 text-[10px] font-mono font-black tracking-wide text-white transition-all cursor-pointer"
-          >
-            Hire Candidate
-          </button>
+          <div className="flex items-center space-x-3">
+            <button 
+              onClick={() => setVolumeOn(!volumeOn)}
+              className="p-1.5 rounded-full hover:bg-neutral-900/40 text-neutral-400 hover:text-white transition-colors"
+              title={volumeOn ? "Mute Synthetic Audio" : "Unmute Synthetic Audio"}
+            >
+              {volumeOn ? <Icons.volumeUp className="w-4 h-4 text-red-500" /> : <Icons.volumeOff className="w-4 h-4 text-neutral-600" />}
+            </button>
+
+            <button 
+              onClick={() => {
+                playSynthSound('click', volumeOn);
+                setIsPanelOpen(true);
+              }}
+              onMouseEnter={() => playSynthSound('hover', volumeOn)}
+              className="flex items-center space-x-1 bg-neutral-900/30 border border-neutral-800 hover:border-red-500/25 px-3 py-1.5 rounded-full text-[9px] font-mono text-neutral-300 cursor-pointer transition-all duration-300"
+            >
+              <Icons.settings className="w-3 h-3 text-neutral-400 animate-[spin_12s_linear_infinite]" />
+              <span>Edit Variables</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -836,146 +832,251 @@ function App() {
             </span>
           </h1>
 
-          <p className="text-sm md:text-base text-white font-semibold reveal-3">
-            Hi, I'm {devConfig.name}.
-          </p>
-
           <p className="text-xs md:text-sm text-neutral-400 font-light leading-relaxed max-w-2xl reveal-3">
             {devConfig.bio}
           </p>
 
           <div className="flex flex-wrap gap-4 pt-2 reveal-3">
             <button 
-              onClick={() => scrollToSection("architecture")} 
+              onClick={() => scrollToSection("playground")} 
               onMouseEnter={() => playSynthSound('hover', volumeOn)}
               className={`px-5 py-3 bg-gradient-to-r ${activeTheme.accent} text-white text-[10px] font-mono rounded-full cursor-pointer hover:shadow-[0_4px_20px_rgba(239,68,68,0.25)] transition-all duration-300 active:scale-95`}
             >
-              See Services ->
+              Access System Playground →
             </button>
             <button 
               onClick={() => scrollToSection("projects")}
               onMouseEnter={() => playSynthSound('hover', volumeOn)}
               className="px-5 py-3 bg-neutral-900/40 border border-neutral-800 hover:border-red-950 text-neutral-200 text-[10px] font-mono rounded-full transition-all duration-300 cursor-pointer hover:text-white"
             >
-              View Real Projects
+              Verify Code Projects
             </button>
           </div>
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer opacity-30 hover:opacity-100 transition-opacity" onClick={() => scrollToSection("architecture")}>
-          <span className="text-[8px] font-mono text-neutral-500 mb-1 tracking-widest">SERVICES</span>
+          <span className="text-[8px] font-mono text-neutral-500 mb-1 tracking-widest">MAP SCHEMATIC</span>
           <Icons.arrowDown className="w-3.5 h-3.5 text-neutral-500 animate-bounce" />
         </div>
       </section>
 
-      {/* Section 2: Client Process */}
+      {/* Section 2: Architecture Visualizer (Clean, no AI Twin) */}
       <section 
         id="architecture"
         ref={el => observerElementsRef.current['architecture'] = el}
-        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-1000 ease-out transform ${visibleSections['architecture'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-800 ease-out transform ${visibleSections['architecture'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-4 space-y-4">
-            <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block font-extrabold">SOLUTIONS</span>
-            <h2 className="text-2xl font-black text-white">How I Build Your System</h2>
+            <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block font-extrabold">SYSTEM ARCHITECTURE</span>
+            <h2 className="text-2xl font-black text-white">Full-Stack Route Map</h2>
             <p className="text-xs text-neutral-400 leading-relaxed font-light">
-              I turn everyday business problems into simple web systems that are easier for staff, owners, and customers to use.
+              This interactive blueprint models the typical client-to-server lifecycle used in my core applications, including Java-managed thread balancing, Laravel services, and database persistence.
             </p>
             <p className="text-xs text-neutral-400 leading-relaxed font-light">
-              The goal is not just code. The goal is a working tool that saves time, organizes records, and makes the process clearer.
+              <strong>Click any schematic hub node</strong> on the right to simulate route verification protocols and watch live telemetry trace payloads update in real-time.
             </p>
           </div>
 
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              {
-                step: "01",
-                title: "Understand the Workflow",
-                desc: "We review your current process, users, pain points, records, forms, and rules before building anything.",
-              },
-              {
-                step: "02",
-                title: "Design the Screens",
-                desc: "I plan clean pages for bookings, staff records, dashboards, approvals, reports, and admin controls.",
-              },
-              {
-                step: "03",
-                title: "Build the System",
-                desc: "I develop the database, login, user roles, forms, search, reports, and the main workflow your team needs.",
-              },
-              {
-                step: "04",
-                title: "Launch and Improve",
-                desc: "We test the system, fix rough spots, and adjust it based on real usage and feedback.",
-              },
-            ].map((item) => (
-              <article key={item.step} className="bg-neutral-950/50 border border-neutral-900 rounded-2xl p-6 min-h-[190px] hover:border-red-500/30 transition-colors">
-                <span className="text-[10px] font-mono text-red-400 bg-red-950/20 border border-red-500/10 rounded-full px-2.5 py-1">
-                  {item.step}
-                </span>
-                <h3 className="text-base font-black text-white mt-5 mb-3">{item.title}</h3>
-                <p className="text-xs text-neutral-400 leading-relaxed font-light">{item.desc}</p>
-              </article>
-            ))}
+          <div className="lg:col-span-8 bg-neutral-950/50 border border-neutral-900 rounded-2xl p-6 relative overflow-hidden backdrop-blur-sm">
+            <div className="absolute top-3 left-4 text-[9px] font-mono text-neutral-600">system_architecture_schema.json</div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 py-8 relative">
+              <div className="absolute inset-0 pointer-events-none hidden sm:block">
+                <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 90,60 L 220,60 M 320,60 L 480,60" stroke="#ef4444" strokeWidth="1" strokeDasharray="3 3" />
+                  <path d="M 230,120 L 400,120" stroke="#3b82f6" strokeWidth="1" strokeDasharray="3 3" />
+                </svg>
+              </div>
+
+              {/* Node 1: Client Front-end Layout */}
+              <TiltCard>
+                <div 
+                  onClick={() => simulateArchRouting('frontend')}
+                  className={`p-4 rounded-xl border h-full transition-all duration-300 cursor-pointer ${activeArchNode === 'frontend' ? 'bg-indigo-950/20 border-indigo-500/60 shadow-[0_0_12px_rgba(99,102,241,0.15)]' : 'bg-neutral-900/50 border-neutral-800 hover:border-neutral-700'}`}
+                >
+                  <div className="text-[9px] font-mono text-indigo-400 mb-1">FRONT-END VIEWS</div>
+                  <h4 className="text-xs font-bold text-white">HTML5 / Bootstrap</h4>
+                  <p className="text-[10px] text-neutral-500 mt-1">Responsive DOM presentation frameworks, Thymeleaf templates, state triggers.</p>
+                </div>
+              </TiltCard>
+
+              {/* Node 2: Java Spring Boot Ecosystem */}
+              <TiltCard>
+                <div 
+                  onClick={() => simulateArchRouting('springboot')}
+                  className={`p-4 rounded-xl border h-full transition-all duration-300 cursor-pointer ${activeArchNode === 'springboot' ? 'bg-red-950/20 border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)]' : 'bg-neutral-900/50 border-neutral-800 hover:border-neutral-700'}`}
+                >
+                  <div className="text-[9px] font-mono text-red-400 mb-1">ENTERPRISE ROOT</div>
+                  <h4 className="text-xs font-bold text-white">Spring Boot Core</h4>
+                  <p className="text-[10px] text-neutral-500 mt-1">Java controllers, socket listeners, workflow business services.</p>
+                </div>
+              </TiltCard>
+
+              {/* Node 3: Laravel Platform Core */}
+              <TiltCard>
+                <div 
+                  onClick={() => simulateArchRouting('laravel')}
+                  className={`p-4 rounded-xl border h-full transition-all duration-300 cursor-pointer ${activeArchNode === 'laravel' ? 'bg-emerald-950/20 border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.15)]' : 'bg-neutral-900/50 border-neutral-800 hover:border-neutral-700'}`}
+                >
+                  <div className="text-[9px] font-mono text-emerald-400 mb-1">ELEGANT SERVICES</div>
+                  <h4 className="text-xs font-bold text-white">Laravel Engine</h4>
+                  <p className="text-[10px] text-neutral-500 mt-1">Asynchronous dispatch systems, clean MVC blade models, secure routing.</p>
+                </div>
+              </TiltCard>
+
+              {/* Node 4: Database Storage Engine */}
+              <TiltCard>
+                <div 
+                  onClick={() => simulateArchRouting('db')}
+                  className={`p-4 rounded-xl border h-full transition-all duration-300 cursor-pointer ${activeArchNode === 'db' ? 'bg-amber-950/20 border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.15)]' : 'bg-neutral-900/50 border-neutral-800 hover:border-neutral-700'}`}
+                >
+                  <div className="text-[9px] font-mono text-amber-400 mb-1">DATA LAYER</div>
+                  <h4 className="text-xs font-bold text-white">MySQL & SQLite</h4>
+                  <p className="text-[10px] text-neutral-500 mt-1">Audit logs, schema migrations, table indexes, high performance read/write queries.</p>
+                </div>
+              </TiltCard>
+            </div>
+
+            {/* Interactive Live API Response Terminal Output */}
+            <div className="bg-stone-950 rounded-xl border border-neutral-900 p-4 font-mono text-[10px] mt-2 shadow-inner">
+              <div className="flex justify-between items-center pb-2 border-b border-neutral-900 mb-3 text-neutral-500">
+                <span>API TELEMETRY TRACER</span>
+                <span className="text-[9px] px-2 py-0.5 rounded bg-red-950/20 text-red-400 font-bold">SYSTEM ACTIVE</span>
+              </div>
+              <div className="flex items-center space-x-2 text-neutral-300 mb-2">
+                <span className="text-red-500 font-extrabold">$</span>
+                <span className="text-emerald-400">{apiCommand}</span>
+              </div>
+              <div className="space-y-1.5 text-neutral-400">
+                <div><span className="text-neutral-500">HTTP Status:</span> <span className="text-emerald-400">{apiTerminalOutput.status} ACCEPTED</span></div>
+                <div><span className="text-neutral-500">Response Speed:</span> <span className="text-amber-500">{apiTerminalOutput.elapsed}</span></div>
+                <div>
+                  <span className="text-neutral-500 block mb-1">Response JSON Payload:</span>
+                  <pre className="bg-neutral-900/40 p-2.5 rounded text-indigo-300 overflow-x-auto whitespace-pre custom-scrollbar text-[9px]">
+                    {JSON.stringify(apiTerminalOutput.payload, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Section 3: Client Services */}
+      {/* Section 3: Specialized Playable Sandboxes based on Real Resume Projects */}
       <section 
         id="playground"
         ref={el => observerElementsRef.current['playground'] = el}
-        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-1000 ease-out transform ${visibleSections['playground'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-800 ease-out transform ${visibleSections['playground'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          <div className="lg:col-span-4 space-y-4">
-            <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block font-extrabold">SERVICES</span>
-            <h2 className="text-2xl font-black text-white">What I Can Build For You</h2>
-            <p className="text-xs text-neutral-400 leading-relaxed font-light">
-              These are the kinds of practical systems that help small teams, schools, offices, and service businesses replace messy manual work.
-            </p>
+          <div className="lg:col-span-8 bg-neutral-950/50 border border-neutral-900 rounded-2xl p-6 relative overflow-hidden backdrop-blur-sm">
+            <div className="absolute top-3 left-4 text-[9px] font-mono text-neutral-600">projects_sandbox_runtime.log</div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+              
+              {/* Playable School Support Chat Sandbox */}
+              <TiltCard className="h-full">
+                <div className="bg-stone-950 rounded-xl border border-neutral-900 p-4 space-y-4 h-full flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center pb-2 border-b border-neutral-900">
+                      <div className="flex items-center space-x-2">
+                        <Icons.chat className="w-4 h-4 text-emerald-500 animate-pulse" />
+                        <span className="text-[10px] font-mono text-white">WebSocket Routing Hub</span>
+                      </div>
+                      <span className="text-[8px] font-mono text-emerald-400">ONLINE</span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <span className="text-[8px] font-mono text-neutral-500 block">CONNECTED AGENTS QUEUE</span>
+                      <div className="max-h-[80px] overflow-y-auto space-y-1.5 custom-scrollbar">
+                        {chatQueue.map((c) => (
+                          <div key={c.id} className="flex justify-between items-center text-[9px] font-mono bg-neutral-900/50 p-1.5 rounded border border-neutral-900">
+                            <span className="text-neutral-300 font-bold">{c.sender}</span>
+                            <span className="text-neutral-500 truncate max-w-[120px]">{c.msg}</span>
+                            <span className="text-[7px] text-red-400 bg-red-950/30 px-1 rounded">{c.state}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-2">
+                    <button 
+                      onClick={triggerNewChat}
+                      className="w-full text-[9px] font-mono bg-emerald-950/20 hover:bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 hover:text-emerald-300 py-2 rounded transition-all cursor-pointer font-bold"
+                    >
+                      + Fire Student WebSocket Handshake
+                    </button>
+                  </div>
+                </div>
+              </TiltCard>
+
+              {/* Playable DTR Management System Sandbox */}
+              <TiltCard className="h-full">
+                <div className="bg-stone-950 rounded-xl border border-neutral-900 p-4 space-y-4 h-full flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center pb-2 border-b border-neutral-900">
+                      <div className="flex items-center space-x-2">
+                        <Icons.cpu className="w-4 h-4 text-red-500" />
+                        <span className="text-[10px] font-mono text-white">DTR Logging System</span>
+                      </div>
+                      <span className="text-[8px] font-mono text-red-400">MySQL Linked</span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <span className="text-[8px] font-mono text-neutral-500 block">LATEST CLOCK METRICS</span>
+                      <div className="max-h-[85px] overflow-y-auto space-y-1.5 custom-scrollbar">
+                        {dtrRecords.map((r, idx) => (
+                          <div key={idx} className="flex justify-between items-center text-[9px] font-mono bg-neutral-900/50 p-1.5 rounded border border-neutral-900">
+                            <span className="text-neutral-300 font-bold">{r.employee}</span>
+                            <span className="text-neutral-500">{r.stamp}</span>
+                            <span className="text-[7px] text-emerald-400 bg-emerald-950/30 px-1 rounded font-bold">{r.status}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => registerDTRPunch("CLOCK_IN")}
+                      className="flex-1 text-[9px] font-mono bg-red-950/20 hover:bg-red-950/40 border border-red-500/20 text-red-400 hover:text-red-300 py-2 rounded transition-all cursor-pointer font-bold"
+                    >
+                      Clock In
+                    </button>
+                    <button 
+                      onClick={() => registerDTRPunch("CLOCK_OUT")}
+                      className="flex-1 text-[9px] font-mono bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 py-2 rounded transition-all cursor-pointer"
+                    >
+                      Clock Out
+                    </button>
+                  </div>
+                </div>
+              </TiltCard>
+
+            </div>
           </div>
 
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              {
-                title: "Booking Systems",
-                desc: "For hotels, clinics, rentals, appointments, service schedules, room reservations, and customer requests.",
-                items: ["Availability", "Reservation forms", "Admin review"],
-              },
-              {
-                title: "Employee Time Record Systems",
-                desc: "Attendance, daily time records, supervisor approvals, logs, exports, and simple reporting.",
-                items: ["Clock in/out", "Staff records", "Reports"],
-              },
-              {
-                title: "Customer Support Systems",
-                desc: "Inquiry tracking, ticket status, staff assignment, response history, and organized customer communication.",
-                items: ["Tickets", "Assignments", "History"],
-              },
-              {
-                title: "Business Management Dashboards",
-                desc: "Admin panels for customers, services, payments, inventory, records, approvals, and daily operations.",
-                items: ["Admin tools", "Search", "Data tables"],
-              },
-            ].map((service) => (
-              <article key={service.title} className="bg-neutral-950/50 border border-neutral-900 rounded-2xl p-6 min-h-[220px] flex flex-col justify-between hover:border-red-500/30 transition-colors">
-                <div>
-                  <h3 className="text-base font-black text-white mb-3">{service.title}</h3>
-                  <p className="text-xs text-neutral-400 leading-relaxed font-light">{service.desc}</p>
-                </div>
-                <div className="flex flex-wrap gap-2 pt-5">
-                  {service.items.map((item) => (
-                    <span key={item} className="text-[9px] font-mono px-2.5 py-1 rounded-full bg-red-950/20 text-red-400 border border-red-500/10">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
+          <div className="lg:col-span-4 space-y-4">
+            <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block font-extrabold">INTERACTIVE PLATFORMS</span>
+            <h2 className="text-2xl font-black text-white">Live Project Sandboxes</h2>
+            <p className="text-xs text-neutral-400 leading-relaxed font-light">
+              This sandbox isolates core elements from my actual developer resume portfolio:
+            </p>
+            <ul className="space-y-2 text-xs text-neutral-400 font-light list-disc pl-4">
+              <li>
+                <strong>CAMPUS SYSTEM WEB-SOCKET ROUTER:</strong> Instantly dispatch simulated live help requests, balancing incoming chat workloads.
+              </li>
+              <li>
+                <strong>SUPERVISOR DAILY WORKFLOW AUDITOR:</strong> Toggle check-in compliance logs and stream formatted payloads back directly to the local relational repository.
+              </li>
+            </ul>
           </div>
+
         </div>
       </section>
 
@@ -983,7 +1084,7 @@ function App() {
       <section 
         id="experience"
         ref={el => observerElementsRef.current['experience'] = el}
-        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-1000 ease-out transform ${visibleSections['experience'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-800 ease-out transform ${visibleSections['experience'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
@@ -1051,7 +1152,7 @@ function App() {
       <section 
         id="projects"
         ref={el => observerElementsRef.current['projects'] = el}
-        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-1000 ease-out transform ${visibleSections['projects'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-800 ease-out transform ${visibleSections['projects'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>
@@ -1069,7 +1170,7 @@ function App() {
                 }}
                 className={`px-4 py-1 text-[9px] font-mono rounded-full transition-all duration-300 capitalize cursor-pointer ${projectFilter === filter ? 'bg-red-950/40 text-red-400 font-semibold border border-red-500/20' : 'text-neutral-500 hover:text-neutral-300'}`}
               >
-                {filter === "all" ? "Show All" : filter === "java" ? "Systems" : "Prototype"}
+                {filter === "all" ? "Show All" : filter}
               </button>
             ))}
           </div>
@@ -1084,7 +1185,7 @@ function App() {
             >
               {filteredProjects.map((p) => (
                 <div key={p.id} className="w-full flex-shrink-0 px-1 md:px-2">
-                  <div className="rounded-2xl border border-neutral-900 bg-neutral-950 overflow-hidden shadow-2xl h-full">
+                  <div className="rounded-2xl border border-neutral-900 bg-neutral-950 overflow-hidden shadow-2xl">
                     
                     {/* Mock IDE Header UI */}
                     <div className="bg-neutral-950/90 border-b border-neutral-900 px-4 py-2.5 flex items-center justify-between">
@@ -1092,22 +1193,22 @@ function App() {
                         <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
                         <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                         <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                        <span className="text-[9px] font-mono text-neutral-500 pl-4 truncate">{p.filePath}</span>
+                        <span className="text-[9px] font-mono text-neutral-500 pl-4">{p.filePath}</span>
                       </div>
                       <div className="flex items-center space-x-1 font-mono text-[8px] text-neutral-500">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-                        <span>Project Ready</span>
+                        <span>Integration Active</span>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:min-h-[540px] xl:min-h-[560px]">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                       
                       {/* Left Side Details */}
-                      <div className="lg:col-span-7 p-6 md:p-8 space-y-5 flex flex-col justify-between border-r border-neutral-900 bg-stone-950/30 min-h-[320px] lg:min-h-[540px] xl:min-h-[560px]">
+                      <div className="lg:col-span-7 p-6 md:p-8 space-y-5 flex flex-col justify-between border-r border-neutral-900 bg-stone-950/30">
                         <div className="space-y-3">
                           <div className="flex justify-between items-center">
                             <span className="text-[9px] font-mono uppercase bg-red-950/20 text-red-400 px-2.5 py-0.5 rounded-full border border-red-500/10">
-                              {p.category === "java" ? "System" : "Prototype"}
+                              {p.category}
                             </span>
                             <span className="text-[9px] font-mono text-red-400">{p.stats}</span>
                           </div>
@@ -1131,24 +1232,36 @@ function App() {
                         <div className="pt-4 border-t border-neutral-900/60 flex items-center justify-between">
                           <button 
                             onClick={() => {
-                              playSynthSound('click', volumeOn);
-                              scrollToSection("contact");
+                              playSynthSound('api', volumeOn);
+                              setApiCommand(`GET /api/v1/projects/${p.id}`);
+                              setApiTerminalOutput({
+                                status: 200,
+                                elapsed: "2.1ms",
+                                payload: {
+                                  projectId: p.id,
+                                  title: p.title,
+                                  verifiedController: p.filePath,
+                                  category: p.category,
+                                  environment: "EAC_PROD_READY"
+                                }
+                              });
+                              scrollToSection("architecture");
                             }}
                             className="text-[9px] font-mono text-red-400 bg-red-950/20 border border-red-900/30 px-3 py-1 rounded hover:bg-red-950/50 transition-colors cursor-pointer"
                           >
-                            Discuss Similar System
+                            Trace Code Handshake
                           </button>
-                          <span className="text-[9px] font-mono text-neutral-500">Client-ready concept</span>
+                          <span className="text-[9px] font-mono text-neutral-500">Verified Stable</span>
                         </div>
                       </div>
 
                       {/* Right Side Mockup Image Frame with zoom hover effect */}
-                      <div className="lg:col-span-5 relative group/img aspect-[16/10] lg:aspect-auto overflow-hidden bg-stone-950/80 min-h-[260px] lg:min-h-[540px] xl:min-h-[560px]">
+                      <div className="lg:col-span-5 relative group/img aspect-[16/10] lg:aspect-auto overflow-hidden bg-stone-950/80 min-h-[200px] lg:min-h-0">
                         <img 
                           src={p.image} 
                           alt={p.title} 
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/img:scale-105"
-                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"; }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-transparent to-transparent opacity-40" />
                       </div>
@@ -1204,7 +1317,7 @@ function App() {
       <section 
         id="contact"
         ref={el => observerElementsRef.current['contact'] = el}
-        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-1000 ease-out transform ${visibleSections['contact'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-800 ease-out transform ${visibleSections['contact'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
@@ -1243,7 +1356,7 @@ function App() {
                   <p className="text-xs text-neutral-400">Data packet transmitted. Responding timeline active.</p>
                 </div>
               ) : (
-                <form onSubmit={handleContactSubmit} className="space-y-4">
+                <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); playSynthSound('api', volumeOn); }} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[8px] uppercase font-extrabold text-neutral-500 tracking-wider mb-1.5 font-mono">Your Name / Agency</label>
@@ -1283,7 +1396,7 @@ function App() {
                     type="submit"
                     className={`w-full bg-gradient-to-r ${activeTheme.accent} text-white font-bold py-3 px-4 rounded-xl text-[9px] font-mono tracking-wider uppercase transition-all duration-300 hover:shadow-[0_4px_20px_rgba(239,68,68,0.25)] cursor-pointer`}
                   >
-                    Send Email
+                    Transmit Message Payload
                   </button>
                 </form>
               )}
@@ -1404,17 +1517,15 @@ function App() {
       <footer className="border-t border-neutral-900 bg-stone-950 py-8 px-6 text-[10px] text-neutral-500 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
           <div>
-            <p>(c) {new Date().getFullYear()} {devConfig.name}. Expected Graduation EAC Manila: July 2026.</p>
+            <p>© {new Date().getFullYear()} {devConfig.name}. Expected Graduation EAC Manila: July 2026.</p>
           </div>
           <div className="flex space-x-3 font-mono text-[9px]">
             <button onClick={() => scrollToSection("home")} className="hover:text-neutral-300 transition-colors cursor-pointer">Origin Root</button>
             <span className="text-neutral-800">|</span>
-            <span className="text-neutral-600">Practical Systems Portfolio</span>
+            <span className="text-neutral-600">Active Handshake Protocol</span>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
