@@ -1089,9 +1089,9 @@ function App() {
 
   const [devConfig, setDevConfig] = useState({
     name: "Vincent Gabrielle Pimentel",
-    headline: "Engineering clean, user-first full-stack enterprise code.",
+    headline: "Full-Stack Java Developer building booking systems, management platforms, and business automation solutions.",
     role: "Full-Stack Java & Web Developer",
-    bio: "BSIT graduate (July 2026) with deep practical experience architecture mapping Spring Boot web gateways, real-time chat socket routing, and supervisor daily workflows. Synthesizing support-focused customer perspectives into resilient backend designs.",
+    bio: "BSIT student graduating in July 2026 with hands-on experience building Spring Boot, Laravel, and PHP web applications. Focused on business process automation, workflow systems, and user-centered software solutions.",
     email: "vincentgabriellepimentel@gmail.com",
     phone: "09273537500",
     location: "Manila, Philippines",
