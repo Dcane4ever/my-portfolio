@@ -71,6 +71,138 @@ const Icons = {
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} {...props}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.506-5.194-3.874-6.7-6.7l1.293-.97c.362-.271.528-.732.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
     </svg>
+  ),
+  github: (props) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.008.069-.008 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+    </svg>
+  ),
+  star: (props) => (
+    <svg fill="currentColor" viewBox="0 0 20 20" {...props}>
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+    </svg>
+  ),
+  fork: (props) => (
+    <svg fill="currentColor" viewBox="0 0 20 20" {...props}>
+      <path fillRule="evenodd" d="M6 5a3 3 0 11-1 3v3a1 1 0 01-1 1H3a1 1 0 000 2h1a3 3 0 003-3V8a1 1 0 011-1h4a1 1 0 011 1v3a3 3 0 003 3h1a1 1 0 100-2h-1a1 1 0 01-1-1V8a3 3 0 11-1-3V5a1 1 0 01-1-1H7a1 1 0 01-1 1v1z" clipRule="evenodd" />
+    </svg>
+  ),
+  rewind: (props) => (
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
+    </svg>
+  ),
+  fastForward: (props) => (
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+    </svg>
+  )
+};
+
+const OfficialLogos = {
+  java: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3 shadow-inner group-hover/card:border-red-500/30 group-hover/card:shadow-[0_0_20px_rgba(227,46,50,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-12 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.5 1.5c.5.8-.2 1.8-.8 2.5-.5.6-.7 1-.3 1.5.3.4.8.2.9-.2.2-.8-.4-1.6-.9-2.3s-.1-1.1.6-1.5z" fill="#f43f5e" />
+        <path d="M12.5 2.5c.3.6-.1 1.4-.6 1.9-.4.5-.6.8-.3 1.2.3.3.7.1.8-.2.2-.6-.3-1.2-.7-1.7s-.1-.8.8-1.2z" fill="#f43f5e" />
+        <path d="M5.5 8c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v5.5c0 2.5-2 4.5-4.5 4.5h-3C7.5 18 5.5 16 5.5 13.5V8z" fill="#E32E32" />
+        <path d="M17.5 10h1.5c1.1 0 2 .9 2 2s-.9 2-2 2h-1.5v-4z" stroke="#E32E32" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M8.5 11h7" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" opacity="0.3" />
+        <path d="M4 20h14" stroke="#5382A1" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    </div>
+  ),
+  springboot: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-emerald-500/30 group-hover/card:shadow-[0_0_20px_rgba(109,179,63,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110 group-hover/card:rotate-6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10.5" fill="#6DB33F" />
+        <path d="M12 4.5c0 0-4.5 3-4.5 7.5S12 19.5 12 19.5s4.5-3 4.5-7.5S12 4.5 12 4.5zm0 15c0 0-3-4.5-3-7.5h6c0 3-3 7.5-3 7.5z" fill="#FFFFFF" />
+        <path d="M12 4.5v15" stroke="#6DB33F" strokeWidth="1" />
+      </svg>
+    </div>
+  ),
+  laravel: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-red-500/30 group-hover/card:shadow-[0_0_20px_rgba(255,45,32,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2l8.5 4.9v9.8L12 21.6 3.5 16.7V6.9L12 2z" stroke="#FF2D20" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M12 2v9.8m0 0L3.5 6.9m8.5 4.9l8.5-4.9" stroke="#FF2D20" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M12 11.8v9.8M3.5 16.7l8.5-4.9m8.5 4.9l-8.5-4.9" stroke="#FF2D20" strokeWidth="1.5" strokeLinejoin="round" />
+      </svg>
+    </div>
+  ),
+  php: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3 shadow-inner group-hover/card:border-indigo-500/30 group-hover/card:shadow-[0_0_20px_rgba(119,123,179,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 32 32" className="w-14 h-9 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="16" cy="16" rx="15" ry="9" fill="#777BB3" />
+        <text x="6" y="21" fill="#FFFFFF" fontSize="13" fontFamily="sans-serif" fontWeight="900" fontStyle="italic">p</text>
+        <text x="13.5" y="21" fill="#FFFFFF" fontSize="13" fontFamily="sans-serif" fontWeight="900" fontStyle="italic">h</text>
+        <text x="21" y="21" fill="#FFFFFF" fontSize="13" fontFamily="sans-serif" fontWeight="900" fontStyle="italic">p</text>
+      </svg>
+    </div>
+  ),
+  sql: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3 shadow-inner group-hover/card:border-cyan-500/30 group-hover/card:shadow-[0_0_20px_rgba(0,117,143,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-12 h-12 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 6c0-1.66 4-3 9-3s9 1.34 9 3-4 3-9 3-9-1.34-9-3z" fill="#00758F" opacity="0.8" />
+        <path d="M21 6v4c0 1.66-4 3-9 3s-9-1.34-9-3V6" stroke="#00758F" strokeWidth="1.5" />
+        <path d="M21 11v4c0 1.66-4 3-9 3s-9-1.34-9-3v-4" stroke="#00758F" strokeWidth="1.5" />
+        <path d="M21 16v3c0 1.66-4 2.5-9 2.5s-9-.84-9-2.5v-3" stroke="#00758F" strokeWidth="1.5" />
+        <path d="M11 2a4 4 0 014 4c0 1.5-1.5 2.5-3 3.5" stroke="#F29111" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    </div>
+  ),
+  python: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-blue-500/30 group-hover/card:shadow-[0_0_20px_rgba(55,118,171,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110 group-hover/card:rotate-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2c-2.4 0-3.8 1.1-3.8 3.1v1.9h3.8V7.5h-5.5C4.7 7.5 3 9 3 11.2v2.4c0 1.9 1.5 3 3.4 3h1.7V14.5c0-2.2 1.8-3.9 4-3.9h4.6V7.1C16.7 3.6 15 2 12 2z" fill="#3776AB" />
+        <path d="M12 22c2.4 0 3.8-1.1 3.8-3.1v-1.9h-3.8V16.5h5.5c1.8 0 3.5-1.5 3.5-3.7v-2.4c0-1.9-1.5-3-3.4-3h-1.7V10c0 2.2-1.8 3.9-4 3.9H7.2V16.9C7.3 20.4 9 22 12 22z" fill="#FFD343" />
+        <circle cx="8.5" cy="5.5" r="0.75" fill="#FFFFFF" />
+        <circle cx="15.5" cy="18.5" r="0.75" fill="#111" />
+      </svg>
+    </div>
+  ),
+  tailwind: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-cyan-400/30 group-hover/card:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.9.2 1.6.9 2.3 1.6 1.4 1.4 2.8 2.8 5.7 2.8 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.9-.2-1.6-.9-2.3-1.6C16.3 6.2 14.9 4.8 12 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.9.2 1.6.9 2.3 1.6 1.4 1.4 2.8 2.8 5.7 2.8 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.9-.2-1.6-.9-2.3-1.6C11.5 13.4 10.1 12 7.2 12z" fill="#06B6D4" />
+      </svg>
+    </div>
+  ),
+  blade: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-red-500/30 group-hover/card:shadow-[0_0_20px_rgba(255,45,32,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="5" fill="#111" />
+        <path d="M6 17V7l5 5-5 5zm7 0V7l5 5-5 5z" stroke="#FF2D20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  ),
+  html5: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-orange-500/30 group-hover/card:shadow-[0_0_20px_rgba(227,79,38,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.1 2h15.8l-1.4 16-6.5 2-6.5-2L4.1 2z" fill="#E34F26" />
+        <path d="M12 3.6v14.5l4.8-1.3 1-11.8H12z" fill="#F06529" />
+        <path d="M12 8.7H8.7l-.2-2.6H12V3.6H6.3l.7 8.2H12V10.1z" fill="#ECECEC" />
+        <path d="M12 11.8H9.3l-.2-1.7H12V8.7h5.2l-.5 5.5-4.7 1.3V11.8z" fill="#FFFFFF" />
+      </svg>
+    </div>
+  ),
+  css3: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-blue-500/30 group-hover/card:shadow-[0_0_20px_rgba(21,114,182,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.1 2h15.8l-1.4 16-6.5 2-6.5-2L4.1 2z" fill="#1572B6" />
+        <path d="M12 3.6v14.5l4.8-1.3 1-11.8H12z" fill="#33A9DC" />
+        <path d="M12 8.7H8.7l-.2-2.6H12V3.6H6.3l.7 8.2H12V10.1z" fill="#ECECEC" />
+        <path d="M12 11.8H9.3l-.2-1.7H12V8.7h5.2l-.5 5.5-4.7 1.3V11.8z" fill="#FFFFFF" />
+      </svg>
+    </div>
+  ),
+  js: () => (
+    <div className="w-20 h-20 rounded-full bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-center p-3.5 shadow-inner group-hover/card:border-yellow-500/30 group-hover/card:shadow-[0_0_20px_rgba(247,223,30,0.15)] transition-all duration-500">
+      <svg viewBox="0 0 24 24" className="w-11 h-11 transition-transform duration-500 group-hover/card:scale-110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" fill="#F7DF1E" rx="3" />
+        <path d="M12.14 17.15c.16.29.39.54.67.72.28.18.63.27 1.03.27.42 0 .74-.11.97-.33s.35-.55.35-1v-4.14h1.36v4.1c0 .82-.24 1.45-.72 1.88s-1.18.65-2.08.65c-.75 0-1.35-.16-1.8-.49s-.76-.8-1-1.43l1.22-.73zm5.43.12c.2.33.48.59.83.77.35.18.77.27 1.25.27.57 0 1-.13 1.3-.39s.45-.63.45-1.1c0-.44-.14-.78-.42-1s-.77-.4-1.48-.56c-.75-.17-1.28-.38-1.58-.62s-.45-.6-.45-1.07c0-.52.22-.93.65-1.22s1-.43 1.7-.43c.64 0 1.15.11 1.54.34s.66.58.82 1.05l-1.18.7c-.12-.27-.29-.47-.53-.59s-.53-.18-.87-.18c-.37 0-.66.08-.87.24s-.32.39-.32.68c0 .24.11.43.33.57s.63.26 1.22.4c.83.19 1.41.44 1.73.74s.48.74.48 1.3c0 .66-.25 1.2-.74 1.59s-1.19.59-2.1.59c-.83 0-1.5-.18-2-.53s-.84-.87-1-1.55l1.22-.71z" fill="#000000" />
+      </svg>
+    </div>
   )
 };
 
@@ -510,6 +642,412 @@ function useIntersectionObserver() {
   return [setElements, entries];
 }
 
+const TECH_STACK = [
+  {
+    id: "java",
+    name: "Java SE & EE",
+    category: "Ecosystem Core",
+    desc: "Object-oriented foundations for secure multithreaded systems, socket interfaces, and background schedulers across my Spring Boot projects.",
+    badge: "LTS Standard",
+    iconType: "java"
+  },
+  {
+    id: "springboot",
+    name: "Spring Boot",
+    category: "Java Framework",
+    desc: "Enterprise MVC APIs, WebSocket student channels, JPA integration, and high-performance server loops used in school support and DTR systems.",
+    badge: "Enterprise",
+    iconType: "springboot"
+  },
+  {
+    id: "laravel",
+    name: "Laravel",
+    category: "PHP Framework",
+    desc: "Decoupled controller structures with relational models, middleware gates, Redis queue workers, and clean routing for async operations.",
+    badge: "Elegant MVC",
+    iconType: "laravel"
+  },
+  {
+    id: "php",
+    name: "PHP",
+    category: "Backend Language",
+    desc: "Server-side scripting for rapid web platforms, custom request handling, form authentication, and direct database integration.",
+    badge: "Server Native",
+    iconType: "php"
+  },
+  {
+    id: "sql",
+    name: "MySQL & SQLite",
+    category: "Data Layer",
+    desc: "Relational schemas, transaction logging, and foreign key mapping for attendance records, chat history, and booking audit trails.",
+    badge: "Persist Layer",
+    iconType: "sql"
+  },
+  {
+    id: "python",
+    name: "Python",
+    category: "Scripting",
+    desc: "Task schedulers, helper scripts, and file parsing automation for workflow support and algorithmic prototyping.",
+    badge: "Automation",
+    iconType: "python"
+  },
+  {
+    id: "tailwind",
+    name: "Tailwind CSS",
+    category: "UI Architecture",
+    desc: "Responsive layouts, flexbox grids, custom animations, and design tokens mapped directly into this portfolio and client mockups.",
+    badge: "Responsive",
+    iconType: "tailwind"
+  },
+  {
+    id: "blade",
+    name: "Blade Templates",
+    category: "PHP Views",
+    desc: "Secure front-end template rendering with reusable layout slots and modular UI components in Laravel projects.",
+    badge: "Components",
+    iconType: "blade"
+  },
+  {
+    id: "html5",
+    name: "HTML5",
+    category: "Web Standards",
+    desc: "Semantic DOM structure emphasizing accessibility, clean content boxes, and smooth user flow across booking and support UIs.",
+    badge: "Semantic",
+    iconType: "html5"
+  },
+  {
+    id: "css3",
+    name: "CSS3",
+    category: "Presentation",
+    desc: "Visual depth, keyframe animations, responsive grids, typography, and glassmorphism layouts for polished interfaces.",
+    badge: "Style Layer",
+    iconType: "css3"
+  },
+  {
+    id: "js",
+    name: "JavaScript",
+    category: "Client Scripting",
+    desc: "DOM interactions, async fetch calls, live timers, and event triggers connecting front-ends to Spring Boot and Laravel APIs.",
+    badge: "Dynamic Client",
+    iconType: "js"
+  }
+];
+
+function mapProjectToRepo(project) {
+  const slug = project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return {
+    name: slug,
+    title: project.title,
+    desc: project.desc,
+    primaryLanguage: project.category === "java" ? "Java" : "JavaScript",
+    langColor: project.category === "java" ? "bg-[#b07219]" : "bg-[#f1e05a]",
+    stars: 6 + project.id * 2,
+    forks: project.id,
+    framework: project.tech[0],
+    branch: project.category === "design" ? "prototype" : "main",
+    image: project.image,
+    category: project.category,
+    stats: project.stats
+  };
+}
+
+function GitHubCarousel({ projects, onDiscuss, volumeOn }) {
+  const [isPaused, setIsPaused] = useState(false);
+  const trackRef = useRef(null);
+  const repositories = useMemo(() => projects.map(mapProjectToRepo), [projects]);
+  const repeatedRepositories = useMemo(
+    () => [...repositories, ...repositories, ...repositories],
+    [repositories]
+  );
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || repositories.length === 0) return;
+
+    let frameId;
+    const scrollSpeed = 0.85;
+
+    const processScroll = () => {
+      if (!isPaused) {
+        track.scrollLeft += scrollSpeed;
+        const maxScrollLimit = track.scrollWidth / 3;
+        if (track.scrollLeft >= maxScrollLimit * 2) {
+          track.scrollLeft -= maxScrollLimit;
+        }
+      }
+      frameId = requestAnimationFrame(processScroll);
+    };
+
+    frameId = requestAnimationFrame(processScroll);
+    return () => cancelAnimationFrame(frameId);
+  }, [isPaused, repositories.length]);
+
+  const shiftTrack = (multiplier) => {
+    playSynthSound("click", volumeOn);
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: 374 * multiplier, behavior: "smooth" });
+  };
+
+  if (repositories.length === 0) {
+    return (
+      <div className="rounded-2xl border border-neutral-900 bg-neutral-950/50 p-10 text-center">
+        <p className="text-xs font-mono text-neutral-500">No deployments match this filter.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative select-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-red-600/[0.04] blur-[140px] rounded-full" />
+      </div>
+
+      <div className="relative group/track">
+        <div className="absolute top-0 left-0 bottom-0 w-12 sm:w-16 bg-gradient-to-r from-neutral-950 to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 right-0 bottom-0 w-12 sm:w-16 bg-gradient-to-l from-neutral-950 to-transparent z-20 pointer-events-none" />
+
+        <div
+          ref={trackRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="overflow-x-auto py-4 px-1 flex gap-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {repeatedRepositories.map((repo, idx) => (
+            <div
+              key={`${repo.name}-${idx}`}
+              className="w-[290px] sm:w-[350px] flex-shrink-0 rounded-2xl border border-neutral-900 bg-neutral-950/50 backdrop-blur-md overflow-hidden flex flex-col justify-between min-h-[340px] hover:border-red-500/25 transition-all duration-300 group/card"
+            >
+              <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-900 border-b border-neutral-900/60">
+                <img
+                  src={repo.image}
+                  alt={repo.title}
+                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-105"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent opacity-60" />
+                <span className="absolute top-3 left-3 text-[8px] font-mono uppercase bg-red-950/80 text-red-400 px-2 py-0.5 rounded-full border border-red-500/20">
+                  {repo.category === "java" ? "System" : "Prototype"}
+                </span>
+              </div>
+
+              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2 min-w-0">
+                      <Icons.github className="w-4 h-4 text-neutral-500 transition-colors group-hover/card:text-red-500 flex-shrink-0" />
+                      <span className="text-xs font-mono font-bold text-neutral-200 group-hover/card:text-red-400 truncate">
+                        {repo.name}
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-neutral-900 text-neutral-500 uppercase flex-shrink-0">
+                      {repo.branch}
+                    </span>
+                  </div>
+
+                  <h3 className="text-sm font-black text-white group-hover/card:text-red-400 transition-colors">
+                    {repo.title}
+                  </h3>
+
+                  <p className="text-[11px] text-neutral-400 leading-relaxed font-light line-clamp-3">
+                    {repo.desc}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-red-950/20 text-red-400 border border-red-500/10">
+                      {repo.framework}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-neutral-900/80 text-[10px] text-neutral-500 font-mono">
+                  <div className="flex items-center space-x-2">
+                    <span className={`w-2 h-2 rounded-full ${repo.langColor}`} />
+                    <span>{repo.primaryLanguage}</span>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-0.5">
+                      <Icons.star className="w-3.5 h-3.5 text-neutral-600" />
+                      <span>{repo.stars}</span>
+                    </div>
+                    <div className="flex items-center space-x-0.5">
+                      <Icons.fork className="w-3.5 h-3.5 text-neutral-600" />
+                      <span>{repo.forks}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={onDiscuss}
+                  className="w-full text-[9px] font-mono text-red-400 bg-red-950/20 border border-red-900/30 px-3 py-1.5 rounded-lg hover:bg-red-950/50 transition-colors cursor-pointer"
+                >
+                  Discuss Similar System
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="absolute -top-5 right-0 text-[8px] font-mono text-neutral-500 uppercase tracking-widest">
+          {isPaused ? "Paused on Hover" : "Auto-streaming"}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-end w-full pt-4">
+        <div className="flex items-center space-x-1.5 bg-neutral-950/80 p-1.5 rounded-xl border border-neutral-900/60 shadow-lg">
+          <button onClick={() => shiftTrack(-2)} className="p-2 rounded-lg text-neutral-500 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Skip back 2">
+            <Icons.rewind className="w-4 h-4" />
+          </button>
+          <button onClick={() => shiftTrack(-1)} className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Previous">
+            <Icons.chevronLeft className="w-4 h-4" />
+          </button>
+          <span className="h-4 w-[1px] bg-neutral-900" />
+          <button onClick={() => shiftTrack(1)} className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Next">
+            <Icons.chevronRight className="w-4 h-4" />
+          </button>
+          <button onClick={() => shiftTrack(2)} className="p-2 rounded-lg text-neutral-500 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Skip forward 2">
+            <Icons.fastForward className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TechStackCarousel({ volumeOn }) {
+  const [isPaused, setIsPaused] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const trackRef = useRef(null);
+  const interactionTimeoutRef = useRef(null);
+  const repeatedTechStack = useMemo(() => [...TECH_STACK, ...TECH_STACK, ...TECH_STACK], []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let frameId;
+    const scrollSpeed = 0.85;
+
+    const processScroll = () => {
+      if (!isPaused && !isInteracting) {
+        track.scrollLeft += scrollSpeed;
+        const maxScrollLimit = track.scrollWidth / 3;
+        if (track.scrollLeft >= maxScrollLimit * 2) {
+          track.scrollLeft -= maxScrollLimit;
+        }
+      }
+      frameId = requestAnimationFrame(processScroll);
+    };
+
+    frameId = requestAnimationFrame(processScroll);
+    return () => {
+      cancelAnimationFrame(frameId);
+      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+    };
+  }, [isPaused, isInteracting]);
+
+  const shiftTrack = (multiplier) => {
+    playSynthSound("click", volumeOn);
+    const track = trackRef.current;
+    if (!track) return;
+
+    setIsInteracting(true);
+    if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+
+    track.scrollBy({ left: 314 * multiplier, behavior: "smooth" });
+
+    interactionTimeoutRef.current = setTimeout(() => {
+      setIsInteracting(false);
+    }, 1200);
+  };
+
+  return (
+    <div className="relative select-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-red-600/[0.04] blur-[140px] rounded-full" />
+      </div>
+
+      <div className="relative group/track">
+        <div className="absolute top-0 left-0 bottom-0 w-12 sm:w-16 bg-gradient-to-r from-neutral-950 to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 right-0 bottom-0 w-12 sm:w-16 bg-gradient-to-l from-neutral-950 to-transparent z-20 pointer-events-none" />
+
+        <div
+          ref={trackRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="overflow-x-auto py-4 px-1 flex gap-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {repeatedTechStack.map((tech, idx) => {
+            const RenderIcon = OfficialLogos[tech.iconType];
+            return (
+              <div
+                key={`${tech.id}-${idx}`}
+                className="w-[290px] flex-shrink-0 rounded-2xl border border-neutral-900 bg-neutral-950/50 backdrop-blur-md overflow-hidden flex flex-col justify-between min-h-[350px] hover:border-red-500/25 transition-all duration-300 group/card"
+              >
+                <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-neutral-900/60 p-4 bg-[#09090b] flex items-center justify-center">
+                  {RenderIcon && <RenderIcon />}
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent opacity-40" />
+                </div>
+
+                <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono uppercase text-red-500 tracking-wider">
+                        {tech.category}
+                      </span>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-neutral-900 text-neutral-500 uppercase">
+                        {tech.badge}
+                      </span>
+                    </div>
+
+                    <h3 className="text-sm font-bold text-neutral-100 font-sans group-hover/card:text-red-400 transition-colors">
+                      {tech.name}
+                    </h3>
+
+                    <p className="text-[11px] text-neutral-400 leading-relaxed font-light line-clamp-4">
+                      {tech.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-neutral-900/80 text-[9px] text-neutral-500 font-mono flex justify-between items-center">
+                    <span>Portfolio Active</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500/60 animate-pulse" />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="absolute -top-5 right-0 text-[8px] font-mono text-neutral-500 uppercase tracking-widest">
+          {isPaused || isInteracting ? "Focused / Paused" : "Endless Stream"}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-end w-full pt-4">
+        <div className="flex items-center space-x-1.5 bg-neutral-950/80 p-1.5 rounded-xl border border-neutral-900/60 shadow-lg">
+          <button onClick={() => shiftTrack(-2)} className="p-2 rounded-lg text-neutral-500 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Skip back 2">
+            <Icons.rewind className="w-4 h-4" />
+          </button>
+          <button onClick={() => shiftTrack(-1)} className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Previous">
+            <Icons.chevronLeft className="w-4 h-4" />
+          </button>
+          <span className="h-4 w-[1px] bg-neutral-900" />
+          <button onClick={() => shiftTrack(1)} className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Next">
+            <Icons.chevronRight className="w-4 h-4" />
+          </button>
+          <button onClick={() => shiftTrack(2)} className="p-2 rounded-lg text-neutral-500 hover:text-red-500 hover:bg-red-950/20 transition-all cursor-pointer active:scale-90" title="Skip forward 2">
+            <Icons.fastForward className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [activeTheme, setActiveTheme] = useState(PRESET_THEMES.crimsonCyber);
   const [particleDensity, setParticleDensity] = useState(45);
@@ -615,22 +1153,6 @@ function App() {
     if (projectFilter === "all") return PROJECTS;
     return PROJECTS.filter(p => p.category === projectFilter);
   }, [projectFilter]);
-
-  const [carouselIndex, setCarouselIndex] = useState(0);
-
-  useEffect(() => {
-    setCarouselIndex(0);
-  }, [projectFilter]);
-
-  const handlePrevSlide = () => {
-    playSynthSound('click', volumeOn);
-    setCarouselIndex((prev) => (prev === 0 ? filteredProjects.length - 1 : prev - 1));
-  };
-
-  const handleNextSlide = () => {
-    playSynthSound('click', volumeOn);
-    setCarouselIndex((prev) => (prev === filteredProjects.length - 1 ? 0 : prev + 1));
-  };
 
   // Live Sandbox interactions
   const triggerNewChat = () => {
@@ -765,6 +1287,25 @@ function App() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: ${activeTheme.accentRaw};
         }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none !important;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .line-clamp-4 {
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
       `}</style>
 
       {/* Cybernetic Dynamic Background Overlay */}
@@ -798,11 +1339,14 @@ function App() {
             <button onClick={() => scrollToSection("architecture")} className="hover:text-white transition-colors cursor-pointer">
               Solutions
             </button>
-            <button onClick={() => scrollToSection("projects")} className="hover:text-white transition-colors cursor-pointer">
-              Portfolio
-            </button>
             <button onClick={() => scrollToSection("experience")} className="hover:text-white transition-colors cursor-pointer">
               Experience
+            </button>
+            <button onClick={() => scrollToSection("stack")} className="hover:text-white transition-colors cursor-pointer">
+              Tech Stack
+            </button>
+            <button onClick={() => scrollToSection("projects")} className="hover:text-white transition-colors cursor-pointer">
+              Portfolio
             </button>
             <button onClick={() => scrollToSection("contact")} className="hover:text-white transition-colors cursor-pointer">
               Contact
@@ -1047,7 +1591,24 @@ function App() {
         </div>
       </section>
 
-      {/* Section 5: Projects Carousel with Images */}
+      {/* Section 5: Technical Stack Pipeline */}
+      <section
+        id="stack"
+        ref={el => observerElementsRef.current['stack'] = el}
+        className={`py-24 px-6 max-w-6xl mx-auto border-t border-neutral-900/40 transition-all duration-1000 ease-out transform ${visibleSections['stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      >
+        <div className="mb-10 space-y-2">
+          <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block font-extrabold">DEVELOPER ECOSYSTEM</span>
+          <h2 className="text-2xl font-black text-white">Technical Stack Pipeline</h2>
+          <p className="text-xs text-neutral-400 font-light max-w-xl leading-relaxed">
+            A continuous overview of the languages, frameworks, and tools behind my school support systems, DTR workflows, booking prototypes, and this portfolio.
+          </p>
+        </div>
+
+        <TechStackCarousel volumeOn={volumeOn} />
+      </section>
+
+      {/* Section 6: Projects GitHub Carousel */}
       <section 
         id="projects"
         ref={el => observerElementsRef.current['projects'] = el}
@@ -1057,6 +1618,9 @@ function App() {
           <div>
             <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block mb-1 font-extrabold">PORTFOLIO DEPLOYMENTS</span>
             <h2 className="text-2xl font-black text-white">Engineered Systems Portfolio</h2>
+            <p className="text-xs text-neutral-400 font-light max-w-md mt-2 leading-relaxed">
+              Real projects from my BSIT work and OJT rounds. Hover the track to pause, or use the controls to step through deployments.
+            </p>
           </div>
 
           <div className="flex space-x-1.5 mt-4 md:mt-0 bg-neutral-950 p-1 rounded-full border border-neutral-900 w-fit">
@@ -1075,132 +1639,17 @@ function App() {
           </div>
         </div>
 
-        {/* Horizontal Project Carousel */}
-        <div className="relative">
-          <div className="overflow-hidden">
-            <div 
-              className="flex smooth-slide"
-              style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
-            >
-              {filteredProjects.map((p) => (
-                <div key={p.id} className="w-full flex-shrink-0 px-1 md:px-2">
-                  <div className="rounded-2xl border border-neutral-900 bg-neutral-950 overflow-hidden shadow-2xl h-full">
-                    
-                    {/* Mock IDE Header UI */}
-                    <div className="bg-neutral-950/90 border-b border-neutral-900 px-4 py-2.5 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                        <span className="text-[9px] font-mono text-neutral-500 pl-4 truncate">{p.filePath}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 font-mono text-[8px] text-neutral-500">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-                        <span>Project Ready</span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:min-h-[540px] xl:min-h-[560px]">
-                      
-                      {/* Left Side Details */}
-                      <div className="lg:col-span-7 p-6 md:p-8 space-y-5 flex flex-col justify-between border-r border-neutral-900 bg-stone-950/30 min-h-[320px] lg:min-h-[540px] xl:min-h-[560px]">
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center">
-                            <span className="text-[9px] font-mono uppercase bg-red-950/20 text-red-400 px-2.5 py-0.5 rounded-full border border-red-500/10">
-                              {p.category === "java" ? "System" : "Prototype"}
-                            </span>
-                            <span className="text-[9px] font-mono text-red-400">{p.stats}</span>
-                          </div>
-
-                          <h3 className="text-md md:text-lg font-black text-white hover:text-red-400 transition-colors duration-300">
-                            {p.title}
-                          </h3>
-                          <p className="text-[11px] md:text-xs text-neutral-400 font-light leading-relaxed">
-                            {p.desc}
-                          </p>
-
-                          <div className="flex flex-wrap gap-1.5 pt-2">
-                            {p.tech.map((t, idx) => (
-                              <span key={idx} className={`text-[9px] font-mono px-2.5 py-0.5 rounded-full ${activeTheme.tagBg}`}>
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="pt-4 border-t border-neutral-900/60 flex items-center justify-between">
-                          <button 
-                            onClick={() => {
-                              playSynthSound('click', volumeOn);
-                              scrollToSection("contact");
-                            }}
-                            className="text-[9px] font-mono text-red-400 bg-red-950/20 border border-red-900/30 px-3 py-1 rounded hover:bg-red-950/50 transition-colors cursor-pointer"
-                          >
-                            Discuss Similar System
-                          </button>
-                          <span className="text-[9px] font-mono text-neutral-500">Client-ready concept</span>
-                        </div>
-                      </div>
-
-                      {/* Right Side Mockup Image Frame with zoom hover effect */}
-                      <div className="lg:col-span-5 relative group/img aspect-[16/10] lg:aspect-auto overflow-hidden bg-stone-950/80 min-h-[260px] lg:min-h-[540px] xl:min-h-[560px]">
-                        <img 
-                          src={p.image} 
-                          alt={p.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/img:scale-105"
-                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-transparent to-transparent opacity-40" />
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Carousel Navigation Controls */}
-          <div className="flex items-center justify-between mt-6 px-1">
-            <div className="flex space-x-1.5 font-mono text-[9px] text-neutral-500">
-              <span className="text-white font-semibold">{(carouselIndex + 1).toString().padStart(2, '0')}</span>
-              <span>/</span>
-              <span>{filteredProjects.length.toString().padStart(2, '0')}</span>
-            </div>
-
-            <div className="flex space-x-2">
-              <button
-                onClick={handlePrevSlide}
-                className="w-8 h-8 rounded-full border border-neutral-900 bg-neutral-950 hover:border-red-900/30 text-neutral-400 hover:text-white transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-md"
-                aria-label="Previous Project"
-              >
-                <Icons.chevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={handleNextSlide}
-                className="w-8 h-8 rounded-full border border-neutral-900 bg-neutral-950 hover:border-red-900/30 text-neutral-400 hover:text-white transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-md"
-                aria-label="Next Project"
-              >
-                <Icons.chevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex justify-center space-x-2 mt-1">
-            {filteredProjects.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => { playSynthSound('click', volumeOn); setCarouselIndex(idx); }}
-                className={`h-1 rounded-full transition-all duration-300 ${idx === carouselIndex ? `w-6 bg-gradient-to-r ${activeTheme.accent}` : 'w-1 bg-neutral-800'}`}
-                aria-label={`Show project page ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-        </div>
+        <GitHubCarousel
+          projects={filteredProjects}
+          volumeOn={volumeOn}
+          onDiscuss={() => {
+            playSynthSound('click', volumeOn);
+            scrollToSection("contact");
+          }}
+        />
       </section>
 
-      {/* Section 6: Contact Gateway */}
+      {/* Section 7: Contact Gateway */}
       <section 
         id="contact"
         ref={el => observerElementsRef.current['contact'] = el}
