@@ -244,8 +244,8 @@ const PROJECTS = [
     id: 0,
     title: "AEGIS — Admission, Enrollment & Registrar System",
     category: "java",
-    desc: "A unified platform merging admissions, enrollment, and registrar operations for Emilio Aguinaldo College Manila into a single system — currently in active development as Team Lead Programmer.",
-    tech: ["Spring Boot", "Java 17", "MySQL", "Team Leadership"],
+    desc: "A unified platform merging admissions, enrollment, and registrar operations for Emilio Aguinaldo College Manila into a single system — currently in active development, leading a 2-person dev team as Team Lead Programmer.",
+    tech: ["Spring Boot", "Java 17", "MySQL", "Team of 2"],
     stats: "In active development",
     filePath: "Unified admission, enrollment, and registrar workflow",
     image: "css/images/EAC1.png",
@@ -390,31 +390,34 @@ const EXPERIENCE = [
     role: "Team Lead Programmer",
     period: "July 13, 2026 — Present",
     current: true,
-    desc: "Leading development of AEGIS, a unified Admission, Enrollment, and Registrar system for Emilio Aguinaldo College Manila, directing a small programming team through architecture, workflow design, and delivery."
+    desc: "Leading a 2-person dev team building AEGIS, a unified Admission, Enrollment, and Registrar system for Emilio Aguinaldo College Manila — owning architecture, workflow design, and delivery, backed by 5+ years of self-taught and freelance development experience before stepping into this role."
   },
   {
     org: "QUALFON",
     role: "Customer Resolution Representative",
     period: "June 2023 — August 2024",
-    desc: "Resolved complex user escalations, coordinated with departments to optimize workflow systems, and designed efficient software troubleshooting strategies."
+    steppingStone: true,
+    desc: "Resolved complex user escalations, coordinated with departments to optimize workflow systems, and designed efficient software troubleshooting strategies — while self-teaching Spring Boot and Laravel and freelancing on small web projects in my off hours."
   },
   {
     org: "ALORICA",
     role: "Technical Support Agent",
     period: "Oct 2020 — Feb 2021",
-    desc: "Applied systematic diagnostics to resolve technical software and hardware bottlenecks, reducing recurring support issues."
+    steppingStone: true,
+    desc: "Applied systematic diagnostics to resolve technical software and hardware bottlenecks, reducing recurring support issues — continuing to build programming fundamentals and take on small freelance work alongside the role."
   },
   {
     org: "CONCENTRIX",
     role: "Customer Service Representative",
     period: "Oct 2019 — June 2020",
-    desc: "Managed high-volume service queues with a strong customer-success focus, laying the foundations for user-first UX/UI architecture."
+    steppingStone: true,
+    desc: "Managed high-volume service queues with a strong customer-success focus. This is where I started teaching myself to code after hours, laying the groundwork for the developer path I'd commit to full-time."
   }
 ];
 
 const STATS = [
-  { num: "5+", label: "Systems Shipped" },
-  { num: "1", label: "Team Led" },
+  { num: "5+", label: "Years Coding" },
+  { num: "2", label: "Devs Led" },
   { num: "10+", label: "Tech Tools" },
   { num: "2026", label: "BSIT Graduate" }
 ];
@@ -501,6 +504,113 @@ function GlitchText({ text, active = true, speed = 45 }) {
   }, [text, active, speed]);
 
   return <span className="font-mono">{displayText}</span>;
+}
+
+/* Typewriter effect with a blinking caret — cycles through a list of
+   roles/lines, typing each one out then deleting it before moving on. */
+function TypewriterText({ lines, typeSpeed = 55, deleteSpeed = 30, holdMs = 1800, className = "", caretClassName = "" }) {
+  const [lineIndex, setLineIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [phase, setPhase] = useState("typing"); // typing | holding | deleting
+
+  useEffect(() => {
+    const currentLine = lines[lineIndex % lines.length];
+    let timeout;
+
+    if (phase === "typing") {
+      if (displayText.length < currentLine.length) {
+        timeout = setTimeout(() => {
+          setDisplayText(currentLine.slice(0, displayText.length + 1));
+        }, typeSpeed);
+      } else {
+        timeout = setTimeout(() => setPhase("holding"), holdMs);
+      }
+    } else if (phase === "holding") {
+      timeout = setTimeout(() => setPhase("deleting"), holdMs);
+    } else if (phase === "deleting") {
+      if (displayText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayText(currentLine.slice(0, displayText.length - 1));
+        }, deleteSpeed);
+      } else {
+        setLineIndex((i) => (i + 1) % lines.length);
+        setPhase("typing");
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, phase, lineIndex, lines, typeSpeed, deleteSpeed, holdMs]);
+
+  return (
+    <span className={className}>
+      {displayText}
+      <span className={`inline-block w-[2px] ml-1 align-middle animate-pulse ${caretClassName}`} style={{ height: "0.9em" }} />
+    </span>
+  );
+}
+
+/* Faint diagonal streak lines drifting behind hero content — a code-driven
+   nod to subtle motion-graphics backgrounds, not a video/GIF asset. */
+function DiagonalStreaks({ colorRaw = "255, 255, 255", count = 14 }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !canvas.parentElement) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    let animationId;
+    let width = (canvas.width = canvas.parentElement.clientWidth);
+    let height = (canvas.height = canvas.parentElement.clientHeight);
+
+    const handleResize = () => {
+      if (canvas && canvas.parentElement) {
+        width = canvas.width = canvas.parentElement.clientWidth;
+        height = canvas.height = canvas.parentElement.clientHeight;
+      }
+    };
+    window.addEventListener("resize", handleResize);
+
+    const streaks = Array.from({ length: count }, () => ({
+      x: Math.random() * width * 1.4 - width * 0.2,
+      y: Math.random() * height * 1.4 - height * 0.2,
+      len: Math.random() * 70 + 40,
+      speed: Math.random() * 0.15 + 0.05,
+      alpha: Math.random() * 0.08 + 0.03
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.lineCap = "round";
+
+      streaks.forEach((s) => {
+        s.x -= s.speed;
+        s.y += s.speed;
+        if (s.x < -100 || s.y > height + 100) {
+          s.x = width + Math.random() * 200;
+          s.y = -Math.random() * 200;
+        }
+
+        ctx.strokeStyle = `rgba(${colorRaw}, ${s.alpha})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x + s.len * 0.4, s.y - s.len);
+        ctx.stroke();
+      });
+
+      animationId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [colorRaw, count]);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
 }
 
 function useHoverTilt() {
@@ -1047,7 +1157,7 @@ function App() {
     name: "Vincent Gabrielle Pimentel",
     headline: "Full-Stack Java Developer building booking systems, management platforms, and business automation solutions.",
     role: "Team Lead Programmer, EAC Manila",
-    bio: "BSIT graduate of Emilio Aguinaldo College Manila (June 2026), now working as Team Lead Programmer at EAC Manila since July 13, 2026. Currently leading development of AEGIS, a unified Admission, Enrollment, and Registrar system for the college. Experienced building Spring Boot, Laravel, and PHP web applications focused on business process automation and workflow systems.",
+    bio: "BSIT graduate of Emilio Aguinaldo College Manila (June 2026), now working as Team Lead Programmer at EAC Manila since July 13, 2026, leading a 2-person dev team building AEGIS, a unified Admission, Enrollment, and Registrar system for the college. Five-plus years of hands-on experience building Spring Boot, Laravel, and PHP web applications — self-taught and freelanced alongside full-time work before this role — focused on business process automation and workflow systems.",
     email: "vincentgabriellepimentel@gmail.com",
     phone: "09273537500",
     location: "Manila, Philippines",
@@ -1223,8 +1333,10 @@ function App() {
       {/* Section 1: Hero */}
       <section
         id="home"
-        className="min-h-screen flex flex-col justify-center items-center px-6 relative z-10 pt-24 pb-16"
+        className="min-h-screen flex flex-col justify-center items-center px-6 relative z-10 pt-24 pb-16 overflow-hidden"
       >
+        <DiagonalStreaks colorRaw="255, 255, 255" count={16} />
+
         <div className="relative max-w-3xl w-full text-center space-y-6">
           <HeroTagColumn tags={HERO_TAGS_LEFT} align="left" />
           <HeroTagColumn tags={HERO_TAGS_RIGHT} align="right" />
@@ -1240,6 +1352,14 @@ function App() {
               Vincent
             </span>
           </h1>
+
+          <h2 className="text-xl md:text-2xl font-bold reveal-2 min-h-[2.5em] md:min-h-[1.5em]">
+            <TypewriterText
+              lines={["Team Lead Programmer", "Full-Stack Java Developer", "BSIT Graduate, EAC Manila"]}
+              className="text-neutral-200"
+              caretClassName="bg-red-500"
+            />
+          </h2>
 
           <p className="text-base md:text-lg text-neutral-300 font-semibold reveal-3 max-w-xl mx-auto">
             {devConfig.headline}
@@ -1299,7 +1419,7 @@ function App() {
                 <Icons.briefcase className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-xs font-bold text-white">Team Lead Programmer</span>
-                  <span className="block text-[11px] text-neutral-500">EAC Manila, since July 13, 2026</span>
+                  <span className="block text-[11px] text-neutral-500">EAC Manila, since July 13, 2026 — leading a team of 2</span>
                 </div>
               </div>
             </div>
@@ -1339,10 +1459,10 @@ function App() {
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white">AEGIS — Admission, Enrollment & Registrar System</h2>
             <p className="text-sm text-neutral-400 leading-relaxed font-light max-w-2xl">
-              As Team Lead Programmer at Emilio Aguinaldo College Manila, I'm directing the build of AEGIS — a single unified platform that merges admissions, enrollment, and registrar operations into one system, replacing disconnected manual processes with one clean workflow for staff and students.
+              As Team Lead Programmer at Emilio Aguinaldo College Manila, I'm directing a 2-person dev team building AEGIS — a single unified platform that merges admissions, enrollment, and registrar operations into one system, replacing disconnected manual processes with one clean workflow for staff and students.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
-              {["Spring Boot", "Java 17", "MySQL", "Team Leadership"].map((t) => (
+              {["Spring Boot", "Java 17", "MySQL", "Team of 2"].map((t) => (
                 <span key={t} className="text-[9px] font-mono px-2.5 py-1 rounded-full bg-red-950/20 text-red-400 border border-red-500/10">{t}</span>
               ))}
             </div>
@@ -1372,29 +1492,39 @@ function App() {
             <span className="text-[9px] font-mono text-red-500 uppercase tracking-widest block font-extrabold">TIMELINE</span>
             <h2 className="text-2xl font-black text-white">Professional Experience</h2>
             <p className="text-xs text-neutral-400 leading-relaxed font-light">
-              Bridging full-stack software development with a strong customer resolution and tech support background — a user-first mindset translated directly into clean, self-documenting code.
+              From 2019 to 2024 I worked full-time in customer support and tech support roles — and taught myself to code and freelanced on small web projects in parallel, after hours. Those years weren't a detour; they were the stepping stones that led to my BSIT degree and my current role as Team Lead Programmer at EAC Manila.
             </p>
           </div>
 
-          <div className="lg:col-span-8 space-y-4">
+          <div className="lg:col-span-8 space-y-4 relative">
+            <div className="absolute left-[22px] top-3 bottom-3 w-px bg-gradient-to-b from-red-500/40 via-neutral-800 to-neutral-800 hidden sm:block" />
+
             {EXPERIENCE.map((exp) => (
-              <div
-                key={exp.org + exp.period}
-                className={`rounded-xl p-5 relative overflow-hidden border ${exp.current ? "bg-red-950/10 border-red-900/30" : "bg-neutral-900/20 border-neutral-900"}`}
-              >
-                <div className="flex justify-between items-start flex-wrap gap-2 mb-3">
-                  <div>
-                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded ${exp.current ? "text-red-400 bg-red-950/20" : "text-neutral-400 bg-neutral-950"}`}>
-                      {exp.org}
+              <div key={exp.org + exp.period} className="relative sm:pl-12">
+                <span className={`hidden sm:flex absolute left-0 top-5 w-[11px] h-[11px] rounded-full border-2 items-center justify-center ${exp.current ? "bg-red-500 border-red-500" : "bg-neutral-950 border-neutral-700"}`} />
+
+                <div className={`rounded-xl p-5 relative overflow-hidden border ${exp.current ? "bg-red-950/10 border-red-900/30" : "bg-neutral-900/20 border-neutral-900"}`}>
+                  <div className="flex justify-between items-start flex-wrap gap-2 mb-3">
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className={`text-[9px] font-mono px-2 py-0.5 rounded ${exp.current ? "text-red-400 bg-red-950/20" : "text-neutral-400 bg-neutral-950"}`}>
+                          {exp.org}
+                        </span>
+                        {exp.steppingStone && (
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-neutral-950 text-neutral-500 border border-neutral-800 italic">
+                            stepping stone
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="text-sm font-bold text-white mt-1">{exp.role}</h4>
+                    </div>
+                    <span className={`text-[10px] font-mono flex items-center gap-1.5 ${exp.current ? "text-red-400" : "text-neutral-500"}`}>
+                      {exp.current && <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />}
+                      {exp.period}
                     </span>
-                    <h4 className="text-sm font-bold text-white mt-1">{exp.role}</h4>
                   </div>
-                  <span className={`text-[10px] font-mono flex items-center gap-1.5 ${exp.current ? "text-red-400" : "text-neutral-500"}`}>
-                    {exp.current && <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />}
-                    {exp.period}
-                  </span>
+                  <p className="text-xs text-neutral-400 font-light leading-relaxed">{exp.desc}</p>
                 </div>
-                <p className="text-xs text-neutral-400 font-light leading-relaxed">{exp.desc}</p>
               </div>
             ))}
           </div>
