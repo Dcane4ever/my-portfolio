@@ -239,6 +239,17 @@ const PRESET_THEMES = {
 
 const PROJECTS = [
   {
+    id: 0,
+    title: "AEGIS — Admission, Enrollment & Registrar System",
+    category: "java",
+    desc: "A unified platform merging admissions, enrollment, and registrar operations for Emilio Aguinaldo College Manila into a single system — currently in active development as Team Lead Programmer.",
+    tech: ["Spring Boot", "Java 17", "MySQL", "Team Leadership"],
+    stats: "In active development",
+    filePath: "Unified admission, enrollment, and registrar workflow",
+    image: "css/images/EAC1.png",
+    current: true
+  },
+  {
     id: 1,
     title: "School Support System",
     category: "java",
@@ -744,10 +755,11 @@ function mapProjectToRepo(project) {
     stars: 6 + project.id * 2,
     forks: project.id,
     framework: project.tech[0],
-    branch: project.category === "design" ? "prototype" : "main",
+    branch: project.current ? "in-progress" : (project.category === "design" ? "prototype" : "main"),
     image: project.image,
     category: project.category,
-    stats: project.stats
+    stats: project.stats,
+    current: project.current
   };
 }
 
@@ -828,7 +840,7 @@ function GitHubCarousel({ projects, onDiscuss, volumeOn }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent opacity-60" />
                 <span className="absolute top-3 left-3 text-[8px] font-mono uppercase bg-red-950/80 text-red-400 px-2 py-0.5 rounded-full border border-red-500/20">
-                  {repo.category === "java" ? "System" : "Prototype"}
+                  {repo.current ? "In Progress" : (repo.category === "java" ? "System" : "Prototype")}
                 </span>
               </div>
 
@@ -1081,7 +1093,8 @@ function App() {
     payload: {
       owner: "Vincent Gabrielle Pimentel",
       institution: "Emilio Aguinaldo College Manila",
-      graduating: "July 2026",
+      graduated: "June 2026",
+      currentRole: "Team Lead Programmer @ EAC Manila (since July 13, 2026)",
       ready: true,
       message: "Ready to audit. Click any flow schematic or playground widget."
     }
@@ -1090,8 +1103,8 @@ function App() {
   const [devConfig, setDevConfig] = useState({
     name: "Vincent Gabrielle Pimentel",
     headline: "Full-Stack Java Developer building booking systems, management platforms, and business automation solutions.",
-    role: "Full-Stack Java & Web Developer",
-    bio: "BSIT student graduating in July 2026 with hands-on experience building Spring Boot, Laravel, and PHP web applications. Focused on business process automation, workflow systems, and user-centered software solutions.",
+    role: "Team Lead Programmer, EAC Manila",
+    bio: "BSIT graduate of Emilio Aguinaldo College Manila (June 2026), now working as Team Lead Programmer at EAC Manila since July 13, 2026. Currently leading development of AEGIS, a unified Admission, Enrollment, and Registrar system for the college. Experienced building Spring Boot, Laravel, and PHP web applications focused on business process automation and workflow systems.",
     email: "vincentgabriellepimentel@gmail.com",
     phone: "09273537500",
     location: "Manila, Philippines",
@@ -1370,7 +1383,7 @@ function App() {
         <div className="max-w-4xl space-y-5">
           <div className="inline-flex items-center space-x-2 px-3 py-1 bg-red-950/20 border border-red-900/30 rounded-full text-[9px] font-mono text-red-400 reveal-1">
             <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            <GlitchText text="EAC MANILA GRADUATE | BSIT JULY 2026" active={true} speed={50} />
+            <GlitchText text="EAC MANILA GRADUATE, BSIT JUNE 2026 | TEAM LEAD PROGRAMMER" active={true} speed={50} />
           </div>
 
           <h1 className="text-3xl md:text-6xl font-black tracking-tight text-white leading-none reveal-2">
@@ -1543,7 +1556,24 @@ function App() {
           </div>
 
           <div className="lg:col-span-7 space-y-6">
-            
+
+            {/* Experience Card 0: EAC Manila - Team Lead Programmer (Current) */}
+            <div className="bg-red-950/10 border border-red-900/30 rounded-xl p-5 relative overflow-hidden">
+              <div className="flex justify-between items-start flex-wrap gap-2 mb-3">
+                <div>
+                  <span className="text-[9px] font-mono text-red-400 bg-red-950/20 px-2 py-0.5 rounded">EAC MANILA</span>
+                  <h4 className="text-sm font-bold text-white mt-1">Team Lead Programmer</h4>
+                </div>
+                <span className="text-[10px] font-mono text-red-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                  July 13, 2026 - Present
+                </span>
+              </div>
+              <p className="text-xs text-neutral-400 font-light leading-relaxed">
+                Leading development of AEGIS, a unified Admission, Enrollment, and Registrar system for Emilio Aguinaldo College Manila, directing a small programming team through architecture, workflow design, and delivery.
+              </p>
+            </div>
+
             {/* Experience Card 1: Qualfon */}
             <div className="bg-neutral-900/20 border border-neutral-900 rounded-xl p-5 relative overflow-hidden">
               <div className="flex justify-between items-start flex-wrap gap-2 mb-3">
@@ -1853,7 +1883,7 @@ function App() {
       <footer className="border-t border-neutral-900 bg-stone-950 py-8 px-6 text-[10px] text-neutral-500 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
           <div>
-            <p>(c) {new Date().getFullYear()} {devConfig.name}. Expected Graduation EAC Manila: July 2026.</p>
+            <p>(c) {new Date().getFullYear()} {devConfig.name}. BSIT Graduate, EAC Manila (June 2026) — Team Lead Programmer @ EAC Manila.</p>
           </div>
           <div className="flex space-x-3 font-mono text-[9px]">
             <button onClick={() => scrollToSection("home")} className="hover:text-neutral-300 transition-colors cursor-pointer">Origin Root</button>
