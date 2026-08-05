@@ -244,8 +244,8 @@ const PROJECTS = [
     id: 0,
     title: "AEGIS — Admission, Enrollment & Registrar System",
     category: "java",
-    desc: "A unified platform merging admissions, enrollment, and registrar operations for Emilio Aguinaldo College Manila into a single system — currently in active development, leading a 2-person dev team as Team Lead Programmer.",
-    tech: ["Spring Boot", "Java 17", "MySQL", "Team of 2"],
+    desc: "A unified platform merging admissions, enrollment, and registrar operations for Emilio Aguinaldo College Manila into a single system — currently in active development, leading a 3-person team as Team Lead Programmer.",
+    tech: ["Spring Boot", "Java 17", "MySQL", "Team of 3"],
     stats: "In active development",
     filePath: "Unified admission, enrollment, and registrar workflow",
     image: "css/images/EAC1.png",
@@ -390,7 +390,7 @@ const EXPERIENCE = [
     role: "Team Lead Programmer",
     period: "July 13, 2026 — Present",
     current: true,
-    desc: "Leading a 2-person dev team building AEGIS, a unified Admission, Enrollment, and Registrar system for Emilio Aguinaldo College Manila — owning architecture, workflow design, and delivery, backed by 5+ years of self-taught and freelance development experience before stepping into this role."
+    desc: "Leading a 3-person team (myself plus 2 developers) building AEGIS, a unified Admission, Enrollment, and Registrar system for Emilio Aguinaldo College Manila — owning architecture, workflow design, and delivery, backed by 5+ years of self-taught and freelance development experience before stepping into this role."
   },
   {
     org: "QUALFON",
@@ -417,7 +417,7 @@ const EXPERIENCE = [
 
 const STATS = [
   { num: "5+", label: "Years Coding" },
-  { num: "2", label: "Devs Led" },
+  { num: "3", label: "Team Size" },
   { num: "10+", label: "Tech Tools" },
   { num: "2026", label: "BSIT Graduate" }
 ];
@@ -611,6 +611,34 @@ function DiagonalStreaks({ colorRaw = "255, 255, 255", count = 14 }) {
   }, [colorRaw, count]);
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
+}
+
+/* Slowly-rotating glossy ring outline, purely CSS — a faint code-recreation
+   of a rotating-torus hero visual, sitting behind the headline as ambient
+   motion. Thin and low-opacity so it accents the text instead of competing
+   with it. */
+function GlossyRing({ accentA = "#ef4444", accentB = "#f43f5e", size = 300, thickness = 22 }) {
+  return (
+    <div
+      className="absolute left-1/2 top-1/2 pointer-events-none select-none opacity-40"
+      style={{
+        width: size,
+        height: size,
+        transform: "translate(-50%, -50%)",
+        zIndex: 0
+      }}
+      aria-hidden="true"
+    >
+      <div
+        className="w-full h-full rounded-full animate-ring-spin"
+        style={{
+          background: `conic-gradient(from 0deg, ${accentA}, transparent 30%, transparent 70%, ${accentB})`,
+          WebkitMask: `radial-gradient(circle, transparent calc(50% - ${thickness}px), #000 calc(50% - ${thickness}px + 1px), #000 50%, transparent calc(50% + 1px))`,
+          mask: `radial-gradient(circle, transparent calc(50% - ${thickness}px), #000 calc(50% - ${thickness}px + 1px), #000 50%, transparent calc(50% + 1px))`
+        }}
+      />
+    </div>
+  );
 }
 
 function useHoverTilt() {
@@ -852,6 +880,7 @@ function mapProjectToRepo(project) {
 function GitHubCarousel({ projects, onDiscuss, volumeOn }) {
   const [isPaused, setIsPaused] = useState(false);
   const trackRef = useRef(null);
+  const cardRefs = useRef([]);
   const repositories = useMemo(() => projects.map(mapProjectToRepo), [projects]);
   const repeatedRepositories = useMemo(
     () => [...repositories, ...repositories, ...repositories],
@@ -865,6 +894,30 @@ function GitHubCarousel({ projects, onDiscuss, volumeOn }) {
     let frameId;
     const scrollSpeed = 0.7;
 
+    /* Coverflow: on every frame, find each card's distance from the
+       track's horizontal center and lift/scale the nearest one forward
+       while receding cards scale down and dim — recreates a focused-card
+       carousel effect without any video/GIF asset. */
+    const applyCoverflow = () => {
+      const trackRect = track.getBoundingClientRect();
+      const centerX = trackRect.left + trackRect.width / 2;
+
+      cardRefs.current.forEach((card) => {
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(cardCenter - centerX);
+        const proximity = Math.max(0, 1 - dist / (trackRect.width / 2));
+        const scale = 0.9 + proximity * 0.1;
+        const lift = proximity * 14;
+        const opacity = 0.55 + proximity * 0.45;
+
+        card.style.transform = `translateY(${-lift}px) scale(${scale})`;
+        card.style.opacity = opacity;
+        card.style.zIndex = Math.round(proximity * 10);
+      });
+    };
+
     const processScroll = () => {
       if (!isPaused) {
         track.scrollLeft += scrollSpeed;
@@ -873,6 +926,7 @@ function GitHubCarousel({ projects, onDiscuss, volumeOn }) {
           track.scrollLeft -= maxScrollLimit;
         }
       }
+      applyCoverflow();
       frameId = requestAnimationFrame(processScroll);
     };
 
@@ -911,7 +965,9 @@ function GitHubCarousel({ projects, onDiscuss, volumeOn }) {
           {repeatedRepositories.map((repo, idx) => (
             <div
               key={`${repo.name}-${idx}`}
-              className="w-[290px] sm:w-[340px] flex-shrink-0 rounded-2xl border border-neutral-900 bg-neutral-950/60 backdrop-blur-md overflow-hidden flex flex-col justify-between min-h-[330px] hover:border-red-500/25 transition-all duration-300 group/card"
+              ref={(el) => { cardRefs.current[idx] = el; }}
+              className="w-[290px] sm:w-[340px] flex-shrink-0 rounded-2xl border border-neutral-900 bg-neutral-950/60 backdrop-blur-md overflow-hidden flex flex-col justify-between min-h-[330px] hover:border-red-500/25 transition-[border-color,box-shadow] duration-300 group/card"
+              style={{ transition: "transform 0.25s ease-out, opacity 0.25s ease-out", willChange: "transform, opacity" }}
             >
               <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-900 border-b border-neutral-900/60">
                 <img
@@ -1157,7 +1213,7 @@ function App() {
     name: "Vincent Gabrielle Pimentel",
     headline: "Full-Stack Java Developer building booking systems, management platforms, and business automation solutions.",
     role: "Team Lead Programmer, EAC Manila",
-    bio: "BSIT graduate of Emilio Aguinaldo College Manila (June 2026), now working as Team Lead Programmer at EAC Manila since July 13, 2026, leading a 2-person dev team building AEGIS, a unified Admission, Enrollment, and Registrar system for the college. Five-plus years of hands-on experience building Spring Boot, Laravel, and PHP web applications — self-taught and freelanced alongside full-time work before this role — focused on business process automation and workflow systems.",
+    bio: "BSIT graduate of Emilio Aguinaldo College Manila (June 2026), now working as Team Lead Programmer at EAC Manila since July 13, 2026, leading a 3-person team (myself plus 2 developers) building AEGIS, a unified Admission, Enrollment, and Registrar system for the college. Five-plus years of hands-on experience building Spring Boot, Laravel, and PHP web applications — self-taught and freelanced alongside full-time work before this role — focused on business process automation and workflow systems.",
     email: "vincentgabriellepimentel@gmail.com",
     phone: "09273537500",
     location: "Manila, Philippines",
@@ -1228,6 +1284,12 @@ function App() {
           50% { transform: translateY(-10px); }
         }
         .animate-float { animation: float 4.5s ease-in-out infinite; }
+
+        @keyframes ringSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-ring-spin { animation: ringSpin 18s linear infinite; }
 
         .reveal-1 { animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .reveal-2 { animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; opacity: 0; }
@@ -1346,12 +1408,15 @@ function App() {
             <GlitchText text="EAC MANILA GRADUATE, BSIT JUNE 2026 | TEAM LEAD PROGRAMMER" active={true} speed={50} />
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05] reveal-2">
-            Hi, I'm{" "}
-            <span className={`bg-gradient-to-r ${activeTheme.accent} bg-clip-text text-transparent`}>
-              Vincent
-            </span>
-          </h1>
+          <div className="relative flex items-center justify-center">
+            <GlossyRing accentA={activeTheme.accentRaw} accentB={activeTheme.id === "sapphireAbyss" ? "#22d3ee" : "#f43f5e"} size={240} thickness={14} />
+            <h1 className="relative text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05] reveal-2">
+              Hi, I'm{" "}
+              <span className={`bg-gradient-to-r ${activeTheme.accent} bg-clip-text text-transparent`}>
+                Vincent
+              </span>
+            </h1>
+          </div>
 
           <h2 className="text-xl md:text-2xl font-bold reveal-2 min-h-[2.5em] md:min-h-[1.5em]">
             <TypewriterText
@@ -1419,7 +1484,7 @@ function App() {
                 <Icons.briefcase className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-xs font-bold text-white">Team Lead Programmer</span>
-                  <span className="block text-[11px] text-neutral-500">EAC Manila, since July 13, 2026 — leading a team of 2</span>
+                  <span className="block text-[11px] text-neutral-500">EAC Manila, since July 13, 2026 — leading a team of 3</span>
                 </div>
               </div>
             </div>
@@ -1459,10 +1524,10 @@ function App() {
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white">AEGIS — Admission, Enrollment & Registrar System</h2>
             <p className="text-sm text-neutral-400 leading-relaxed font-light max-w-2xl">
-              As Team Lead Programmer at Emilio Aguinaldo College Manila, I'm directing a 2-person dev team building AEGIS — a single unified platform that merges admissions, enrollment, and registrar operations into one system, replacing disconnected manual processes with one clean workflow for staff and students.
+              As Team Lead Programmer at Emilio Aguinaldo College Manila, I'm directing a 3-person team building AEGIS — a single unified platform that merges admissions, enrollment, and registrar operations into one system, replacing disconnected manual processes with one clean workflow for staff and students.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
-              {["Spring Boot", "Java 17", "MySQL", "Team of 2"].map((t) => (
+              {["Spring Boot", "Java 17", "MySQL", "Team of 3"].map((t) => (
                 <span key={t} className="text-[9px] font-mono px-2.5 py-1 rounded-full bg-red-950/20 text-red-400 border border-red-500/10">{t}</span>
               ))}
             </div>
