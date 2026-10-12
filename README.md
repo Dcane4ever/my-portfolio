@@ -1,72 +1,114 @@
-# Vincent Pimentel — client-facing freelancing site
+# Vincent Gabrielle Pimentel
 
-React 18 + JSX and Tailwind are retained. A small esbuild/Tailwind build replaces the browser-side Babel compiler and development CDNs. The output contains prerendered HTML, a production React hydration bundle, a local Geist font, responsive WebP screenshots, a social preview image, JSON-LD, `robots.txt`, and `sitemap.xml`.
+I build booking, attendance, and workflow systems that replace paperwork for schools and small businesses.
 
-## Run locally
+[View my portfolio](https://dcane4ever.github.io/my-portfolio/) · [Email me about your project](mailto:vincentgabriellepimentel@gmail.com)
 
-Requires Node.js 20.19+ and npm. On Windows PowerShell, use `npm.cmd` if script execution policy blocks `npm`.
+![My portfolio hero, showing practical web application services and an illustrative team workspace.](assets/portfolio-hero.webp)
+
+## See how I approach your project
+
+This is my portfolio site. It shows my services, project interfaces, pricing, and the steps I take from a first conversation to launch. I built it with the same attention to clear screens and practical communication that I bring to business tools. You can judge the site itself on your phone, try the contact flow, and decide whether my approach fits your team.
+
+## Make everyday work easier
+
+These services are intended for schools and small businesses. The examples below describe who a system could help; they are not claims that I have already worked with every industry listed.
+
+- **Booking and reservation systems:** For schools and appointment-based businesses that need availability, bookings, and staff controls in one place. Planning estimate: 3–6 weeks for a focused first version.
+- **Attendance and DTR systems:** For administrators tracking staff time. Daily time records, supervisor review, and useful attendance reports. Planning estimate: 4–8 weeks, depending on your rules.
+- **Admin dashboards and workflow automation:** For teams repeating the same admin tasks. Track requests, roles, statuses, and approvals without copying information between spreadsheets. Planning estimate: 3–8 weeks for an agreed workflow.
+
+The site also lists introductory website packages starting at **₱4,999** and custom-system estimates starting at **₱12,000**. I confirm the actual scope, price, and schedule with you before work starts.
+
+## A site you can use with confidence
+
+| What matters to you              | How this site handles it                                                                                                                                             |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fast to open on a phone          | Complete page content is prepared in advance. Photos and screenshots use optimized WebP files, and lower-page images load when needed. The font is included locally. |
+| Easy to navigate                 | Clear headings, keyboard controls, visible focus outlines, labeled form fields, and accessible FAQ controls.                                                         |
+| Comfortable on different screens | Browser checks cover 375px phones, 768px tablets, and 1280px desktops, including horizontal overflow.                                                                |
+| Easy to find and share           | A descriptive title, search description, social preview image, structured information for search engines, and a sitemap.                                             |
+| A clear way to contact me        | The form checks your answers and prepares an email draft. Open that draft and press Send in your email app. A direct email link is always available.                 |
+| Motion that stays useful         | The hero animates on page entry. Other sections reveal as you scroll. Reduced-motion preferences stop the effects, and content remains readable without JavaScript.  |
+| Privacy by default               | Analytics are off by default. Preparing an inquiry does not automatically transmit it.                                                                               |
+
+**Measured locally on October 12, 2026:** mobile Lighthouse scored **100 Performance, 100 Accessibility, 100 Best Practices, and 100 SEO**, with **zero measured layout shift**. Lighthouse is an automated browser check; these are local lab results, not a guarantee of identical results on every device or connection.
+
+## Under the hood
+
+The technical choices support a simple client experience: readable pages, reusable sections, and content that stays consistent.
+
+<details>
+<summary>Details for your technical reviewer</summary>
+
+- **React 18 and JSX:** Reusable page sections keep shared controls consistent.
+- **Tailwind CSS and custom CSS:** A shared type scale, colors, spacing, and responsive layout.
+- **esbuild and React server rendering:** Compile production JavaScript and prepare complete HTML before the browser opens the site.
+- **Sharp:** Produces optimized WebP photos and screenshots with explicit dimensions.
+- **GSAP, ScrollTrigger, and the React GSAP hook:** Scope motion to the relevant elements and clean it up when reduced motion is enabled. ScrollTrigger starts a reveal when an element reaches the viewport.
+- **CSS entrance animations:** Start the navigation and hero at first paint, without waiting for the React bundle.
+
+Key source areas:
+
+```text
+js/       Page sections, content settings, and motion
+css/      Shared styles and original project images
+assets/   Optimized photos, screenshots, and sharing image
+scripts/  Page rendering, asset processing, and checks
+```
+
+`js/content.js` contains public copy, contact values, prices, project information, and optional integrations. The build reads the same data for rendered HTML, metadata, and structured data describing a Person and ProfessionalService. React then attaches interactive controls to the rendered page.
+
+`js/motion.js` controls the section reveals. The workspace keeps its own short workflow sequence and Replay animation control. Motion runs on entry or when content reaches the viewport; it does not loop automatically. Resize handling keeps the reveal positions accurate when an FAQ opens or a form changes. Keyboard focus reveals the relevant section immediately.
+
+Content checks reject unfinished copy, validate generated assets, and exercise inquiry validation. Browser checks cover navigation, keyboard access, FAQ behavior, pricing, responsive layouts, email preparation, reduced motion, and page entrances. Optional form-endpoint success and failure are tested with mocked requests; no real inquiries are sent during those tests. Lighthouse measures mobile performance and accessibility.
+
+The form also has a hidden spam field. Its current implementation prepares email rather than submitting to a server, so the success message says that a draft is ready. With JavaScript disabled, the page offers a direct email fallback.
+
+</details>
+
+## Know what happens next
+
+1. **Discovery call:** We spend 20 minutes discussing your current process, your team, and what needs to change.
+2. **Fixed-scope proposal:** You receive a written scope, price, timeline, and deliverables before work begins.
+3. **Build with weekly demos:** You see progress, try the workflow, and give feedback while it is being built.
+4. **Launch and support:** I help with launch and team training, then provide the support agreed in your proposal.
+
+The proposal sets out code ownership, source-code handover, included revisions, and the support window. If a request changes the agreed scope, I explain the effect on price and timing before doing it. I reply within 24 hours.
+
+## Selected work
+
+These are project interface previews. The hotel work is explicitly a prototype. They are not client endorsements or evidence of live operation.
+
+- **DTR Supervisor and Workflow System — attendance interface preview.** Saved screens show supervisor and employee views, time-in controls, schedules, and links to time-record requests and print summaries.
+- **Pearl Manila Hotel Booking prototype — booking UX prototype.** The saved page shows hotel information, amenities, and navigation for rooms, facilities, check-in, and login.
+- **Car Wash Management System — website interface preview.** Saved screens show service-package descriptions, sign-in, and account-registration interfaces.
+
+![Saved Car Wash Management System interface preview, showing service-package descriptions.](assets/carwash-960.webp)
+
+## Work directly with someone who understands support
+
+- My customer and tech support background shapes how I explain problems in plain language.
+- I focus on clear screens and workflows that non-technical staff can use.
+- I agree on scope and deliverables in writing before work starts.
+- You work directly with me, with regular opportunities to review progress and give feedback.
+
+## Let’s talk about your project
+
+[Email me](mailto:vincentgabriellepimentel@gmail.com) with the process you want to improve, who will use the system, and your preferred deadline. A rough idea or a spreadsheet is enough to start the conversation. I reply within 24 hours.
+
+You can also [visit the portfolio](https://dcane4ever.github.io/my-portfolio/) to compare packages or prepare an inquiry email.
+
+[GitHub](https://github.com/Dcane4ever) · [LinkedIn](https://www.linkedin.com/in/vincent-pimentel-6986b726b/)
+
+<details>
+<summary>Run it locally</summary>
 
 ```sh
 npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. Edit `js/content.js`, then run `npm run build` again to update the preview and repository-root deployment files. `npm run preview` serves the last build. The template lives in `scripts/index.template.html`; the root `index.html` is a generated, fully rendered page. Commit `index.html`, `assets/`, `robots.txt`, `sitemap.xml`, and `.nojekyll` after rebuilding. The existing GitHub Pages deployment from `main` / repository root continues to work. Other static hosts can use the **contents of `dist/`**. No push or publication is performed by these scripts.
+</details>
 
-The default canonical URL preserves the existing GitHub Pages address. If you use a custom domain, change `settings.siteUrl` before building. Include its trailing slash. All asset paths are relative so the site works under `/my-portfolio/` as well as at a domain root. On a custom domain, place `robots.txt` at the domain root.
-
-## Content and settings
-
-All editable public copy, prices, availability, contact details, SEO, and integrations are in **`js/content.js`**. Components do not contain separate editable marketing copy. Unavailable values are empty strings, `null`, or empty arrays and are hidden; the public page contains no unfinished labels. With no calendar configured, call buttons lead to the inquiry section. The footer uses the verified existing Gmail address until a domain email is supplied. The About section uses your supplied `assets/unnamed.png`, optimized to `assets/vincent-pimentel.webp` during the build without overwriting the original. GitHub and LinkedIn use your supplied profile URLs.
-
-AEGIS and all EAC branding/screenshots remain excluded pending employer clearance. The three retained project summaries describe only interface evidence from the repository screenshots. Missing problems, outcomes, deployment evidence, and implementation stacks are omitted. The hero remains an illustrative HTML/CSS mockup with sample data. No duration of professional development experience is claimed.
-
-## Information still to confirm
-
-| Config location | What to supply |
-| --- | --- |
-| `settings.calendarUrl` | Your real HTTPS calendar booking URL. Every call CTA uses it. |
-| `identity.domainEmail` | Optional domain email. The current footer links to your existing Gmail address. |
-| `identity.github`, `identity.linkedin` | Both are set to the profile URLs you supplied. Update these if your profiles change. |
-| `identity.photo.source`, `.src`, `.alt`, `.width`, `.height` | Source PNG and optimized WebP paths, alt text, and actual image dimensions. The supplied portrait is 288×288 pixels. |
-| `work.items[0..2].context` | Whether each project was academic, personal, or professional; actual deployment status; and permission to share. DTR and Car Wash are currently interface previews; Pearl is a booking UX prototype. |
-| `work.items[0..2].problem`, `.result`, `.stack` | Actual problem, verified outcomes, and implementation sources that substantiate technologies. Omitted until verified. |
-| `work.items[0..2].demo`, `.github` | Verified project demo and source URLs. Existing screenshot links already work. The hotel URL visible in the saved screenshot could not be verified and is not published as a demo link. |
-| `stats[0..2].value` | Optional verified systems delivered, users served, and average delivery time. Leave `null` to keep hidden. |
-| `testimonials.items` | Optional two or three real, consented quotes: `{ quote, name, role }`. Keep `[]` until supplied. At most three render. |
-| `settings.analytics.domain` | Optional analytics domain, only if enabling `settings.analytics.enabled`. Off by default. |
-
-The user-supplied pricing is configured as Starter Website **₱4,999** (5–7 days, one revision), Business Website **₱8,999** (1–2 weeks, two revision rounds), and Custom Web System **starting at ₱12,000**. All cards lead to the existing inquiry form. The five additional-service ranges are scope-dependent estimates. Domain registration, hosting, paid third-party services, extra revisions, and out-of-scope features may cost separately; no custom-system delivery time or guaranteed set of features is invented.
-
-The illustrative hero workspace uses GSAP for a one-time entrance, staggered summary-card reveals, and a short sequence of row highlights and checkmark draws. Each part waits until it reaches the viewport. A Replay animation button lets visitors watch the workflow sequence again. The current row has a brighter background and red accent, then returns to its original appearance. The sequence does not repeat automatically or change sample copy. Enabling reduced motion immediately stops the effects, restores static styles, and disables replay; all content also stays readable without JavaScript.
-
-## Inquiry form behavior
-
-With `settings.formEndpoint` empty, the form validates all six fields and prepares a `mailto:` link. The visitor explicitly opens the prepared email and presses Send in their email app. The UI says that the email is prepared; it does not claim delivery. An email link remains available if no email app is configured. With JavaScript disabled, the form is hidden and a direct email fallback is shown.
-
-To receive inquiries directly, set `settings.formEndpoint` to a working HTTP(S) JSON POST endpoint. It receives `name`, `email`, `organization`, `need`, `budget`, and `timeline`. It must allow requests from your site, validate and rate-limit server-side, and return a 2xx response only when accepting the inquiry. Configure any credentials on the server, never in this public content file. The form shows a real success state after 2xx, retains answers on failure, limits requests to 15 seconds, and blocks duplicate in-flight submissions. The honeypot stops filled spam submissions before a network request. A browser honeypot is not a substitute for server-side spam protection.
-
-## Verify
-
-```sh
-npm run build
-npm test
-npm run preview
-# In another terminal, with the preview running:
-npm run test:browser
-npm run audit
-```
-
-Browser checks use the locally installed Brave executable by default. Set `BROWSER_PATH` to another Chromium browser executable when needed; no browser is downloaded. Browser tests cover 375px, 768px, and 1280px, horizontal overflow, keyboard access, menu Escape behavior, accordion ARIA, required/email validation, email preparation, focus on success, honeypot behavior, reduced motion, and no-JavaScript fallback. Additional test-only bundles verify configured calendar links, opt-in analytics, and mocked form endpoint success/failure without sending real inquiries or altering production config.
-
-Lighthouse uses its default mobile simulation. Reports and screenshots are saved under ignored `artifacts/`. Scores are local lab measurements and may differ on the deployed host. Keep host compression enabled for HTML, JavaScript, and CSS; the local preview server uses gzip.
-
-Verified on October 12, 2026: build and checks passed; 375px, 768px, and 1280px had no horizontal overflow, failed requests, or console errors. The final local mobile Lighthouse run scored **100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**, with 0.8s FCP, 1.6s LCP, and **0 CLS**. `artifacts/lighthouse-mobile.html` contains the full report. Remaining diagnostics concern the small render-blocking stylesheet and unused portions of the retained React bundle; no scored accessibility failures remain. Browser tests mock configured endpoints and analytics so reruns never send actual inquiries.
-
-## Decisions to confirm
-
-- Service timelines are planning estimates, not measured historical delivery times. Adjust them to match your capacity.
-- Exact ownership terms, included revisions, support duration, and hosting costs are intentionally agreed in the proposal. The copy does not invent contractual terms.
-- Implementation stacks and project classification cannot be established from screenshots alone. The Laravel hostname visible in the Pearl screenshot does not prove the HTML/JavaScript prototype shares that implementation. No project-specific stack or paid-client status is inferred.
-- No form backend or calendar provider was supplied. Email preparation works now; direct submissions and immediate calendar booking depend on the URLs above.
-- No genuine client quotes, metrics, or results were supplied, so those are omitted without unfinished labels.
+© 2026 Vincent Gabrielle Pimentel.
