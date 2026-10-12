@@ -60,6 +60,14 @@ const notices = await Promise.all(
       `${name}\n${await readFile(join(root, "node_modules", name, "LICENSE"), "utf8")}`,
   ),
 );
+for (const source of ["gsap/gsap-core.js", "@gsap/react/src/index.js"]) {
+  const animationSource = await readFile(
+    join(root, "node_modules", source),
+    "utf8",
+  );
+  const notice = animationSource.match(/\/\*![\s\S]*?\*\//)?.[0];
+  if (notice) notices.push(notice);
+}
 await writeFile(join(assets, "third-party-licenses.txt"), notices.join("\n\n"));
 
 execFileSync(

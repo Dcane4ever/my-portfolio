@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger.js";
+import { useGSAP } from "@gsap/react";
 import { content as c, isPlaceholder, isWebUrl } from "./content.js";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // AEGIS and EAC systems, branding, and screenshots remain excluded pending employer clearance.
 const bookingHref = isWebUrl(c.settings.calendarUrl)
@@ -127,8 +132,105 @@ function Navigation() {
 }
 function WorkflowPreview() {
   const m = c.hero.mockup;
+  const previewRef = useRef(null);
+  useGSAP(
+    () => {
+      const media = gsap.matchMedia();
+      media.add("(prefers-reduced-motion: no-preference)", () => {
+        const preview = previewRef.current;
+        const cards = Array.from(
+          preview.querySelectorAll(".preview-overview > div"),
+        );
+        const table = preview.querySelector(".preview-table");
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+
+        // Each part plays once when it reaches the viewport, including on small screens.
+        gsap.from(preview, {
+          y: 10,
+          opacity: 0.96,
+          duration: 0.75,
+          ease: "power2.out",
+          clearProps: "transform,opacity",
+          scrollTrigger: { trigger: preview, start: "top 90%", once: true },
+        });
+        gsap.from(cards, {
+          y: 6,
+          opacity: 0.94,
+          duration: 0.55,
+          stagger: 0.09,
+          ease: "power2.out",
+          clearProps: "transform,opacity",
+          scrollTrigger: {
+            trigger: preview.querySelector(".preview-overview"),
+            start: "top 85%",
+            once: true,
+          },
+        });
+
+        const workflow = gsap.timeline({
+          scrollTrigger: { trigger: table, start: "top 76%", once: true },
+        });
+        rows.forEach((row, index) => {
+          const at = 0.15 + index * 0.85;
+          const card = cards[index];
+          const check = row.querySelector("svg path");
+          const background = getComputedStyle(row).backgroundColor;
+          workflow
+            .to(row, { backgroundColor: "#24262a", duration: 0.3 }, at)
+            .to(
+              row,
+              {
+                backgroundColor: background,
+                duration: 0.55,
+                clearProps: "backgroundColor",
+              },
+              at + 0.55,
+            );
+          if (card) {
+            const border = getComputedStyle(card).borderColor;
+            workflow
+              .to(card, { borderColor: "#74767e", duration: 0.3 }, at)
+              .to(
+                card,
+                {
+                  borderColor: border,
+                  duration: 0.55,
+                  clearProps: "borderColor",
+                },
+                at + 0.55,
+              );
+          }
+          if (check) {
+            const length = check.getTotalLength();
+            workflow.fromTo(
+              check,
+              { strokeDasharray: length, strokeDashoffset: length },
+              {
+                strokeDashoffset: 0,
+                duration: 0.45,
+                ease: "power2.out",
+                immediateRender: false,
+                clearProps: "strokeDasharray,strokeDashoffset",
+              },
+              at + 0.15,
+            );
+          }
+        });
+        workflow.from(preview.querySelector(".workspace-footer svg"), {
+          scale: 0.8,
+          duration: 0.4,
+          ease: "power2.out",
+          transformOrigin: "center",
+          clearProps: "transform",
+        });
+      });
+      // Revert styles and triggers immediately if reduced motion is enabled or this unmounts.
+      return () => media.revert();
+    },
+    { scope: previewRef },
+  );
   return (
-    <figure className="product-preview">
+    <figure className="product-preview" ref={previewRef}>
       <div className="browser-bar">
         <span className="browser-dots" aria-hidden="true">
           <i />

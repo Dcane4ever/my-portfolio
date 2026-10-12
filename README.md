@@ -38,6 +38,8 @@ AEGIS and all EAC branding/screenshots remain excluded pending employer clearanc
 
 The user-supplied pricing is configured as Starter Website **₱4,999** (5–7 days, one revision), Business Website **₱8,999** (1–2 weeks, two revision rounds), and Custom Web System **starting at ₱12,000**. All cards lead to the existing inquiry form. The five additional-service ranges are scope-dependent estimates. Domain registration, hosting, paid third-party services, extra revisions, and out-of-scope features may cost separately; no custom-system delivery time or guaranteed set of features is invented.
 
+The illustrative hero workspace uses GSAP for a one-time entrance, staggered summary-card reveals, and a short sequence of row highlights and checkmark draws. Each part waits until it reaches the viewport. The sequence does not repeat, change sample copy, or change layout dimensions. Enabling reduced motion immediately stops the effects and restores static styles; all content also stays readable without JavaScript.
+
 ## Inquiry form behavior
 
 With `settings.formEndpoint` empty, the form validates all six fields and prepares a `mailto:` link. The visitor explicitly opens the prepared email and presses Send in their email app. The UI says that the email is prepared; it does not claim delivery. An email link remains available if no email app is configured. With JavaScript disabled, the form is hidden and a direct email fallback is shown.
