@@ -17,28 +17,26 @@ The default canonical URL preserves the existing GitHub Pages address. If you us
 
 ## Content and settings
 
-All editable public copy, prices, availability, contact details, SEO, and integrations are in **`js/content.js`**. Components do not contain separate editable marketing copy. Real stats appear automatically when `[ADD]` is replaced. Empty testimonials produce no section. Placeholder URLs render as text rather than broken links. With no calendar configured, call buttons lead to the inquiry section.
+All editable public copy, prices, availability, contact details, SEO, and integrations are in **`js/content.js`**. Components do not contain separate editable marketing copy. Unavailable values are empty strings, `null`, or empty arrays and are hidden; the public page contains no unfinished labels. With no calendar configured, call buttons lead to the inquiry section. The footer uses the verified existing Gmail address until a domain email is supplied. The About image slot uses the existing initials as a brand panel until a real portrait is available.
 
-AEGIS and all EAC branding/screenshots have been removed from the current site and asset folder. Source comments record that they require employer clearance. The three retained project summaries use the existing repo descriptions and screenshots; unknown context, problems, and results remain explicit placeholders. The hero is an illustrative HTML/CSS mockup with sample data, not a claimed client system.
+AEGIS and all EAC branding/screenshots remain excluded pending employer clearance. The three retained project summaries describe only interface evidence from the repository screenshots. Missing problems, outcomes, deployment evidence, and implementation stacks are omitted. The hero remains an illustrative HTML/CSS mockup with sample data. No duration of professional development experience is claimed.
 
-## Every item to fill before launch
+## Information still to confirm
 
 | Config location | What to supply |
 | --- | --- |
 | `settings.calendarUrl` | Your real HTTPS calendar booking URL. Every call CTA uses it. |
-| `identity.domainEmail` | Your domain email address. Existing Gmail and phone remain configurable in `identity`. |
-| `identity.github`, `identity.linkedin` | Your verified social profile URLs. |
-| `identity.photo.src`, `.alt`, `.width`, `.height` | A local portrait path, alt text, and actual dimensions. Prefer WebP. The build copies and resizes it. `[ADD PHOTO]` disappears once a photo is configured. |
-| `pricing.items[0..2].price` | Starter, Standard, and Custom starting prices. Keep the values as amounts; the component adds `from ₱`. |
-| `work.items[0..2].context` | DTR, Pearl, and Car Wash background, actual scope, deployment status, and permission to share. Remove the `[ADD CONTEXT…]` notes once confirmed. |
-| `work.items[0..2].problem` | The actual original process and problem for each project. |
-| `work.items[0..2].result` | Verified results or qualitative outcomes for each project. No invented metrics. Pearl remains a prototype unless its actual status is confirmed. |
-| `work.items[0..2].demo`, `.github` | Six URLs: a demo and repository for each of the three projects. Existing screenshot links already work. |
-| `stats[0..2].value` | Verified systems delivered, users served, and average delivery time. Leave `[ADD]` to keep a stat hidden. |
+| `identity.domainEmail` | Optional domain email. The current footer links to your existing Gmail address. |
+| `identity.github`, `identity.linkedin` | GitHub currently points to the verified portfolio repository. Supply a preferred profile and LinkedIn URL if desired. |
+| `identity.photo.src`, `.alt`, `.width`, `.height` | Optional local portrait path, alt text, and actual dimensions. Prefer WebP. The existing initials panel appears until supplied. |
+| `work.items[0..2].context` | Whether each project was academic, personal, or professional; actual deployment status; and permission to share. DTR and Car Wash are currently interface previews; Pearl is a booking UX prototype. |
+| `work.items[0..2].problem`, `.result`, `.stack` | Actual problem, verified outcomes, and implementation sources that substantiate technologies. Omitted until verified. |
+| `work.items[0..2].demo`, `.github` | Verified project demo and source URLs. Existing screenshot links already work. The hotel URL visible in the saved screenshot could not be verified and is not published as a demo link. |
+| `stats[0..2].value` | Optional verified systems delivered, users served, and average delivery time. Leave `null` to keep hidden. |
 | `testimonials.items` | Optional two or three real, consented quotes: `{ quote, name, role }`. Keep `[]` until supplied. At most three render. |
 | `settings.analytics.domain` | Optional analytics domain, only if enabling `settings.analytics.enabled`. Off by default. |
 
-`ui.pendingLink` and `about.photoPlaceholder` are reusable display labels; they do not need separate values once the actual URLs/photo are filled. The included social preview image is generated from your configured identity and copy; no image placeholder is needed.
+The user-supplied pricing is configured as Starter Website **₱4,999** (5–7 days, one revision), Business Website **₱8,999** (1–2 weeks, two revision rounds), and Custom Web System **starting at ₱12,000**. All cards lead to the existing inquiry form. The five additional-service ranges are scope-dependent estimates. Domain registration, hosting, paid third-party services, extra revisions, and out-of-scope features may cost separately; no custom-system delivery time or guaranteed set of features is invented.
 
 ## Inquiry form behavior
 
@@ -67,6 +65,6 @@ Verified on October 12, 2026: build and checks passed; 375px, 768px, and 1280px 
 
 - Service timelines are planning estimates, not measured historical delivery times. Adjust them to match your capacity.
 - Exact ownership terms, included revisions, support duration, and hosting costs are intentionally agreed in the proposal. The copy does not invent contractual terms.
-- Project stacks follow the original descriptions, including SQLite for Car Wash and HTML/CSS/JavaScript for the Pearl prototype. Confirm them if the implementations changed.
+- Implementation stacks and project classification cannot be established from screenshots alone. The Laravel hostname visible in the Pearl screenshot does not prove the HTML/JavaScript prototype shares that implementation. No project-specific stack or paid-client status is inferred.
 - No form backend or calendar provider was supplied. Email preparation works now; direct submissions and immediate calendar booking depend on the URLs above.
-- No genuine client quotes, metrics, results, or portrait were supplied, so those remain empty or marked as placeholders.
+- No genuine client quotes, metrics, results, or portrait were supplied, so those are omitted without unfinished labels.

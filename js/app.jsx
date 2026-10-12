@@ -56,13 +56,10 @@ function ConfigLink({ href, children }) {
       {children}
       <Icon name="arrow" />
     </a>
-  ) : (
-    <span className="pending-link">
-      {children} <span>{c.ui.pendingLink}</span>
-    </span>
-  );
+  ) : null;
 }
 function SocialLinks() {
+  if (![c.identity.github, c.identity.linkedin].some(isWebUrl)) return null;
   return (
     <div className="social-links" aria-label={c.ui.socialLabel}>
       <ConfigLink href={c.identity.github}>{c.ui.github}</ConfigLink>
@@ -313,24 +310,28 @@ function CaseStudies() {
                 <p className="case-type">{item.type}</p>
                 <h3>{item.title}</h3>
                 <dl>
-                  {["context", "problem", "solution", "result"].map((key) => (
-                    <div
-                      key={key}
-                      className={key === "result" ? "case-result" : ""}
-                    >
-                      <dt>{c.ui[key]}</dt>
-                      <dd>{item[key]}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <div className="case-stack">
-                  <h4>{c.ui.stack}</h4>
-                  <ul>
-                    {item.stack.map((tool) => (
-                      <li key={tool}>{tool}</li>
+                  {["context", "problem", "solution", "result"]
+                    .filter((key) => !isPlaceholder(item[key]))
+                    .map((key) => (
+                      <div
+                        key={key}
+                        className={key === "result" ? "case-result" : ""}
+                      >
+                        <dt>{c.ui[key]}</dt>
+                        <dd>{item[key]}</dd>
+                      </div>
                     ))}
-                  </ul>
-                </div>
+                </dl>
+                {item.stack.length > 0 && (
+                  <div className="case-stack">
+                    <h4>{c.ui.stack}</h4>
+                    <ul>
+                      {item.stack.map((tool) => (
+                        <li key={tool}>{tool}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <div className="case-links">
                   <a
                     href={item.image.src}
@@ -386,11 +387,17 @@ function Pricing() {
           {c.pricing.items.map((tier) => (
             <article className="price-card" key={tier.title}>
               <h3>{tier.title}</h3>
-              <p>{tier.description}</p>
+              <p className="pricing-audience">
+                <span>{c.pricing.audienceLabel}: </span>
+                {tier.description}
+              </p>
               <p className="price">
-                <span>{c.ui.from}</span>
+                <span>{c.pricing.priceLabel} </span>
                 {tier.price}
               </p>
+              <h4 className="pricing-includes">
+                {tier.includesLabel || c.pricing.includesLabel}
+              </h4>
               <ul>
                 {tier.includes.map((line) => (
                   <li key={line}>
@@ -399,13 +406,41 @@ function Pricing() {
                   </li>
                 ))}
               </ul>
-              <ButtonLink secondary href="#contact">
-                {c.ui.next}
-              </ButtonLink>
+              {tier.scopeNote && (
+                <p className="pricing-scope">{tier.scopeNote}</p>
+              )}
+              <div className="pricing-card-footer">
+                {tier.timeline && (
+                  <p className="pricing-delivery">
+                    <span>{c.pricing.deliveryLabel}: </span>
+                    {tier.timeline}
+                  </p>
+                )}
+                <ButtonLink secondary href="#contact">
+                  {c.pricing.cta}
+                </ButtonLink>
+              </div>
             </article>
           ))}
         </div>
         <p className="pricing-note">{c.pricing.note}</p>
+        {c.pricing.addons?.items.length > 0 && (
+          <div
+            className="pricing-addons"
+            aria-labelledby="pricing-addons-title"
+          >
+            <h3 id="pricing-addons-title">{c.pricing.addons.title}</h3>
+            <dl>
+              {c.pricing.addons.items.map((item) => (
+                <div key={item.title}>
+                  <dt>{item.title}</dt>
+                  <dd>{item.price}</dd>
+                </div>
+              ))}
+            </dl>
+            <p>{c.pricing.addons.note}</p>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -433,7 +468,7 @@ function About() {
               {c.identity.initials}
               <span>.</span>
             </span>
-            <span>{c.about.photoPlaceholder}</span>
+            <span>{c.identity.shortName}</span>
           </div>
         )}
         <figcaption>{c.about.photoNote}</figcaption>
@@ -769,6 +804,9 @@ function Contact() {
   );
 }
 function Footer() {
+  const footerEmail = isPlaceholder(c.identity.domainEmail)
+    ? c.identity.email
+    : c.identity.domainEmail;
   return (
     <footer className="footer">
       <div className="container">
@@ -782,13 +820,7 @@ function Footer() {
           </div>
           <div>
             <p>{c.identity.location}</p>
-            {!isPlaceholder(c.identity.domainEmail) ? (
-              <a href={`mailto:${c.identity.domainEmail}`}>
-                {c.identity.domainEmail}
-              </a>
-            ) : (
-              <p className="placeholder">{c.identity.domainEmail}</p>
-            )}
+            <a href={`mailto:${footerEmail}`}>{footerEmail}</a>
           </div>
           <SocialLinks />
         </div>

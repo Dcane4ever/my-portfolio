@@ -49,6 +49,76 @@ try {
     await page.goto(previewUrl, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.locator("h1").textContent(), content.hero.title);
+    assert(!/\[ADD[^\]]*\]/i.test(await page.locator("body").innerText()));
+    const brokenAnchors = await page
+      .locator('a[href^="#"]')
+      .evaluateAll((links) =>
+        links
+          .filter(
+            (link) =>
+              !document.getElementById(link.getAttribute("href").slice(1)),
+          )
+          .map((link) => link.getAttribute("href")),
+      );
+    assert.deepEqual(
+      brokenAnchors,
+      [],
+      "Section buttons must link to an existing target",
+    );
+    assert.equal(
+      await page
+        .locator('.footer-main a[href^="mailto:"]')
+        .getAttribute("href"),
+      `mailto:${content.identity.domainEmail || content.identity.email}`,
+    );
+    const cards = page.locator(".price-card");
+    assert.equal(await cards.count(), 3);
+    for (let i = 0; i < content.pricing.items.length; i++) {
+      const tier = content.pricing.items[i];
+      const card = cards.nth(i);
+      assert.equal(await card.locator("h3").textContent(), tier.title);
+      assert.equal(
+        (await card.locator(".price").innerText()).replace(/\s+/g, " ").trim(),
+        `${content.pricing.priceLabel} ${tier.price}`,
+      );
+      assert.equal(await card.locator("a").getAttribute("href"), "#contact");
+      assert.equal(await card.locator("a").innerText(), content.pricing.cta);
+      if (tier.timeline)
+        assert((await card.innerText()).includes(tier.timeline));
+      for (const feature of tier.includes)
+        assert((await card.innerText()).includes(feature));
+    }
+    assert.equal(
+      await page.locator(".pricing-addons dl > div").count(),
+      content.pricing.addons.items.length,
+    );
+    const cardSizes = await cards.evaluateAll((elements) =>
+      elements.map((el) => ({
+        height: el.getBoundingClientRect().height,
+        priceTop: el.querySelector(".price").getBoundingClientRect().top,
+        buttonBottom: el.querySelector(".button").getBoundingClientRect()
+          .bottom,
+      })),
+    );
+    if (width >= 1024) {
+      for (const key of ["height", "priceTop", "buttonBottom"])
+        assert(
+          Math.max(...cardSizes.map((card) => card[key])) -
+            Math.min(...cardSizes.map((card) => card[key])) <
+            1,
+          `Desktop pricing ${key} must align`,
+        );
+    }
+    await page
+      .locator("#pricing")
+      .screenshot({ path: resolve(output, `pricing-${width}.png`) });
+    if (width === 375)
+      await cards
+        .last()
+        .screenshot({ path: resolve(output, "custom-price-mobile.png") });
+    await cards.first().locator("a").click();
+    assert.equal(new URL(page.url()).hash, "#contact");
+    await page.goto(previewUrl, { waitUntil: "networkidle" });
     assert.equal(await page.locator("canvas").count(), 0);
     assert.equal(
       await page.locator(".client-stats").count(),

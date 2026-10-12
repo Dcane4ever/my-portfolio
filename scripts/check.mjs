@@ -53,7 +53,14 @@ assert.equal(
   ),
   "Only real testimonials should render",
 );
-assert(!/href="[^\"]*\[ADD/i.test(html), "A placeholder became a live link");
+assert(
+  !/\[ADD[^\]]*\]/i.test(html),
+  "Unfinished content must not appear in the public page",
+);
+assert(
+  !/\[ADD[^\]]*\]/i.test(JSON.stringify(content)),
+  "Unfinished content must not remain in the content config",
+);
 const schema = JSON.parse(
   html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1],
 );

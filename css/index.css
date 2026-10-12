@@ -798,6 +798,67 @@ summary:focus-visible,
   margin-top: 24px;
   font-size: 16px;
 }
+.price-card .price {
+  flex-wrap: wrap;
+}
+.pricing-audience > span {
+  color: var(--text);
+}
+.pricing-includes {
+  margin-bottom: 14px;
+}
+.pricing-scope {
+  margin-bottom: 24px;
+}
+.pricing-card-footer {
+  margin-top: auto;
+}
+.pricing-card-footer .button {
+  width: 100%;
+}
+.pricing-delivery {
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.pricing-delivery > span {
+  color: var(--muted);
+}
+.pricing-addons {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.pricing-addons h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+.pricing-addons dl {
+  margin: 0 0 16px;
+}
+.pricing-addons dl > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pricing-addons dt {
+  color: var(--muted);
+}
+.pricing-addons dd {
+  margin: 0;
+  white-space: nowrap;
+  font-weight: 500;
+}
+@media (min-width: 1024px) {
+  .pricing-audience {
+    min-height: 80px;
+  }
+  .pricing-includes {
+    min-height: 53px;
+  }
+}
 .about {
   display: grid;
   gap: 40px;
