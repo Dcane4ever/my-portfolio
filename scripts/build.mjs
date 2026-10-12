@@ -116,7 +116,7 @@ for (const item of c.work.items) {
 if (!isPlaceholder(c.identity.photo.src)) {
   if (isWebUrl(c.identity.photo.src))
     throw new Error("Use a local photo path so it can be optimized.");
-  const source = resolve(root, c.identity.photo.src);
+  const source = resolve(root, c.identity.photo.source || c.identity.photo.src);
   const photoRelative = relative(root, source);
   if (photoRelative.startsWith("..") || isAbsolute(photoRelative))
     throw new Error("Photo must be inside this repository.");
@@ -133,10 +133,14 @@ if (!isPlaceholder(c.identity.photo.src)) {
       "Set identity.photo.width and height to the photo’s actual dimensions.",
     );
   await mkdir(resolve(destination, ".."), { recursive: true });
-  // Output format follows the configured file extension. Prefer a WebP photo path.
-  await sharp(source)
-    .resize({ width: 720, withoutEnlargement: true })
-    .toFile(destination);
+  // Preserve the source portrait; output format follows the configured file extension.
+  const portrait = sharp(source).resize({
+    width: 720,
+    withoutEnlargement: true,
+  });
+  if (destination.toLowerCase().endsWith(".webp"))
+    portrait.webp({ quality: 85 });
+  await portrait.toFile(destination);
 }
 
 const preview = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#101112"/><rect x="74" y="74" width="66" height="7" rx="3" fill="#c72c35"/><text x="74" y="132" fill="#b5b6bb" font-size="30" font-family="Arial,sans-serif">${escape(c.identity.shortName)}</text><text x="74" y="263" fill="#f4f3ef" font-size="64" font-family="Arial,sans-serif" font-weight="bold">${escape(c.footer.line.split(". ")[0])}.</text><text x="74" y="345" fill="#f4f3ef" font-size="54" font-family="Arial,sans-serif">${escape(c.footer.line.split(". ").slice(1).join(". "))}</text><text x="74" y="447" fill="#b5b6bb" font-size="29" font-family="Arial,sans-serif">${escape(c.seo.serviceType[0])}</text><text x="74" y="493" fill="#b5b6bb" font-size="29" font-family="Arial,sans-serif">${escape(c.seo.serviceType[1])}</text><text x="74" y="564" fill="#ff9196" font-size="27" font-family="Arial,sans-serif">${escape(c.nav.cta)} · ${escape(c.identity.location)}</text></svg>`;

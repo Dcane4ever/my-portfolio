@@ -17,7 +17,7 @@ The default canonical URL preserves the existing GitHub Pages address. If you us
 
 ## Content and settings
 
-All editable public copy, prices, availability, contact details, SEO, and integrations are in **`js/content.js`**. Components do not contain separate editable marketing copy. Unavailable values are empty strings, `null`, or empty arrays and are hidden; the public page contains no unfinished labels. With no calendar configured, call buttons lead to the inquiry section. The footer uses the verified existing Gmail address until a domain email is supplied. The About image slot uses the existing initials as a brand panel until a real portrait is available.
+All editable public copy, prices, availability, contact details, SEO, and integrations are in **`js/content.js`**. Components do not contain separate editable marketing copy. Unavailable values are empty strings, `null`, or empty arrays and are hidden; the public page contains no unfinished labels. With no calendar configured, call buttons lead to the inquiry section. The footer uses the verified existing Gmail address until a domain email is supplied. The About section uses your supplied `assets/unnamed.png`, optimized to `assets/vincent-pimentel.webp` during the build without overwriting the original. GitHub and LinkedIn use your supplied profile URLs.
 
 AEGIS and all EAC branding/screenshots remain excluded pending employer clearance. The three retained project summaries describe only interface evidence from the repository screenshots. Missing problems, outcomes, deployment evidence, and implementation stacks are omitted. The hero remains an illustrative HTML/CSS mockup with sample data. No duration of professional development experience is claimed.
 
@@ -27,8 +27,8 @@ AEGIS and all EAC branding/screenshots remain excluded pending employer clearanc
 | --- | --- |
 | `settings.calendarUrl` | Your real HTTPS calendar booking URL. Every call CTA uses it. |
 | `identity.domainEmail` | Optional domain email. The current footer links to your existing Gmail address. |
-| `identity.github`, `identity.linkedin` | GitHub currently points to the verified portfolio repository. Supply a preferred profile and LinkedIn URL if desired. |
-| `identity.photo.src`, `.alt`, `.width`, `.height` | Optional local portrait path, alt text, and actual dimensions. Prefer WebP. The existing initials panel appears until supplied. |
+| `identity.github`, `identity.linkedin` | Both are set to the profile URLs you supplied. Update these if your profiles change. |
+| `identity.photo.source`, `.src`, `.alt`, `.width`, `.height` | Source PNG and optimized WebP paths, alt text, and actual image dimensions. The supplied portrait is 288×288 pixels. |
 | `work.items[0..2].context` | Whether each project was academic, personal, or professional; actual deployment status; and permission to share. DTR and Car Wash are currently interface previews; Pearl is a booking UX prototype. |
 | `work.items[0..2].problem`, `.result`, `.stack` | Actual problem, verified outcomes, and implementation sources that substantiate technologies. Omitted until verified. |
 | `work.items[0..2].demo`, `.github` | Verified project demo and source URLs. Existing screenshot links already work. The hotel URL visible in the saved screenshot could not be verified and is not published as a demo link. |
@@ -69,4 +69,4 @@ Verified on October 12, 2026: build and checks passed; 375px, 768px, and 1280px 
 - Exact ownership terms, included revisions, support duration, and hosting costs are intentionally agreed in the proposal. The copy does not invent contractual terms.
 - Implementation stacks and project classification cannot be established from screenshots alone. The Laravel hostname visible in the Pearl screenshot does not prove the HTML/JavaScript prototype shares that implementation. No project-specific stack or paid-client status is inferred.
 - No form backend or calendar provider was supplied. Email preparation works now; direct submissions and immediate calendar booking depend on the URLs above.
-- No genuine client quotes, metrics, results, or portrait were supplied, so those are omitted without unfinished labels.
+- No genuine client quotes, metrics, or results were supplied, so those are omitted without unfinished labels.
