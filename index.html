@@ -1,71 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" id="top" class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Vincent Gabrielle Pimentel | Full-Stack Developer</title>
-    <meta
-      name="description"
-      content="Portfolio template for Vincent Gabrielle Pimentel, a full-stack developer focused on Java, Spring Boot, Laravel, and practical web systems."
-    />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-              mono: ["JetBrains Mono", "monospace"],
-            },
-            animation: {
-              "spin-slow": "spin 7s linear infinite",
-            },
-          },
-        },
-      };
-    </script>
-    <style>
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        margin: 0;
-        background: #050505;
-      }
-
-      ::selection {
-        background: rgba(220, 38, 38, 0.32);
-        color: #fff;
-      }
-    </style>
+    <meta name="theme-color" content="#101112" />
+    <!-- SEO is generated from js/content.js. -->
+    <!-- SEO_HEAD -->
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/site.css" />
+    <script defer src="assets/app.js"></script>
   </head>
   <body>
-    <div id="root"></div>
-
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script>
-      Babel.registerPreset("portfolio", {
-        presets: [
-          [Babel.availablePresets.env, { modules: "commonjs" }],
-          [Babel.availablePresets.react, { runtime: "classic" }],
-        ],
-      });
-    </script>
-    <script
-      type="text/babel"
-      data-presets="portfolio"
-      src="js/app-gh-pages.jsx?v=20260805-8"
-    ></script>
+    <!-- npm run build generates static HTML for fast first paint and search engines. -->
+    <div id="root"><!-- APP_HTML --></div>
   </body>
 </html>

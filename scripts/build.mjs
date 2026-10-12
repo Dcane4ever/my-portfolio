@@ -60,7 +60,7 @@ await writeFile(join(assets, 'favicon.svg'), '<svg xmlns="http://www.w3.org/2000
 
 const sameAs = [c.identity.github, c.identity.linkedin].filter(isWebUrl);
 const person = { '@type': 'Person', '@id': url('#person'), name: c.identity.name, url: siteUrl.href, email: c.identity.email, ...(sameAs.length && { sameAs }), ...(isPlaceholder(c.identity.photo.src) ? {} : { image: url(c.identity.photo.src) }) };
-const service = { '@type': 'ProfessionalService', '@id': url('#service'), name: c.seo.serviceName, description: c.seo.description, url: siteUrl.href, image: url(c.seo.previewImage), email: c.identity.email, founder: { '@id': url('#person') }, address: { '@type': 'PostalAddress', addressLocality: 'Manila', addressCountry: 'PH' }, areaServed: c.identity.location, knowsAbout: c.seo.serviceType };
+const service = { '@type': 'ProfessionalService', '@id': url('#service'), name: c.seo.serviceName, description: c.seo.description, url: siteUrl.href, image: url(c.seo.previewImage), email: c.identity.email, founder: { '@id': url('#person') }, address: { '@type': 'PostalAddress', addressLocality: c.identity.address.locality, addressCountry: c.identity.address.country }, areaServed: c.identity.location, knowsAbout: c.seo.serviceType };
 const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': [person, service] }).replace(/</g, '\\u003c');
 const head = `<title>${escape(c.seo.title)}</title>
     <meta name="description" content="${escape(c.seo.description)}" />
