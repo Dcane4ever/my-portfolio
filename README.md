@@ -38,7 +38,7 @@ AEGIS and all EAC branding/screenshots remain excluded pending employer clearanc
 
 The user-supplied pricing is configured as Starter Website **₱4,999** (5–7 days, one revision), Business Website **₱8,999** (1–2 weeks, two revision rounds), and Custom Web System **starting at ₱12,000**. All cards lead to the existing inquiry form. The five additional-service ranges are scope-dependent estimates. Domain registration, hosting, paid third-party services, extra revisions, and out-of-scope features may cost separately; no custom-system delivery time or guaranteed set of features is invented.
 
-The illustrative hero workspace uses GSAP for a one-time entrance, staggered summary-card reveals, and a short sequence of row highlights and checkmark draws. Each part waits until it reaches the viewport. The sequence does not repeat, change sample copy, or change layout dimensions. Enabling reduced motion immediately stops the effects and restores static styles; all content also stays readable without JavaScript.
+The illustrative hero workspace uses GSAP for a one-time entrance, staggered summary-card reveals, and a short sequence of row highlights and checkmark draws. Each part waits until it reaches the viewport. A Replay animation button lets visitors watch the workflow sequence again. The current row has a brighter background and red accent, then returns to its original appearance. The sequence does not repeat automatically or change sample copy. Enabling reduced motion immediately stops the effects, restores static styles, and disables replay; all content also stays readable without JavaScript.
 
 ## Inquiry form behavior
 

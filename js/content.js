@@ -87,6 +87,8 @@ export const content = {
     note: "Tell me what slows your team down. We’ll find a practical next step.",
     mockup: {
       caption: "Illustrative workflow preview — not a client system.",
+      replayLabel: "Replay animation",
+      motionHint: "Animation respects your reduced-motion preference.",
       title: "One place to keep the day moving.",
       browserLabel: "Your team workspace",
       sidebarTitle: "Daily operations",

@@ -133,6 +133,15 @@ function Navigation() {
 function WorkflowPreview() {
   const m = c.hero.mockup;
   const previewRef = useRef(null);
+  const workflowRef = useRef(null);
+  const [motionEnabled, setMotionEnabled] = useState(false);
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotionEnabled(!preference.matches);
+    update();
+    preference.addEventListener("change", update);
+    return () => preference.removeEventListener("change", update);
+  }, []);
   useGSAP(
     () => {
       const media = gsap.matchMedia();
@@ -170,34 +179,44 @@ function WorkflowPreview() {
         const workflow = gsap.timeline({
           scrollTrigger: { trigger: table, start: "top 76%", once: true },
         });
+        workflowRef.current = workflow;
         rows.forEach((row, index) => {
-          const at = 0.15 + index * 0.85;
+          const at = 0.15 + index * 1.3;
           const card = cards[index];
           const check = row.querySelector("svg path");
           const background = getComputedStyle(row).backgroundColor;
           workflow
-            .to(row, { backgroundColor: "#24262a", duration: 0.3 }, at)
+            .to(
+              row,
+              {
+                backgroundColor: "#2e3035",
+                boxShadow: "inset 3px 0 0 #c72c35",
+                duration: 0.35,
+              },
+              at,
+            )
             .to(
               row,
               {
                 backgroundColor: background,
-                duration: 0.55,
-                clearProps: "backgroundColor",
+                boxShadow: "none",
+                duration: 0.45,
+                clearProps: "backgroundColor,boxShadow",
               },
-              at + 0.55,
+              at + 1.05,
             );
           if (card) {
             const border = getComputedStyle(card).borderColor;
             workflow
-              .to(card, { borderColor: "#74767e", duration: 0.3 }, at)
+              .to(card, { borderColor: "#bd6a70", duration: 0.35 }, at)
               .to(
                 card,
                 {
                   borderColor: border,
-                  duration: 0.55,
+                  duration: 0.45,
                   clearProps: "borderColor",
                 },
-                at + 0.55,
+                at + 1.05,
               );
           }
           if (check) {
@@ -207,7 +226,7 @@ function WorkflowPreview() {
               { strokeDasharray: length, strokeDashoffset: length },
               {
                 strokeDashoffset: 0,
-                duration: 0.45,
+                duration: 0.6,
                 ease: "power2.out",
                 immediateRender: false,
                 clearProps: "strokeDasharray,strokeDashoffset",
@@ -223,6 +242,9 @@ function WorkflowPreview() {
           transformOrigin: "center",
           clearProps: "transform",
         });
+        return () => {
+          workflowRef.current = null;
+        };
       });
       // Revert styles and triggers immediately if reduced motion is enabled or this unmounts.
       return () => media.revert();
@@ -295,7 +317,21 @@ function WorkflowPreview() {
           </p>
         </div>
       </div>
-      <figcaption>{m.caption}</figcaption>
+      <figcaption>
+        <span>{m.caption}</span>
+        <button
+          className="workspace-replay"
+          type="button"
+          title={m.motionHint}
+          disabled={!motionEnabled}
+          onClick={() => {
+            if (motionEnabled) workflowRef.current?.restart();
+          }}
+        >
+          {m.replayLabel}
+          <Icon name="arrow" />
+        </button>
+      </figcaption>
     </figure>
   );
 }

@@ -509,6 +509,34 @@ summary:focus-visible,
   border-top: 1px solid var(--line);
   font-size: 16px;
   color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.workspace-replay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 10px;
+  min-height: 44px;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  font-size: 16px;
+}
+.workspace-replay:hover:not(:disabled) {
+  background: #27282d;
+}
+.workspace-replay:disabled {
+  cursor: default;
+}
+.workspace-replay svg {
+  width: 18px;
+  height: 18px;
 }
 .problem-strip {
   border-block: 1px solid var(--line);
