@@ -59,7 +59,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 await page.route("http://127.0.0.1:4173/", (route) =>
   route.fulfill({ body: html, contentType: "text/html" }),
 );
-await page.route("**/assets/app.js", (route) =>
+await page.route("**/assets/app.js*", (route) =>
   route.fulfill({
     body: client.outputFiles[0].text,
     contentType: "text/javascript",

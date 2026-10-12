@@ -6,6 +6,7 @@ import { mkdir, readFile, writeFile, copyFile, cp } from "node:fs/promises";
 import { resolve, join, relative, isAbsolute } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { content as c, isPlaceholder, isWebUrl } from "../js/content.js";
 
 const root = resolve(import.meta.dirname, "..");
@@ -206,11 +207,22 @@ const template = await readFile(
   join(root, "scripts/index.template.html"),
   "utf8",
 );
+const version = async (filename) =>
+  createHash("sha256")
+    .update(await readFile(join(assets, filename)))
+    .digest("hex")
+    .slice(0, 12);
+const [scriptVersion, cssVersion] = await Promise.all([
+  version("app.js"),
+  version("site.css"),
+]);
 await writeFile(
   join(dist, "index.html"),
   template
     .replace("<!-- SEO_HEAD -->", head)
-    .replace("<!-- APP_HTML -->", html),
+    .replace("<!-- APP_HTML -->", html)
+    .replace('href="assets/site.css"', `href="assets/site.css?v=${cssVersion}"`)
+    .replace('src="assets/app.js"', `src="assets/app.js?v=${scriptVersion}"`),
 );
 await writeFile(
   join(dist, "sitemap.xml"),

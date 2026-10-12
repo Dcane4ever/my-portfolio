@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger.js";
 import { useGSAP } from "@gsap/react";
 import { content as c, isPlaceholder, isWebUrl } from "./content.js";
+import { usePageMotion } from "./motion.js";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -978,6 +979,8 @@ function Footer() {
   );
 }
 export default function App() {
+  const mainRef = useRef(null);
+  usePageMotion(mainRef);
   useEffect(() => {
     if (
       !c.settings.analytics.enabled ||
@@ -1011,7 +1014,7 @@ export default function App() {
         {c.ui.skip}
       </a>
       <Navigation />
-      <main id="main" tabIndex="-1">
+      <main id="main" tabIndex="-1" ref={mainRef}>
         <Hero />
         <section className="problem-strip" aria-labelledby="problem-title">
           <div className="container">
