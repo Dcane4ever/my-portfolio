@@ -2,7 +2,12 @@ import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, extname, relative, isAbsolute } from "node:path";
 import { gzipSync } from "node:zlib";
-const root = resolve(import.meta.dirname, "../dist");
+const root = resolve(
+  import.meta.dirname,
+  "..",
+  process.env.SITE_PREVIEW_DIRECTORY || "dist",
+);
+const basePath = process.env.SITE_PREVIEW_BASE_PATH || "/";
 const port = Number(process.env.PORT || 4173);
 const mime = {
   ".html": "text/html; charset=utf-8",
@@ -20,7 +25,11 @@ createServer(async (req, res) => {
     const pathname = decodeURIComponent(
       new URL(req.url, `http://127.0.0.1:${port}`).pathname,
     );
-    const path = resolve(root, `.${pathname}`);
+    if (!pathname.startsWith(basePath)) {
+      res.writeHead(404).end("Not found");
+      return;
+    }
+    const path = resolve(root, `./${pathname.slice(basePath.length)}`);
     const local = relative(root, path);
     if (local.startsWith("..") || isAbsolute(local)) {
       res.writeHead(403).end();

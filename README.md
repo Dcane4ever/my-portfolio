@@ -11,9 +11,9 @@ npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. Edit `js/content.js`, then run `npm run build` again to update the preview. `npm run preview` serves the last build. `index.html` is the build template; opening it directly will not render the site. Deploy the **contents of `dist/`** to your static host. No deployment, push, or publication is performed by these scripts.
+Open `http://127.0.0.1:4173`. Edit `js/content.js`, then run `npm run build` again to update the preview and repository-root deployment files. `npm run preview` serves the last build. The template lives in `scripts/index.template.html`; the root `index.html` is a generated, fully rendered page. Commit `index.html`, `assets/`, `robots.txt`, `sitemap.xml`, and `.nojekyll` after rebuilding. The existing GitHub Pages deployment from `main` / repository root continues to work. Other static hosts can use the **contents of `dist/`**. No push or publication is performed by these scripts.
 
-The default canonical URL preserves the existing GitHub Pages address. If you use a custom domain, change `settings.siteUrl` before building. Include its trailing slash. GitHub Pages must serve the built output rather than the source repository root; configure your existing deployment process accordingly. On a custom domain, place `robots.txt` at the domain root.
+The default canonical URL preserves the existing GitHub Pages address. If you use a custom domain, change `settings.siteUrl` before building. Include its trailing slash. All asset paths are relative so the site works under `/my-portfolio/` as well as at a domain root. On a custom domain, place `robots.txt` at the domain root.
 
 ## Content and settings
 

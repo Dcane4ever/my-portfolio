@@ -2,7 +2,7 @@ import { build, transform } from "esbuild";
 import { renderToString } from "react-dom/server";
 import React from "react";
 import sharp from "sharp";
-import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile, copyFile, cp } from "node:fs/promises";
 import { resolve, join, relative, isAbsolute } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -190,7 +190,10 @@ const head = `<title>${escape(c.seo.title)}</title>
     <meta name="twitter:image" content="${escape(url(c.seo.previewImage))}" />
     <meta name="twitter:image:alt" content="${escape(c.seo.previewAlt)}" />
     <script type="application/ld+json">${jsonLd}</script>`;
-const template = await readFile(join(root, "index.html"), "utf8");
+const template = await readFile(
+  join(root, "scripts/index.template.html"),
+  "utf8",
+);
 await writeFile(
   join(dist, "index.html"),
   template
@@ -206,6 +209,17 @@ await writeFile(
   `User-agent: *\nAllow: /\nSitemap: ${url("sitemap.xml")}\n`,
 );
 await writeFile(join(dist, ".nojekyll"), "");
+// Preserve the existing GitHub Pages deployment from the repository root.
+// These generated files are committed so Pages needs no Node build or settings change.
+await cp(assets, join(root, "assets"), { recursive: true });
+for (const filename of [
+  "index.html",
+  "robots.txt",
+  "sitemap.xml",
+  ".nojekyll",
+]) {
+  await copyFile(join(dist, filename), join(root, filename));
+}
 console.log(
-  "Built React + Tailwind production site in dist/ with static HTML, optimized images, local font, and SEO files.",
+  "Built production site in dist/ and refreshed the deployable repository-root files for GitHub Pages.",
 );

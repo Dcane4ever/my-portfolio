@@ -7,6 +7,30 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { content, isPlaceholder } from "../js/content.js";
 const root = resolve(import.meta.dirname, "..");
 const html = await readFile(resolve(root, "dist/index.html"), "utf8");
+assert.equal(
+  await readFile(resolve(root, "index.html"), "utf8"),
+  html,
+  "The GitHub Pages entry must contain the rendered production page",
+);
+assert(
+  !/<!-- (APP_HTML|SEO_HEAD) -->/.test(html),
+  "An unresolved build template must never be deployed",
+);
+for (const file of [
+  "index.html",
+  "robots.txt",
+  "sitemap.xml",
+  ".nojekyll",
+  ...(await readdir(resolve(root, "dist/assets"))).map(
+    (name) => `assets/${name}`,
+  ),
+]) {
+  assert.deepEqual(
+    await readFile(resolve(root, file)),
+    await readFile(resolve(root, "dist", file)),
+    `GitHub Pages artifact is missing or stale: ${file}`,
+  );
+}
 assert(
   !/AEGIS|\bEAC\b|Emilio Aguinaldo|particle|carousel/i.test(html),
   "Employer content or removed effects found in the output",

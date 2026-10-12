@@ -15,6 +15,7 @@ const browser = await chromium.launch({
   args: ["--disable-extensions", "--no-first-run"],
 });
 const findings = [];
+const previewUrl = process.env.SITE_PREVIEW_URL || "http://127.0.0.1:4173/";
 try {
   for (const width of [375, 768, 1280]) {
     const page = await browser.newPage({
@@ -45,7 +46,7 @@ try {
       if (response.status() >= 400)
         failed.push(`${response.status()} ${response.url()}`);
     });
-    await page.goto("http://127.0.0.1:4173", { waitUntil: "networkidle" });
+    await page.goto(previewUrl, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.locator("h1").textContent(), content.hero.title);
     assert.equal(await page.locator("canvas").count(), 0);
@@ -191,7 +192,7 @@ try {
     await page.close();
   }
   const page = await browser.newPage({ javaScriptEnabled: false });
-  await page.goto("http://127.0.0.1:4173");
+  await page.goto(previewUrl);
   assert.equal(await page.locator("h1").textContent(), content.hero.title);
   assert.equal(await page.locator(".contact-form").isVisible(), false);
   assert.equal(await page.locator(".no-js-contact").isVisible(), true);
