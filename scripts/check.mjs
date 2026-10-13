@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { content, isPlaceholder } from "../js/content.js";
+import { content, isPlaceholder, isFormspreeEndpoint, isConfiguredFormspreeEndpoint } from "../js/content.js";
 const root = resolve(import.meta.dirname, "..");
 const html = await readFile(resolve(root, "dist/index.html"), "utf8");
 assert.equal(
@@ -102,6 +102,21 @@ assert(validateInquiry({ ...values, email: "invalid" }).email);
 assert(validateInquiry({ ...values, name: "   " }).name);
 assert(validateInquiry({ ...values, budget: "unexpected" }).budget);
 assert(validateInquiry({ ...values, need: "a".repeat(4001) }).need);
+assert.deepEqual(validateInquiry({ ...values, name: "  School Administrator  ", email: "  office@example.org  ", need: "  Attendance records  " }), {});
+assert(validateInquiry({ ...values, need: "   " }).need);
+assert(isFormspreeEndpoint("https://formspree.io/f/YOUR_FORM_ID"));
+assert(!isConfiguredFormspreeEndpoint("https://formspree.io/f/YOUR_FORM_ID"));
+assert(isConfiguredFormspreeEndpoint("https://formspree.io/f/example123"));
+assert(!isConfiguredFormspreeEndpoint("https://formspree.io.evil.example/f/example123"));
+assert(!isConfiguredFormspreeEndpoint("http://formspree.io/f/example123"));
+assert(!isConfiguredFormspreeEndpoint("https://formspree.io/f/example123?redirect=1"));
+assert(html.includes('name="_gotcha"'));
+assert(html.includes(content.contact.submit));
+for (const item of content.work.items) {
+  for (const detail of [...item.responsibilities, ...item.stack, item.challenge, item.resolution]) {
+    assert(detail && !isPlaceholder(detail), `Missing verified project detail: ${item.id}`);
+  }
+}
 if (!content.testimonials.items.length)
   assert.equal(renderToStaticMarkup(React.createElement(Testimonials)), "");
 console.log(

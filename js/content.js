@@ -25,7 +25,8 @@ export const content = {
     siteUrl: "https://dcane4ever.github.io/my-portfolio/",
     calendarUrl: "",
     availability: "Taking 1-2 projects at a time",
-    formEndpoint: "", // Optional HTTPS POST endpoint accepting JSON; must return 2xx only after accepting the inquiry.
+    // Public Formspree endpoint. After changing this URL, run npm run build.
+    formEndpoint: "https://formspree.io/f/xvkzbnpv",
     analytics: {
       enabled: false,
       domain: "",
@@ -55,7 +56,10 @@ export const content = {
     socialLabel: "Social links",
     github: "GitHub",
     linkedin: "LinkedIn",
-    stack: "Stack",
+    stack: "Technologies used",
+    responsibilities: "My responsibilities",
+    challenge: "Main challenge",
+    resolution: "How I solved it",
     context: "Context",
     problem: "Problem",
     solution: "Solution",
@@ -175,19 +179,27 @@ export const content = {
     eyebrow: "Selected work",
     title: "A closer look at the systems.",
     description:
-      "Project interfaces from the saved screenshots. These previews are not client endorsements or evidence of a live deployment.",
+      "A family workflow tool, a hotel website built during OJT, and a course project. Each shows the work I took on and how user feedback shaped it.",
     items: [
       {
         id: "dtr",
         title: "DTR Supervisor and Workflow System",
-        type: "Attendance interface preview",
+        type: "Family workflow project",
         context:
-          "A daily time record interface with separate supervisor and employee views in the saved screenshots.",
+          "Built for my father to reduce the time he spends writing and signing employee daily time records by hand.",
         problem: "",
         solution:
-          "The screens show time-in controls, daily records, schedule views, and links to time-record requests and print summaries.",
+          "Created a web application with employee and supervisor views for time records, schedules, requests, and printable summaries.",
         result: "",
-        stack: [],
+        responsibilities: [
+          "Developed the DTR application for my father's employee workflow.",
+          "Built the employee and supervisor interfaces, then refined the workflow using user feedback.",
+        ],
+        challenge:
+          "Getting users to test the application and provide feedback on the daily time record workflow.",
+        resolution:
+          "Secured user testing, gathered feedback, and used it to improve the application.",
+        stack: ["Java", "Spring Boot"],
         image: {
           source: "css/images/DTR3.png",
           src: "assets/dtr-960.webp",
@@ -201,20 +213,28 @@ export const content = {
       },
       {
         id: "pearl",
-        title: "Pearl Manila Hotel Booking prototype",
-        type: "Booking prototype · not a client endorsement",
+        title: "Pearl Manila Hotel Website",
+        type: "OJT project · in company use",
         context:
-          "A hotel website and booking UX prototype, presented as interface work.",
+          "Assigned by my OJT supervisor and currently utilized by the company.",
         problem: "",
         solution:
-          "The saved page shows hotel information, amenities, and navigation for rooms, facilities, check-in, and login.",
+          "Built the hotel website in Laravel, presenting hotel information, amenities, and navigation for rooms, facilities, check-in, and login.",
         result: "",
-        stack: [],
+        responsibilities: [
+          "Developed the hotel website assigned by my OJT supervisor using Laravel.",
+          "Gathered user feedback and refined the website for company use.",
+        ],
+        challenge:
+          "Obtaining user testing and feedback to validate the website beyond development.",
+        resolution:
+          "Arranged user testing, collected feedback, and improved the website based on what users shared.",
+        stack: ["Laravel", "PHP"],
         image: {
           source: "css/images/PRL1.png",
           src: "assets/pearl-960.webp",
           srcSet: "assets/pearl-480.webp 480w, assets/pearl-960.webp 960w",
-          alt: "Pearl Manila Hotel booking prototype page",
+          alt: "Pearl Manila Hotel website page",
           width: 1280,
           height: 760,
         },
@@ -224,14 +244,22 @@ export const content = {
       {
         id: "carwash",
         title: "Car Wash Management System",
-        type: "Car wash website interface preview",
+        type: "Application Development course project",
         context:
-          "A car wash website interface with service-package and account-registration screens in the repository.",
+          "A personal project for my Application Development course, completed with a 98% mark.",
         problem: "",
         solution:
-          "The saved screens show basic wash, premium detailing, and express service descriptions, along with sign-in and create-account interfaces.",
-        result: "",
-        stack: [],
+          "Built a Spring Boot application with service-package pages and account interfaces for basic wash, premium detailing, and express services.",
+        result: "Passed the Application Development course project with a 98% mark.",
+        responsibilities: [
+          "Developed the car wash application in Java with Spring Boot for my course project.",
+          "Created service-package and account interfaces, then improved the application from user feedback.",
+        ],
+        challenge:
+          "Finding users to test the application and give feedback on the experience.",
+        resolution:
+          "Obtained user testing, reviewed the feedback, and used it to improve the project.",
+        stack: ["Java", "Spring Boot"],
         image: {
           source: "css/images/CAR3.png",
           src: "assets/carwash-960.webp",
@@ -471,29 +499,31 @@ export const content = {
       },
     ],
     honeypot: "Leave this field empty",
-    submit: "Send project details",
-    emailSubmit: "Prepare inquiry email",
+    submit: "Send Inquiry",
     submitting: "Sending…",
-    emailNote:
-      "The form prepares your inquiry. Open it in your email app, review it, and press Send there. Nothing is sent automatically.",
     noJsNote: "To discuss your project, email me directly.",
-    endpointNote: "Your details are used only to respond to this inquiry.",
+    endpointNote:
+      "Your inquiry is submitted securely through Formspree. Your details are used only to respond to your project request.",
     validation: {
       required: "Please complete this field.",
       email: "Please enter a valid email address.",
       tooLong: "Please shorten this answer.",
       option: "Please choose one of the listed options.",
       summary: "Please check the highlighted fields.",
+      server: "Please check this answer and try again.",
     },
-    sentTitle: "Your inquiry is on its way.",
-    sentMessage: "Thanks for sharing your project. I reply within 24 hours.",
-    preparedTitle: "Your inquiry email is ready.",
-    preparedMessage:
-      "Open the prepared email below, review your details, and press Send in your email app. If you do not use an email app, email me directly.",
-    sendPrepared: "Open prepared email",
+    sentTitle: "Inquiry submitted",
+    sentMessage:
+      "Thank you for reaching out! Your inquiry has been submitted successfully. I'll get back to you as soon as possible.",
     reset: "Start another inquiry",
     error:
-      "Your inquiry could not be sent. Please try again or email me directly.",
+      "Your inquiry could not be sent. Your details have been kept; please try again or email me directly.",
+    unavailable:
+      "Online inquiries are temporarily unavailable. Your details have been kept. Please try again later or email me directly.",
+    rateLimit:
+      "Too many inquiries were submitted recently. Your details have been kept; please wait a few minutes and try again.",
+    timeout:
+      "We could not confirm your submission in time. Your details have been kept. Please try again later or email me directly.",
     subject: "System project inquiry",
   },
   footer: {
@@ -515,3 +545,9 @@ export const isWebUrl = (value) => {
     return false;
   }
 };
+
+// The form ID is public configuration, never a private API key.
+export const isFormspreeEndpoint = (value) =>
+  typeof value === "string" && /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9_-]+$/.test(value);
+export const isConfiguredFormspreeEndpoint = (value) =>
+  isFormspreeEndpoint(value) && !value.endsWith("/YOUR_FORM_ID");

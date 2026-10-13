@@ -19,18 +19,18 @@ The default canonical URL preserves the existing GitHub Pages address. If you us
 
 All editable public copy, prices, availability, contact details, SEO, and integrations are in **`js/content.js`**. Components do not contain separate editable marketing copy. Unavailable values are empty strings, `null`, or empty arrays and are hidden; the public page contains no unfinished labels. With no calendar configured, call buttons lead to the inquiry section. The footer uses the verified existing Gmail address until a domain email is supplied. The About section uses your supplied `assets/unnamed.png`, optimized to `assets/vincent-pimentel.webp` during the build without overwriting the original. GitHub and LinkedIn use your supplied profile URLs.
 
-AEGIS and all EAC branding/screenshots remain excluded pending employer clearance. The three retained project summaries describe only interface evidence from the repository screenshots. Missing problems, outcomes, deployment evidence, and implementation stacks are omitted. The hero remains an illustrative HTML/CSS mockup with sample data. No duration of professional development experience is claimed.
+AEGIS and all EAC branding/screenshots remain excluded pending employer clearance. The project cards use your confirmed context and technologies: DTR was built for your father's employee workflow in Java/Spring Boot; Pearl Manila was assigned by your OJT supervisor, uses Laravel/PHP, and is currently utilized by the company; Car Wash was a Java/Spring Boot Application Development course project with a 98% mark. Each card includes responsibilities, technologies, the challenge of obtaining user testing, and how feedback improved the work. No unreported technical obstacle, database, deployment URL, or digital-signature implementation is claimed. The hero remains an illustrative HTML/CSS mockup with sample data.
 
 ## Information still to confirm
 
 | Config location | What to supply |
 | --- | --- |
 | `settings.calendarUrl` | Your real HTTPS calendar booking URL. Every call CTA uses it. |
+| `settings.formEndpoint` | Replace `YOUR_FORM_ID` in `https://formspree.io/f/YOUR_FORM_ID` with the public ID from your Formspree dashboard, then run `npm run build`. |
 | `identity.domainEmail` | Optional domain email. The current footer links to your existing Gmail address. |
 | `identity.github`, `identity.linkedin` | Both are set to the profile URLs you supplied. Update these if your profiles change. |
 | `identity.photo.source`, `.src`, `.alt`, `.width`, `.height` | Source PNG and optimized WebP paths, alt text, and actual image dimensions. The supplied portrait is 288×288 pixels. |
-| `work.items[0..2].context` | Whether each project was academic, personal, or professional; actual deployment status; and permission to share. DTR and Car Wash are currently interface previews; Pearl is a booking UX prototype. |
-| `work.items[0..2].problem`, `.result`, `.stack` | Actual problem, verified outcomes, and implementation sources that substantiate technologies. Omitted until verified. |
+| `work.items[0..2].context`, `.responsibilities`, `.challenge`, `.resolution`, `.stack` | Current entries use your confirmed project notes. Add further implementation details only when accurate. |
 | `work.items[0..2].demo`, `.github` | Verified project demo and source URLs. Existing screenshot links already work. The hotel URL visible in the saved screenshot could not be verified and is not published as a demo link. |
 | `stats[0..2].value` | Optional verified systems delivered, users served, and average delivery time. Leave `null` to keep hidden. |
 | `testimonials.items` | Optional two or three real, consented quotes: `{ quote, name, role }`. Keep `[]` until supplied. At most three render. |
@@ -44,9 +44,30 @@ The illustrative hero workspace adds row highlights and drawn checkmarks in a sh
 
 ## Inquiry form behavior
 
-With `settings.formEndpoint` empty, the form validates all six fields and prepares a `mailto:` link. The visitor explicitly opens the prepared email and presses Send in their email app. The UI says that the email is prepared; it does not claim delivery. An email link remains available if no email app is configured. With JavaScript disabled, the form is hidden and a direct email fallback is shown.
+The existing React form submits directly to Formspree with `fetch()`, without opening an email application or refreshing the page. It retains name, email, organization, project details (`need`), budget, and timeline. The project-details value is also sent as `message`, alongside `_subject` and Formspree's `_gotcha` honeypot field. Inputs are validated and trimmed before submission. A spinner, accessible loading announcement, and disabled submit button show progress; an immediate ref guard prevents concurrent requests before React re-renders. Answers are frozen during the request and preserved on failure. Only a successful HTTP response with Formspree's recognized JSON confirmation shows the exact success message and resets the form. The response's `next` URL is never followed. HTTP errors, server validation, rate limits, malformed responses, network failures, and the 15-second timeout restore the form for retry. Unmount aborts a pending request.
 
-To receive inquiries directly, set `settings.formEndpoint` to a working HTTP(S) JSON POST endpoint. It receives `name`, `email`, `organization`, `need`, `budget`, and `timeline`. It must allow requests from your site, validate and rate-limit server-side, and return a 2xx response only when accepting the inquiry. Configure any credentials on the server, never in this public content file. The form shows a real success state after 2xx, retains answers on failure, limits requests to 15 seconds, and blocks duplicate in-flight submissions. The honeypot stops filled spam submissions before a network request. A browser honeypot is not a substitute for server-side spam protection.
+### Activate Formspree
+
+1. Create a form in your [Formspree dashboard](https://formspree.io/), configure the destination email, and complete any verification or activation it requests.
+2. In **`js/content.js`**, replace only `YOUR_FORM_ID` in `settings.formEndpoint`:
+
+   ```js
+   formEndpoint: "https://formspree.io/f/YOUR_FORM_ID",
+   ```
+
+3. Run `npm run build` to update the existing `index.html`, `assets/app.js`, and `assets/site.css`. These generated files are what GitHub Pages serves; changing only `content.js` does not update the deployed form.
+4. Review **Settings > Spam protection** in Formspree. This integration uses the [server-supported `_gotcha` honeypot](https://help.formspree.io/articles/building-your-form/honeypot-spam-filtering/) together with Formspree's server-side spam filtering. Keep the hosted redirect CAPTCHA off for this plain-fetch flow; if you require CAPTCHA, configure an on-page token integration first. Formspree documents [using your own CAPTCHA key to avoid redirection](https://help.formspree.io/articles/form-and-project-settings/recaptcha-settings). Available filter controls depend on your plan.
+5. If you configure domain restrictions, allow the deployed GitHub Pages origin, and accommodate localhost while testing.
+
+The form ID is public configuration. No private API key, email password, backend server, or database is needed. While the endpoint still contains `YOUR_FORM_ID`, the form displays an unavailable message, keeps the visitor's details, and sends no request. A filled honeypot also sends no request and never claims delivery. Standalone email links and the no-JavaScript email fallback are retained; the form's obsolete email-preparation logic is removed.
+
+### Test locally and on GitHub Pages
+
+After inserting the real form ID, run `npm run dev` and open `http://127.0.0.1:4173`. Send one clearly labeled test inquiry. Confirm that the page stays in place, the spinner appears while sending, the exact thank-you message appears, and the submission reaches the Formspree dashboard. Check that email notifications reach the configured address separately; the website confirms acceptance by Formspree, not inbox delivery.
+
+Try missing fields and an invalid email. To test a network failure, load the page first, then switch DevTools Network to Offline before submitting; the error should preserve every answer. Switch back online to retry. Rapid clicks or Enter presses while sending must produce only one in-flight POST. The Network panel should show the six original fields, `message`, `_subject`, and an empty `_gotcha`.
+
+Deploy through the existing GitHub Pages workflow with the refreshed repository-root `index.html` and `assets/`, plus the modified sources and documentation. After deployment, hard-refresh the live portfolio and repeat one test inquiry; confirm it in Formspree and verify mobile layout. No backend or GitHub Pages configuration change is required.
 
 ## Verify
 
@@ -59,18 +80,20 @@ npm run test:browser
 npm run audit
 ```
 
-Browser checks use the locally installed Brave executable by default. Set `BROWSER_PATH` to another Chromium browser executable when needed; no browser is downloaded. Browser tests cover 375px, 768px, and 1280px, horizontal overflow, keyboard access, menu Escape behavior, accordion ARIA, required/email validation, email preparation, focus on success, honeypot behavior, reduced motion, and no-JavaScript fallback. Additional test-only bundles verify configured calendar links, opt-in analytics, and mocked form endpoint success/failure without sending real inquiries or altering production config.
+Browser checks use the locally installed Brave executable by default. Set `BROWSER_PATH` to another Chromium browser executable when needed; no browser is downloaded. Browser tests cover 375px, 768px, and 1280px, horizontal overflow, keyboard access, menu Escape behavior, accordion ARIA, required/email validation, direct form submission, focus on success, honeypot behavior, reduced motion, and no-JavaScript fallback. Test-only bundles use intercepted Formspree IDs. Integration checks cover confirmed success, HTTP/network failures, invalid JSON/HTML/unconfirmed responses, server-side validation messages, 429 rate limits, timeout, trimmed payloads, duplicate prevention, success-only reset, no page reload, and the placeholder-ID guard. They retain calendar and analytics coverage. All automated inquiries are mocked; no real submissions are sent and production settings are not changed.
 
 `scripts/motion-check.mjs` also verifies running scroll reveals at all three widths, repeated workflow replay, desktop hover, FAQ keyboard interaction with motion enabled, live reduced-motion restoration, deep links, and React Strict Mode cleanup. Motion screenshots and results are saved to ignored `artifacts/`.
 
 Lighthouse uses its default mobile simulation. Reports and screenshots are saved under ignored `artifacts/`. Scores are local lab measurements and may differ on the deployed host. Keep host compression enabled for HTML, JavaScript, and CSS; the local preview server uses gzip.
 
-Verified on October 13, 2026: production build, content checks, responsive/browser checks, motion checks, and mocked integration checks passed. At 375px, 768px, and 1280px there was no horizontal overflow or browser error. The final local mobile Lighthouse run with the new motion scored **100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**, with 0.8s FCP, 1.7s LCP, and **0 CLS**. `artifacts/lighthouse-mobile.html` contains the full report. Remaining diagnostics concern the small render-blocking stylesheet and unused portions of the retained React/GSAP bundle; no scored accessibility failures remain. Browser tests mock configured endpoints and analytics so reruns never send actual inquiries.
+Formspree upgrade verified on October 13, 2026: production build, content checks, responsive/browser checks, motion checks, and mocked integration checks passed. At 375px, 768px, and 1280px there was no horizontal overflow or browser error. Formspree acceptance and failure scenarios were intercepted, including direct confirmation, server validation, network failure, redirects, timeout, duplicates, success-only reset, and no reload. Actual live acceptance remains to be verified after inserting your real form ID.
+
+The prior local mobile Lighthouse baseline for the animation update scored **100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**, with 0.8s FCP, 1.7s LCP, and **0 CLS**. That report predates the Formspree upgrade; rerun `npm run audit` for updated measurements. `artifacts/lighthouse-mobile.html` contains the baseline report.
 
 ## Decisions to confirm
 
 - Service timelines are planning estimates, not measured historical delivery times. Adjust them to match your capacity.
 - Exact ownership terms, included revisions, support duration, and hosting costs are intentionally agreed in the proposal. The copy does not invent contractual terms.
-- Implementation stacks and project classification cannot be established from screenshots alone. The Laravel hostname visible in the Pearl screenshot does not prove the HTML/JavaScript prototype shares that implementation. No project-specific stack or paid-client status is inferred.
-- No form backend or calendar provider was supplied. Email preparation works now; direct submissions and immediate calendar booking depend on the URLs above.
+- Project technologies and contexts use your confirmed notes; database engines, deeper technical implementation details, and project demo URLs remain unspecified.
+- Direct submissions require your real Formspree form ID. Immediate calendar booking still requires your calendar URL.
 - No genuine client quotes, metrics, or results were supplied, so those are omitted without unfinished labels.

@@ -6,7 +6,12 @@ import {
   revealOnScroll,
   usePortfolioMotion,
 } from "./motion.js";
-import { content as c, isPlaceholder, isWebUrl } from "./content.js";
+import {
+  content as c,
+  isPlaceholder,
+  isWebUrl,
+  isConfiguredFormspreeEndpoint,
+} from "./content.js";
 
 // AEGIS and EAC systems, branding, and screenshots remain excluded pending employer clearance.
 const bookingHref = isWebUrl(c.settings.calendarUrl)
@@ -444,6 +449,18 @@ function CaseStudies() {
                 <p className="case-type">{item.type}</p>
                 <h3>{item.title}</h3>
                 <dl>
+                  {item.responsibilities?.some((line) => !isPlaceholder(line)) && (
+                    <div>
+                      <dt>{c.ui.responsibilities}</dt>
+                      <dd>
+                        <ul className="case-responsibilities">
+                          {item.responsibilities
+                            .filter((line) => !isPlaceholder(line))
+                            .map((line) => <li key={line}>{line}</li>)}
+                        </ul>
+                      </dd>
+                    </div>
+                  )}
                   {["context", "problem", "solution", "result"]
                     .filter((key) => !isPlaceholder(item[key]))
                     .map((key) => (
@@ -451,6 +468,14 @@ function CaseStudies() {
                         key={key}
                         className={key === "result" ? "case-result" : ""}
                       >
+                        <dt>{c.ui[key]}</dt>
+                        <dd>{item[key]}</dd>
+                      </div>
+                    ))}
+                  {["challenge", "resolution"]
+                    .filter((key) => !isPlaceholder(item[key]))
+                    .map((key) => (
+                      <div key={key}>
                         <dt>{c.ui[key]}</dt>
                         <dd>{item[key]}</dd>
                       </div>
@@ -714,22 +739,34 @@ export function validateInquiry(values) {
 function ContactForm() {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
-  const [mailHref, setMailHref] = useState("");
+  const [feedback, setFeedback] = useState("");
   const successRef = useRef(null),
-    pendingRef = useRef(false);
-  const endpoint = isWebUrl(c.settings.formEndpoint)
-    ? c.settings.formEndpoint
-    : "";
+    pendingRef = useRef(false),
+    requestRef = useRef(null);
   useEffect(() => {
-    if (["sent", "prepared"].includes(status)) successRef.current?.focus();
+    if (status === "sent") successRef.current?.focus();
   }, [status]);
+  useEffect(() => {
+    if (status === "error") {
+      const firstError = Object.keys(errors)[0];
+      // Run after React re-enables any select rejected by server validation.
+      if (firstError) document.getElementById(`field-${firstError}`)?.focus();
+    }
+  }, [errors, status]);
+  useEffect(() => () => requestRef.current?.abort(), []);
   async function submit(event) {
     event.preventDefault();
     if (pendingRef.current) return;
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
-    if (data.website) {
-      setStatus("sent");
+    setFeedback("");
+    setErrors({});
+    setStatus("idle");
+    // Block filled traps locally. Formspree also receives the empty _gotcha field.
+    // A blocked submission must never be presented as delivered.
+    if (String(data._gotcha || "").trim()) {
+      setStatus("error");
+      setFeedback(c.contact.error);
       return;
     }
     const nextErrors = validateInquiry(data);
@@ -741,64 +778,104 @@ function ContactForm() {
     const payload = Object.fromEntries(
       c.contact.fields.map((field) => [field.name, data[field.name].trim()]),
     );
-    if (!endpoint) {
-      const body = c.contact.fields
-        .map((field) => `${field.label}: ${payload[field.name]}`)
-        .join("\n\n");
-      const href = `mailto:${c.identity.email}?subject=${encodeURIComponent(`${c.contact.subject}: ${payload.organization}`)}&body=${encodeURIComponent(body)}`;
-      setMailHref(href);
-      setStatus("prepared");
+    if (!isConfiguredFormspreeEndpoint(c.settings.formEndpoint)) {
+      setStatus("error");
+      setFeedback(c.contact.unavailable);
       return;
     }
     pendingRef.current = true;
     setStatus("sending");
+    const controller = new AbortController();
+    requestRef.current = controller;
+    const timeout = window.setTimeout(() => controller.abort("timeout"), 15000);
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(c.settings.formEndpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(15000),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...payload,
+          message: payload.need,
+          _subject: c.contact.subject,
+          _gotcha: "",
+        }),
+        signal: controller.signal,
+        redirect: "error",
       });
-      if (!response.ok) throw new Error("Inquiry was not accepted");
+      if (response.status === 429) {
+        setFeedback(c.contact.rateLimit);
+        setStatus("error");
+        return;
+      }
+      // A redirect, HTML page, malformed body, or explicit API error cannot confirm success.
+      const result = await response.json();
+      // Formspree's current client recognizes the JSON `next` field as confirmation.
+      // We display our own success state and never navigate to that URL.
+      const confirmed =
+        response.ok &&
+        result &&
+        typeof result === "object" &&
+        !Array.isArray(result) &&
+        typeof result.next === "string" &&
+        result.ok !== false &&
+        !("error" in result) &&
+        !("errors" in result);
+      if (!confirmed) {
+        const serverErrors = {};
+        if (Array.isArray(result?.errors)) {
+          for (const error of result.errors) {
+            const field = error?.field === "message" ? "need" : error?.field;
+            if (c.contact.fields.some((item) => item.name === field)) {
+              serverErrors[field] = c.contact.validation.server;
+            }
+          }
+        }
+        setErrors(serverErrors);
+        throw new Error("Inquiry was not confirmed");
+      }
+      form.reset();
       setStatus("sent");
-      window.plausible?.("Inquiry sent");
+      // Optional analytics must not turn an accepted inquiry into a failure.
+      try {
+        window.plausible?.("Inquiry sent");
+      } catch {
+        // Submission is already confirmed.
+      }
     } catch {
-      setStatus("error");
+      if (!controller.signal.aborted || controller.signal.reason === "timeout") {
+        setFeedback(
+          controller.signal.reason === "timeout" ? c.contact.timeout : c.contact.error,
+        );
+        setStatus("error");
+      }
     } finally {
+      window.clearTimeout(timeout);
+      requestRef.current = null;
       pendingRef.current = false;
     }
   }
-  if (["sent", "prepared"].includes(status))
+  if (status === "sent")
     return (
       <div
         className="form-success"
         ref={successRef}
         tabIndex="-1"
         role="status"
+        aria-live="polite"
+        aria-atomic="true"
       >
         <Icon name="check" />
-        <h3>
-          {status === "sent" ? c.contact.sentTitle : c.contact.preparedTitle}
-        </h3>
-        <p>
-          {status === "sent"
-            ? c.contact.sentMessage
-            : c.contact.preparedMessage}
-        </p>
-        {status === "prepared" && (
-          <a className="text-link" href={mailHref}>
-            {c.contact.sendPrepared}
-          </a>
-        )}
-        <a className="text-link" href={`mailto:${c.identity.email}`}>
-          {c.identity.email}
-        </a>
+        <h3>{c.contact.sentTitle}</h3>
+        <p>{c.contact.sentMessage}</p>
         <button
           className="button button--secondary"
           type="button"
           onClick={() => {
             setStatus("idle");
             setErrors({});
+            setFeedback("");
           }}
         >
           {c.contact.reset}
@@ -806,95 +883,109 @@ function ContactForm() {
       </div>
     );
   return (
-    <form
-      className="contact-form"
-      onSubmit={submit}
-      noValidate
-      aria-labelledby="form-title"
-      aria-describedby="form-note"
-    >
-      <h3 id="form-title">{c.contact.formTitle}</h3>
-      <div className="form-grid">
-        {c.contact.fields.map((field) => {
-          const props = {
-            id: `field-${field.name}`,
-            name: field.name,
-            required: field.required,
-            "aria-invalid": !!errors[field.name],
-            "aria-describedby": errors[field.name]
-              ? `error-${field.name}`
-              : undefined,
-          };
-          return (
-            <div
-              className={`form-field ${["organization", "need"].includes(field.name) ? "form-field--full" : ""}`}
-              key={field.name}
-            >
-              <label htmlFor={props.id}>{field.label}</label>
-              {field.type === "textarea" ? (
-                <textarea
-                  {...props}
-                  placeholder={field.placeholder}
-                  rows="4"
-                  maxLength={field.maxLength}
-                />
-              ) : field.type === "select" ? (
-                <select {...props} defaultValue="">
-                  <option value="" disabled>
-                    {field.placeholder}
-                  </option>
-                  {field.options.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  {...props}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  autoComplete={field.autocomplete}
-                  maxLength={field.maxLength}
-                />
-              )}
-              {errors[field.name] && (
-                <p className="field-error" id={`error-${field.name}`}>
-                  {errors[field.name]}
-                </p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      <div className="honeypot" aria-hidden="true">
-        <label htmlFor="website">{c.contact.honeypot}</label>
-        <input
-          id="website"
-          name="website"
-          type="text"
-          tabIndex="-1"
-          autoComplete="off"
-        />
-      </div>
-      <div role="alert" className="form-alert">
-        {Object.keys(errors).length > 0 && c.contact.validation.summary}
-        {status === "error" && c.contact.error}
-      </div>
-      <button
-        className="button button--primary"
-        type="submit"
-        disabled={status === "sending"}
-      >
-        {status === "sending"
-          ? c.contact.submitting
-          : endpoint
-            ? c.contact.submit
-            : c.contact.emailSubmit}
-        <Icon name="arrow" />
-      </button>
-      <p id="form-note" className="form-note">
-        {endpoint ? c.contact.endpointNote : c.contact.emailNote}
+    <>
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {status === "sending" ? c.contact.submitting : ""}
       </p>
-    </form>
+      <form
+        className="contact-form"
+        onSubmit={submit}
+        noValidate
+        aria-labelledby="form-title"
+        aria-describedby="form-note"
+        aria-busy={status === "sending"}
+      >
+        <h3 id="form-title">{c.contact.formTitle}</h3>
+        <div className="form-grid">
+          {c.contact.fields.map((field) => {
+            const props = {
+              id: `field-${field.name}`,
+              name: field.name,
+              required: field.required,
+              readOnly: status === "sending" && field.type !== "select",
+              disabled: status === "sending" && field.type === "select",
+              "aria-invalid": !!errors[field.name],
+              "aria-describedby": errors[field.name]
+                ? `error-${field.name}`
+                : undefined,
+            };
+            return (
+              <div
+                className={`form-field ${["organization", "need"].includes(field.name) ? "form-field--full" : ""}`}
+                key={field.name}
+              >
+                <label htmlFor={props.id}>{field.label}</label>
+                {field.type === "textarea" ? (
+                  <textarea
+                    {...props}
+                    placeholder={field.placeholder}
+                    rows="4"
+                    maxLength={field.maxLength}
+                  />
+                ) : field.type === "select" ? (
+                  <select {...props} defaultValue="">
+                    <option value="" disabled>
+                      {field.placeholder}
+                    </option>
+                    {field.options.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    {...props}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    autoComplete={field.autocomplete}
+                    maxLength={field.maxLength}
+                  />
+                )}
+                {errors[field.name] && (
+                  <p className="field-error" id={`error-${field.name}`}>
+                    {errors[field.name]}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className="honeypot" aria-hidden="true">
+          <label htmlFor="website">{c.contact.honeypot}</label>
+          <input
+            id="website"
+            name="_gotcha"
+            type="text"
+            tabIndex="-1"
+            autoComplete="off"
+          />
+        </div>
+        <div
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          className="form-alert"
+        >
+          {status === "error"
+            ? feedback
+            : Object.keys(errors).length > 0 && c.contact.validation.summary}
+        </div>
+        <button
+          className="button button--primary"
+          type="submit"
+          disabled={status === "sending"}
+        >
+          {status === "sending" ? c.contact.submitting : c.contact.submit}
+          {status === "sending" ? (
+            <span className="submission-spinner" aria-hidden="true" />
+          ) : (
+            <Icon name="arrow" />
+          )}
+        </button>
+        <p id="form-note" className="form-note">
+          {c.contact.endpointNote}
+        </p>
+      </form>
+    </>
   );
 }
 function NoScriptContact() {
@@ -960,7 +1051,7 @@ function Footer() {
         </div>
         <div className="footer-bottom">
           <p>
-            © {new Date().getFullYear()} {c.identity.shortName}.{" "}
+            Â© {new Date().getFullYear()} {c.identity.shortName}.{" "}
             {c.ui.copyright}
           </p>
           <p>

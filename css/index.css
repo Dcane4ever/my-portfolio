@@ -719,6 +719,12 @@ summary:focus-visible,
   color: var(--muted);
   overflow-wrap: anywhere;
 }
+.case-responsibilities {
+  display: grid;
+  gap: 8px;
+  padding-left: 18px;
+  list-style: disc;
+}
 .case-result {
   border-left: 2px solid #8d8e94;
   padding-left: 12px;
@@ -1108,6 +1114,18 @@ blockquote {
 .contact-form > .button {
   width: 100%;
   margin-top: 24px;
+}
+.submission-spinner {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 2px solid #ffffff55;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: submission-spin 0.7s linear infinite;
+}
+@keyframes submission-spin {
+  to { transform: rotate(360deg); }
 }
 .form-note {
   font-size: 16px;

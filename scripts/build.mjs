@@ -6,7 +6,7 @@ import { mkdir, readFile, writeFile, copyFile, cp } from "node:fs/promises";
 import { resolve, join, relative, isAbsolute } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
-import { content as c, isPlaceholder, isWebUrl } from "../js/content.js";
+import { content as c, isPlaceholder, isWebUrl, isFormspreeEndpoint } from "../js/content.js";
 
 const root = resolve(import.meta.dirname, "..");
 const dist = join(root, "dist");
@@ -19,8 +19,8 @@ if (!["http:", "https:"].includes(siteUrl.protocol))
   throw new Error("settings.siteUrl must be an HTTP(S) URL.");
 if (!siteUrl.pathname.endsWith("/"))
   throw new Error("settings.siteUrl must end with a slash.");
-if (c.settings.formEndpoint && !isWebUrl(c.settings.formEndpoint))
-  throw new Error("formEndpoint must be empty or an HTTP(S) URL.");
+if (!isFormspreeEndpoint(c.settings.formEndpoint))
+  throw new Error("Set settings.formEndpoint to https://formspree.io/f/YOUR_FORM_ID (replace YOUR_FORM_ID with your public form ID).");
 const escape = (value) =>
   String(value).replace(
     /[&<>"']/g,

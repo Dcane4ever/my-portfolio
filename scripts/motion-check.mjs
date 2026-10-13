@@ -27,7 +27,7 @@ async function createPage(width) {
   });
   if (isWebUrl(content.settings.formEndpoint)) {
     await page.route(content.settings.formEndpoint, (route) =>
-      route.fulfill({ status: 200, body: "{}" }));
+      route.fulfill({ status: 200, contentType: "application/json", body: '{"next":"https://formspree.io/thanks"}' }));
   }
   if (content.settings.analytics.enabled && isWebUrl(content.settings.analytics.scriptUrl)) {
     await page.route(content.settings.analytics.scriptUrl, (route) =>
