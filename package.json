@@ -8,7 +8,7 @@
     "dev": "npm run build && node scripts/serve.mjs",
     "preview": "node scripts/serve.mjs",
     "test": "node scripts/check.mjs",
-    "test:browser": "node scripts/browser-check.mjs && node scripts/integrations-check.mjs",
+    "test:browser": "node scripts/browser-check.mjs && node scripts/motion-check.mjs && node scripts/integrations-check.mjs",
     "audit": "node scripts/lighthouse.mjs"
   },
   "dependencies": {

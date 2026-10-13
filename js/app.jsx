@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger.js";
-import { useGSAP } from "@gsap/react";
+import {
+  gsap,
+  useGSAP,
+  motionQuery,
+  revealOnScroll,
+  usePortfolioMotion,
+} from "./motion.js";
 import { content as c, isPlaceholder, isWebUrl } from "./content.js";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // AEGIS and EAC systems, branding, and screenshots remain excluded pending employer clearance.
 const bookingHref = isWebUrl(c.settings.calendarUrl)
@@ -145,7 +147,7 @@ function WorkflowPreview() {
   useGSAP(
     () => {
       const media = gsap.matchMedia();
-      media.add("(prefers-reduced-motion: no-preference)", () => {
+      media.add(motionQuery, (context) => {
         const preview = previewRef.current;
         const cards = Array.from(
           preview.querySelectorAll(".preview-overview > div"),
@@ -153,45 +155,30 @@ function WorkflowPreview() {
         const table = preview.querySelector(".preview-table");
         const rows = Array.from(table.querySelectorAll("tbody tr"));
 
-        // Each part plays once when it reaches the viewport, including on small screens.
-        gsap.from(preview, {
-          y: 10,
-          opacity: 0.96,
-          duration: 0.75,
-          ease: "power2.out",
-          clearProps: "transform,opacity",
-          scrollTrigger: { trigger: preview, start: "top 90%", once: true },
-        });
-        gsap.from(cards, {
-          y: 6,
-          opacity: 0.94,
-          duration: 0.55,
-          stagger: 0.09,
-          ease: "power2.out",
-          clearProps: "transform,opacity",
-          scrollTrigger: {
-            trigger: preview.querySelector(".preview-overview"),
-            start: "top 85%",
-            once: true,
-          },
-        });
+        revealOnScroll(context, [preview], { distance: 28, duration: 0.9 });
+        revealOnScroll(context, cards, { distance: 12, duration: 0.6 });
 
         const workflow = gsap.timeline({
           scrollTrigger: { trigger: table, start: "top 76%", once: true },
         });
         workflowRef.current = workflow;
         rows.forEach((row, index) => {
-          const at = 0.15 + index * 1.3;
+          const at = 0.15 + index * 0.95;
           const card = cards[index];
           const check = row.querySelector("svg path");
           const background = getComputedStyle(row).backgroundColor;
           workflow
-            .to(
+            .fromTo(
               row,
+              {
+                backgroundColor: background,
+                boxShadow: "inset 3px 0 0 transparent",
+              },
               {
                 backgroundColor: "#2e3035",
                 boxShadow: "inset 3px 0 0 #c72c35",
-                duration: 0.35,
+                duration: 0.3,
+                immediateRender: false,
               },
               at,
             )
@@ -203,12 +190,21 @@ function WorkflowPreview() {
                 duration: 0.45,
                 clearProps: "backgroundColor,boxShadow",
               },
-              at + 1.05,
+              at + 0.7,
             );
           if (card) {
             const border = getComputedStyle(card).borderColor;
             workflow
-              .to(card, { borderColor: "#bd6a70", duration: 0.35 }, at)
+              .fromTo(
+                card,
+                { borderColor: border },
+                {
+                  borderColor: "#bd6a70",
+                  duration: 0.3,
+                  immediateRender: false,
+                },
+                at,
+              )
               .to(
                 card,
                 {
@@ -216,7 +212,7 @@ function WorkflowPreview() {
                   duration: 0.45,
                   clearProps: "borderColor",
                 },
-                at + 1.05,
+                at + 0.7,
               );
           }
           if (check) {
@@ -978,6 +974,8 @@ function Footer() {
   );
 }
 export default function App() {
+  const mainRef = useRef(null);
+  usePortfolioMotion(mainRef);
   useEffect(() => {
     if (
       !c.settings.analytics.enabled ||
@@ -1011,7 +1009,7 @@ export default function App() {
         {c.ui.skip}
       </a>
       <Navigation />
-      <main id="main" tabIndex="-1">
+      <main id="main" tabIndex="-1" ref={mainRef}>
         <Hero />
         <section className="problem-strip" aria-labelledby="problem-title">
           <div className="container">

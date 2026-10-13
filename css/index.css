@@ -17,6 +17,7 @@
   --red-light: #ff9196;
   --radius: 12px;
   --font: Geist, Arial, sans-serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 * {
   box-sizing: border-box;
@@ -166,9 +167,10 @@ summary:focus-visible,
   font-size: 16px;
   color: #fff;
   transition:
-    background-color 0.18s,
-    transform 0.18s,
-    border-color 0.18s;
+    background-color 0.2s,
+    translate 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    border-color 0.2s;
 }
 .button svg {
   width: 20px;
@@ -179,7 +181,6 @@ summary:focus-visible,
 }
 .button--primary:hover {
   background: #b4212a;
-  transform: translateY(-1px);
 }
 .button--secondary {
   background: transparent;
@@ -678,10 +679,7 @@ summary:focus-visible,
   height: 100%;
   object-fit: cover;
   object-position: top;
-  transition: transform 0.3s;
-}
-.case-image:hover img {
-  transform: scale(1.015);
+  transition: transform 0.65s var(--ease-out);
 }
 .case-image--dtr {
   background: #d8dbe1;
@@ -1304,6 +1302,110 @@ blockquote {
   .process-grid {
     gap: 26px;
   }
+}
+/* Interaction motion uses translate so it cannot fight GSAP's reveal transform. */
+.service-card,
+.case-study,
+.price-card {
+  transition:
+    translate 0.4s var(--ease-out),
+    border-color 0.3s,
+    box-shadow 0.4s var(--ease-out);
+}
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--red-light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out);
+}
+.nav-links a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+.button svg,
+.case-links svg,
+.social-links svg,
+.workspace-replay svg {
+  transition: translate 0.3s var(--ease-out);
+}
+.case-study:focus-within,
+.price-card:focus-within {
+  border-color: #777980;
+}
+.form-field :is(input, textarea, select) {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-field :is(input, textarea, select):focus-visible {
+  box-shadow: 0 0 0 4px #ff919612;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button:focus-visible svg,
+  .case-links a:focus-visible svg,
+  .social-links a:focus-visible svg {
+    translate: 3px 0;
+  }
+  .form-success {
+    animation: confirmation-in 0.4s var(--ease-out) both;
+  }
+  .nav-links.is-open {
+    animation: navigation-in 0.25s var(--ease-out) both;
+  }
+  @supports (interpolate-size: allow-keywords) {
+    .faq-item {
+      interpolate-size: allow-keywords;
+    }
+    .faq-item::details-content {
+      height: 0;
+      overflow: clip;
+      transition: height 0.32s var(--ease-out), content-visibility 0.32s allow-discrete;
+    }
+    .faq-item[open]::details-content {
+      height: auto;
+    }
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .button:hover:not(:disabled) {
+    translate: 0 -2px;
+    box-shadow: 0 6px 18px #0003;
+  }
+  .button:hover:not(:disabled) svg,
+  .case-links a:hover svg,
+  .social-links a:hover svg,
+  .workspace-replay:hover:not(:disabled) svg {
+    translate: 3px 0;
+  }
+  .button:active:not(:disabled) {
+    translate: 0 0;
+    box-shadow: none;
+  }
+  .service-card:hover,
+  .case-study:hover,
+  .price-card:hover {
+    translate: 0 -4px;
+    border-color: #777980;
+    box-shadow: 0 14px 32px #0003;
+  }
+  .case-study:hover .case-image img {
+    transform: scale(1.035);
+  }
+}
+@keyframes confirmation-in {
+  from { opacity: 0.5; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes navigation-in {
+  from { opacity: 0.6; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
   html {
