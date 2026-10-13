@@ -28,6 +28,7 @@ function Icon({ name, ...props }) {
     workflow: "M4 4h6v6H4zM14 14h6v6h-6zM10 7h7v7M7 10v7h7",
     check: "m5 12 4 4L19 6",
     menu: "M4 6h16M4 12h16M4 18h16",
+    close: "M6 6l12 12M18 6 6 18",
   };
   return (
     <svg
@@ -90,13 +91,50 @@ function SectionHeading({ section, id }) {
 }
 function Navigation() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef(null);
+  const menuButtonRef = useRef(null);
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = (event) => {
+      if (event.matches) setOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+  useEffect(() => {
+    if (!open) return;
+    const closeOutside = (event) => {
+      if (!headerRef.current?.contains(event.target)) setOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      ref={headerRef}
+      onBlur={(event) => {
+        if (open && event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) {
+          setOpen(false);
+        }
+      }}
+    >
       <div className="container nav">
         <a
           href="#top"
           className="brand"
           aria-label={`${c.identity.initials}. ${c.identity.shortName}: ${c.ui.home}`}
+          onClick={() => setOpen(false)}
         >
           <span className="brand-mark" aria-hidden="true">
             {c.identity.initials}
@@ -108,12 +146,6 @@ function Navigation() {
           id="main-navigation"
           className={`nav-links ${open ? "is-open" : ""}`}
           aria-label={c.ui.navigationLabel}
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
-              setOpen(false);
-              document.getElementById("menu-button").focus();
-            }
-          }}
         >
           {c.nav.links.map((link) => (
             <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
@@ -121,17 +153,21 @@ function Navigation() {
             </a>
           ))}
         </nav>
-        <ButtonLink data-event="Book call">{c.nav.cta}</ButtonLink>
+        <ButtonLink data-event="Book call" aria-label={c.nav.cta} onClick={() => setOpen(false)}>
+          <span className="nav-cta-label">{c.nav.cta}</span>
+          <span className="nav-cta-label--compact">{c.nav.mobileCta}</span>
+        </ButtonLink>
         <button
           id="menu-button"
+          ref={menuButtonRef}
           type="button"
           className="menu-toggle"
-          aria-label={c.ui.menuLabel}
+          aria-label={open ? c.ui.menuCloseLabel : c.ui.menuLabel}
           aria-expanded={open}
           aria-controls="main-navigation"
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen((previous) => !previous)}
         >
-          <Icon name="menu" />
+          <Icon name={open ? "close" : "menu"} />
         </button>
       </div>
     </header>

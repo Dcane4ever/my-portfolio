@@ -51,6 +51,7 @@ export const content = {
     skip: "Skip to content",
     menu: "Menu",
     menuLabel: "Toggle navigation",
+    menuCloseLabel: "Close navigation",
     home: "Go to home",
     navigationLabel: "Main navigation",
     socialLabel: "Social links",
@@ -79,6 +80,7 @@ export const content = {
       { label: "Pricing", href: "#pricing" },
     ],
     cta: "Book a free call",
+    mobileCta: "Free call",
   },
   hero: {
     eyebrow: "Practical systems. Personal support.",
