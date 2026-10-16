@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { chromium } from "playwright-core";
+import { build } from "esbuild";
 import { content, isPlaceholder, isWebUrl } from "../js/content.js";
 const root = resolve(import.meta.dirname, "..");
 const browserPath =
@@ -16,6 +17,25 @@ const browser = await chromium.launch({
 });
 const findings = [];
 const previewUrl = process.env.SITE_PREVIEW_URL || "http://127.0.0.1:4173/";
+// Use an intercepted test-only ID, even while production still has YOUR_FORM_ID.
+const formEndpoint = "https://formspree.io/f/test-inquiry";
+const client = await build({
+  absWorkingDir: root,
+  entryPoints: ["js/app-gh-pages.jsx"],
+  bundle: true,
+  write: false,
+  minify: true,
+  define: { "process.env.NODE_ENV": '"production"' },
+  plugins: [{
+    name: "mock-form-id",
+    setup(builder) {
+      builder.onLoad({ filter: /content\.js$/ }, async (args) => ({
+        contents: `${await readFile(args.path, "utf8")}\ncontent.settings.formEndpoint = '${formEndpoint}';`,
+        loader: "js",
+      }));
+    },
+  }],
+});
 try {
   for (const width of [375, 768, 1280]) {
     const page = await browser.newPage({
@@ -25,11 +45,12 @@ try {
     const errors = [],
       failed = [];
     // Keep future runs safe after real integrations are configured.
-    if (isWebUrl(content.settings.formEndpoint)) {
-      await page.route(content.settings.formEndpoint, (route) =>
-        route.fulfill({ status: 200, body: "{}" }),
-      );
-    }
+    await page.route("**/assets/app.js", (route) => route.fulfill({
+      contentType: "text/javascript", body: client.outputFiles[0].text,
+    }));
+    await page.route("https://formspree.io/f/**", (route) =>
+      route.fulfill({ status: 200, contentType: "application/json", body: '{"next":"https://formspree.io/thanks"}' }),
+    );
     if (
       content.settings.analytics.enabled &&
       isWebUrl(content.settings.analytics.scriptUrl)
@@ -206,24 +227,13 @@ try {
     await page.locator(".contact-form button[type=submit]").click();
     assert.equal(await page.locator("[aria-invalid=true]").count(), 1);
     await page.locator("#field-email").fill("office@example.org");
-    // Do not invoke the operating system email client during automated verification.
-    await page.route("mailto:**", (route) => route.abort());
     await page.locator(".contact-form button[type=submit]").click();
     await page.locator(".form-success").waitFor();
     assert.equal(
       await page.locator(".form-success h3").textContent(),
-      isWebUrl(content.settings.formEndpoint)
-        ? content.contact.sentTitle
-        : content.contact.preparedTitle,
+      content.contact.sentTitle,
     );
-    if (!isWebUrl(content.settings.formEndpoint)) {
-      const mail = await page
-        .locator(".form-success .text-link")
-        .first()
-        .getAttribute("href");
-      assert(mail.startsWith(`mailto:${content.identity.email}?`));
-      assert(decodeURIComponent(mail).includes("School office"));
-    }
+    assert.equal(await page.locator(".form-success p").textContent(), content.contact.sentMessage);
     assert.equal(
       await page
         .locator(".form-success")
@@ -235,16 +245,15 @@ try {
       el.value = "spam";
     });
     await page.locator(".contact-form button[type=submit]").click();
-    await page.locator(".form-success").waitFor();
-    assert.equal(
-      await page.locator(".form-success h3").textContent(),
-      content.contact.sentTitle,
-    );
+    await page.locator(".form-alert").filter({ hasText: "could not be sent" }).waitFor();
+    assert.equal(await page.locator(".form-success").count(), 0);
     await page.reload({ waitUntil: "networkidle" });
     for (const image of await page.locator(".case-image img").all()) {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate((el) => el.decode());
     }
+    await page.locator("#work").screenshot({ path: resolve(output, `projects-${width}.png`) });
+    await page.locator("#contact").screenshot({ path: resolve(output, `contact-${width}.png`) });
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
       path: resolve(output, `page-${width}.png`),
@@ -278,7 +287,7 @@ try {
   );
   console.log(JSON.stringify(findings, null, 2));
   console.log(
-    "Responsive layout, keyboard navigation, accordion, validation, email handoff, honeypot, reduced motion, and no-JS content checks passed.",
+    "Responsive layout, keyboard navigation, accordion, validation, Formspree submission, honeypot, reduced motion, and no-JS content checks passed.",
   );
 } finally {
   await browser.close();
